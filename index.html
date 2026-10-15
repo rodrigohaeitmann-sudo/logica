@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="ambar" data-mode="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f2e9">
+  <meta name="description" content="Desafios de lógica de associação: preencha a grade com ✕ e ● a partir das dicas.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Lógica">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <title>Lógica — Desafios de associação</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    // Tema/modo antes da primeira pintura (evita piscar). Na primeira visita,
+    // herda a escolha feita no app TEMa Estudo (mesmo domínio), se houver.
+    (function () {
+      var ls = {};
+      try { ls = window.localStorage; } catch (e) { ls = { getItem: function () { return null; }, setItem: function () {} }; }
+      var t = ls.getItem('logica:tema') || ls.getItem('ms_theme') || 'ambar';
+      var m = ls.getItem('logica:modo') || ls.getItem('ms_mode') || 'light';
+      var CORES = { ambar: ['#f7f2e9', '#1b1611'], ametista: ['#f4f2f8', '#17131f'], esmeralda: ['#eef3ef', '#111711'] };
+      function aplicar() {
+        var html = document.documentElement;
+        html.dataset.theme = t;
+        html.dataset.mode = m;
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta && CORES[t]) meta.setAttribute('content', CORES[t][m === 'night' ? 1 : 0]);
+        ['ambar', 'ametista', 'esmeralda'].forEach(function (n) {
+          var b = document.getElementById('btn-theme-' + n);
+          if (b) b.classList.toggle('on', t === n);
+        });
+        ['light', 'night'].forEach(function (n) {
+          var b = document.getElementById('btn-mode-' + n);
+          if (b) b.classList.toggle('on', m === n);
+        });
+      }
+      window.__setTheme = function (v) { t = v; try { ls.setItem('logica:tema', v); } catch (e) {} aplicar(); };
+      window.__setMode = function (v) { m = v; try { ls.setItem('logica:modo', v); } catch (e) {} aplicar(); };
+      aplicar();
+      document.addEventListener('DOMContentLoaded', aplicar);
+    })();
+  </script>
+</head>
+<body>
+  <main>
+
+    <!-- ── Início: lista de desafios ─────────────────────────────── -->
+    <section id="screen-home" class="screen active">
+      <div class="home-header">
+        <div>
+          <div class="home-eyebrow">Desafios de lógica</div>
+          <div class="home-title">Bom raciocínio</div>
+        </div>
+        <span id="badge-estrelas" class="streak-badge" title="Estrelas conquistadas">★ 0</span>
+      </div>
+
+      <div id="home-alert" class="alert hidden"></div>
+
+      <div class="cards-row">
+        <div class="card">
+          <span class="card-number" id="n-resolvidos">–</span>
+          <span class="card-label">resolvidos</span>
+        </div>
+        <div class="card">
+          <span class="card-number plain" id="n-andamento">–</span>
+          <span class="card-label">em andamento</span>
+        </div>
+      </div>
+
+      <div id="card-continuar" class="card hidden"></div>
+
+      <div id="lista-desafios"></div>
+    </section>
+
+    <!-- ── Como jogar ─────────────────────────────────────────────── -->
+    <section id="screen-como" class="screen">
+      <h1 class="screen-title">Como jogar</h1>
+
+      <div class="card como-card">
+        <div class="settings-section-title">O objetivo</div>
+        <p>Cada desafio tem um grupo de pessoas (ou coisas) e algumas categorias — por exemplo, <i>nome</i>, <i>cor da camiseta</i> e <i>colocação</i>. Cada item de uma categoria combina com exatamente um item de cada outra categoria. Use as dicas para descobrir todas as combinações.</p>
+        <p>A grade cruza as categorias duas a duas. Cada casa responde a uma pergunta: <b>estes dois itens combinam?</b></p>
+      </div>
+
+      <div class="card como-card">
+        <div class="settings-section-title">Como marcar</div>
+        <div class="como-marcas">
+          <div class="como-marca"><span class="mini-cel x"></span><span>Toque uma vez: <b>✕</b> (não combinam)</span></div>
+          <div class="como-marca"><span class="mini-cel s"></span><span>Toque de novo: <b>●</b> (combinam)</span></div>
+          <div class="como-marca"><span class="mini-cel"></span><span>Terceiro toque: limpa a casa</span></div>
+        </div>
+        <p>Toque e segure uma casa para marcar <b>●</b> direto. Ao marcar um <b>●</b>, o app risca sozinho o resto da linha e da coluna daquele quadro (dá para desligar em Ajustes).</p>
+        <p>Use <b>−</b> e <b>+</b> para mudar o tamanho da grade. Nos desafios maiores, arraste a grade para os lados: os nomes das linhas e colunas ficam fixos na borda.</p>
+      </div>
+
+      <div class="card como-card">
+        <div class="settings-section-title">Estratégia</div>
+        <ol class="como-lista">
+          <li>Comece pelas dicas diretas (“A é B”, “A não é B”) e marque ● e ✕.</li>
+          <li>Quando só sobrar uma casa livre numa linha ou coluna de um quadro, ela é ●.</li>
+          <li>Cruze os quadros: se A combina com B, e B não combina com C, então A também não combina com C.</li>
+          <li>Releia as dicas indiretas (“dois anos mais velho”, “logo antes de”) com o que você já descobriu — elas costumam destravar o resto.</li>
+          <li>Nos difíceis, às vezes é preciso juntar duas dicas para tirar uma conclusão.</li>
+        </ol>
+      </div>
+
+      <div class="card como-card">
+        <div class="settings-section-title">Ferramentas</div>
+        <ul class="como-lista">
+          <li><b>Dicas, História e Quadro</b> ficam no painel de baixo. Toque numa dica para riscá-la quando já tiver usado.</li>
+          <li>O <b>Quadro</b> monta a resposta sozinho conforme você marca ●.</li>
+          <li><b>Verificar</b> mostra se há marcações erradas. <b>Dica</b> aponta o próximo passo lógico e explica o porquê.</li>
+          <li>Resolver sem verificar nem pedir dica vale <b>★★★</b>; usando Verificar, ★★; usando Dica, ★.</li>
+          <li>O progresso fica salvo neste aparelho, mesmo offline.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── Ajustes ────────────────────────────────────────────────── -->
+    <section id="screen-config" class="screen">
+      <h1 class="screen-title">Ajustes</h1>
+
+      <div class="card settings-card">
+        <div class="settings-section-title">Aparência</div>
+        <div class="seg-row">
+          <span class="seg-label">Tema</span>
+          <div class="seg-track">
+            <button class="seg-btn" id="btn-theme-ambar"     onclick="window.__setTheme('ambar')">Âmbar</button>
+            <button class="seg-btn" id="btn-theme-ametista"  onclick="window.__setTheme('ametista')">Ametista</button>
+            <button class="seg-btn" id="btn-theme-esmeralda" onclick="window.__setTheme('esmeralda')">Esmeralda</button>
+          </div>
+        </div>
+        <div class="seg-row" style="margin-bottom:0">
+          <span class="seg-label">Modo</span>
+          <div class="seg-track">
+            <button class="seg-btn" id="btn-mode-light" onclick="window.__setMode('light')">Claro</button>
+            <button class="seg-btn" id="btn-mode-night" onclick="window.__setMode('night')">Noturno</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card settings-card">
+        <div class="settings-section-title">Jogo</div>
+        <div class="opcao-row">
+          <div class="opcao-txt">
+            <div class="opcao-nome">Riscar automaticamente</div>
+            <div class="opcao-desc">Ao marcar ●, o resto da linha e da coluna do quadro recebe ✕.</div>
+          </div>
+          <div class="seg-track seg-mini" data-ajuste="autoX">
+            <button class="seg-btn" data-v="1">Sim</button><button class="seg-btn" data-v="0">Não</button>
+          </div>
+        </div>
+        <div class="opcao-row">
+          <div class="opcao-txt">
+            <div class="opcao-nome">Destacar conflitos</div>
+            <div class="opcao-desc">Avisa quando uma linha tem dois ● ou fica toda com ✕ (não revela a resposta).</div>
+          </div>
+          <div class="seg-track seg-mini" data-ajuste="conflitos">
+            <button class="seg-btn" data-v="1">Sim</button><button class="seg-btn" data-v="0">Não</button>
+          </div>
+        </div>
+        <div class="opcao-row" style="margin-bottom:0">
+          <div class="opcao-txt">
+            <div class="opcao-nome">Cronômetro</div>
+            <div class="opcao-desc">Mostra o tempo durante o jogo. O tempo é contado de qualquer forma.</div>
+          </div>
+          <div class="seg-track seg-mini" data-ajuste="cronometro">
+            <button class="seg-btn" data-v="1">Sim</button><button class="seg-btn" data-v="0">Não</button>
+          </div>
+        </div>
+      </div>
+
+      <button id="btn-apagar-progresso" class="btn-danger">Apagar todo o progresso</button>
+      <p id="sobre" class="sync-text"></p>
+    </section>
+
+  </main>
+
+  <!-- ── Jogo (tela cheia) ─────────────────────────────────────────── -->
+  <section id="screen-jogo" class="screen jogo" aria-label="Desafio">
+    <header class="jogo-topo">
+      <button class="btn-icone" id="btn-voltar" aria-label="Voltar aos desafios">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="jogo-titulo">
+        <div class="jogo-nivel" id="jogo-nivel"></div>
+        <div class="jogo-nome" id="jogo-nome"></div>
+      </div>
+      <div class="jogo-tempo" id="jogo-tempo" aria-label="Tempo">00:00</div>
+      <button class="btn-icone" id="btn-menu" aria-label="Mais opções" aria-haspopup="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/></svg>
+      </button>
+      <div class="menu hidden" id="menu-jogo" role="menu">
+        <button role="menuitem" data-acao="historia">Ver a história</button>
+        <button role="menuitem" data-acao="recomecar">Recomeçar do zero</button>
+        <button role="menuitem" data-acao="resposta">Mostrar a resposta</button>
+      </div>
+    </header>
+
+    <div class="jogo-corpo">
+      <div class="jogo-esq">
+        <div class="grade-area" id="grade-area"></div>
+        <div class="info-casa" id="info-casa"></div>
+        <div class="ferramentas">
+          <button class="ferr" id="btn-desfazer" aria-label="Desfazer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
+            <span>Desfazer</span>
+          </button>
+          <button class="ferr" id="btn-menos" aria-label="Diminuir a grade">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M8 11h6"/><path d="m20 20-3.5-3.5"/></svg>
+            <span>Menor</span>
+          </button>
+          <button class="ferr" id="btn-mais" aria-label="Aumentar a grade">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M8 11h6"/><path d="M11 8v6"/><path d="m20 20-3.5-3.5"/></svg>
+            <span>Maior</span>
+          </button>
+          <button class="ferr" id="btn-verificar" aria-label="Verificar marcações">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>Verificar</span>
+          </button>
+          <button class="ferr ferr-dica" id="btn-dica" aria-label="Pedir uma dica">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1.1 2V16h5v-.2c.1-.8.5-1.5 1.1-2A6 6 0 0 0 12 3z"/></svg>
+            <span>Dica</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="painel" id="painel">
+        <div class="painel-abas" role="tablist">
+          <button role="tab" data-aba="dicas" class="on">Dicas <span class="aba-cont" id="aba-cont"></span></button>
+          <button role="tab" data-aba="historia">História</button>
+          <button role="tab" data-aba="quadro">Quadro</button>
+          <button class="painel-toggle" id="painel-toggle" aria-label="Expandir painel">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 15 6-6 6 6"/></svg>
+          </button>
+        </div>
+        <div class="painel-corpo" id="painel-corpo"></div>
+      </div>
+    </div>
+
+    <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+  </section>
+
+  <!-- ── Janelas ───────────────────────────────────────────────────── -->
+  <div class="modal-fundo hidden" id="modal-fundo">
+    <div class="modal" id="modal" role="dialog" aria-modal="true"></div>
+  </div>
+
+  <nav id="bottom-nav">
+    <button data-screen="home" class="active">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><path d="m14.5 15 4 4"/><path d="m18.5 15-4 4"/>
+      </svg>
+      Desafios
+    </button>
+    <button data-screen="como">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.6 2.6 0 1 1 3.4 2.5c-.6.2-.9.7-.9 1.3v.7"/><path d="M12 17h.01"/>
+      </svg>
+      Como jogar
+    </button>
+    <button data-screen="config">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 7h9"/><path d="M19 7h1"/><circle cx="16" cy="7" r="2.2"/><path d="M4 17h3"/><path d="M13 17h7"/><circle cx="9" cy="17" r="2.2"/>
+      </svg>
+      Ajustes
+    </button>
+  </nav>
+
+  <script type="module" src="js/app.js"></script>
+  <script>
+    // Offline: registra o service worker que guarda o app e os desafios
+    if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('./sw.js').catch(function () {});
+      });
+    }
+  </script>
+</body>
+</html>

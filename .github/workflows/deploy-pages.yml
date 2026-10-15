@@ -1,0 +1,58 @@
+name: Validar e publicar no GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  validar:
+    name: Validar desafios
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Solução única e resolvível por dedução
+        run: node scripts/validar.mjs
+
+  deploy:
+    name: Publicar
+    needs: validar
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    # Um deploy por vez, sem cancelar o que estiver em andamento.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Carimbar a versão (renova o cache offline do app)
+        run: sed -i "s/__VERSAO__/${GITHUB_SHA::7}/g" sw.js js/versao.js
+      - name: Montar o site (só os arquivos do app)
+        run: |
+          mkdir -p _site
+          cp -r index.html manifest.json sw.js css js icons desafios _site/
+          touch _site/.nojekyll
+      - name: Configurar Pages
+        uses: actions/configure-pages@v5
+      - name: Empacotar site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - name: Publicar no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

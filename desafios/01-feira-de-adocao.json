@@ -1,0 +1,29 @@
+{
+  "id": "feira-de-adocao",
+  "versao": 1,
+  "titulo": "Feira de adoção",
+  "nivel": "medio",
+  "introducao": "No último sábado, a ONG Patas Unidas montou uma feira de adoção na praça do bairro. Quatro famílias saíram de lá com um novo companheiro: cada uma adotou um animal de espécie diferente, e nenhum deles tinha a mesma idade. A partir das dicas, descubra o nome do animal adotado por cada família, a espécie e a idade dele.",
+  "categorias": [
+    { "id": "familia", "nome": "Família", "itens": ["Almeida", "Barros", "Campos", "Duarte"] },
+    { "id": "animal", "nome": "Animal", "itens": ["Bolota", "Faísca", "Pipoca", "Thor"] },
+    { "id": "especie", "nome": "Espécie", "itens": ["Cachorro", "Calopsita", "Coelho", "Gato"] },
+    { "id": "idade", "nome": "Idade", "itens": ["1 ano", "2 anos", "3 anos", "4 anos"], "valores": [1, 2, 3, 4] }
+  ],
+  "dicas": [
+    { "texto": "A família Campos adotou o animal mais novo.", "regras": [["=", "Campos", "1 ano"]] },
+    { "texto": "Thor é dois anos mais velho que o coelho.", "regras": [["dif", "idade", "Thor", "Coelho", 2]] },
+    { "texto": "A calopsita não foi para a casa dos Almeida nem para a dos Barros.", "regras": [["!=", "Calopsita", "Almeida"], ["!=", "Calopsita", "Barros"]] },
+    { "texto": "O gato é mais novo que o coelho.", "regras": [[">", "idade", "Coelho", "Gato"]] },
+    { "texto": "O cachorro é mais velho que a calopsita.", "regras": [[">", "idade", "Cachorro", "Calopsita"]] },
+    { "texto": "O animal dos Almeida é mais novo que o dos Barros.", "regras": [[">", "idade", "Barros", "Almeida"]] },
+    { "texto": "Pipoca não é o gato nem a calopsita.", "regras": [["!=", "Pipoca", "Gato"], ["!=", "Pipoca", "Calopsita"]] },
+    { "texto": "Faísca é mais novo que Bolota.", "regras": [[">", "idade", "Bolota", "Faísca"]] }
+  ],
+  "solucao": [
+    ["Almeida", "Pipoca", "Coelho", "2 anos"],
+    ["Barros", "Thor", "Cachorro", "4 anos"],
+    ["Campos", "Faísca", "Gato", "1 ano"],
+    ["Duarte", "Bolota", "Calopsita", "3 anos"]
+  ]
+}

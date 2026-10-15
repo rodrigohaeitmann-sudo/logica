@@ -1,0 +1,31 @@
+{
+  "id": "corrida-da-primavera",
+  "versao": 1,
+  "titulo": "Corrida da Primavera",
+  "nivel": "medio",
+  "introducao": "Cinco amigos treinaram juntos durante meses e se inscreveram na Corrida da Primavera, de 10 km. No dia da prova, cada um vestiu uma camiseta de cor diferente e recebeu um número de peito. Ao cruzarem a linha de chegada, não houve empates entre eles. A partir das dicas, descubra a cor da camiseta, o número de peito e a colocação de cada um entre os cinco amigos.",
+  "categorias": [
+    { "id": "corredor", "nome": "Corredor(a)", "itens": ["Bruno", "Carla", "Diego", "Elisa", "Fábio"] },
+    { "id": "camiseta", "nome": "Camiseta", "itens": ["Amarela", "Azul", "Branca", "Laranja", "Verde"] },
+    { "id": "numero", "nome": "Número", "itens": ["12", "27", "35", "48", "61"], "valores": [12, 27, 35, 48, 61], "formato": "nº {}" },
+    { "id": "colocacao", "nome": "Colocação", "itens": ["1º", "2º", "3º", "4º", "5º"], "valores": [1, 2, 3, 4, 5], "formato": "{} lugar" }
+  ],
+  "dicas": [
+    { "texto": "Carla cruzou a chegada imediatamente à frente de quem vestia branco.", "regras": [["dif", "colocacao", "Branca", "Carla", 1]] },
+    { "texto": "Bruno chegou à frente de Fábio, mas atrás de Elisa.", "regras": [[">", "colocacao", "Fábio", "Bruno"], [">", "colocacao", "Bruno", "Elisa"]] },
+    { "texto": "Fábio terminou duas posições atrás de Elisa.", "regras": [["dif", "colocacao", "Fábio", "Elisa", 2]] },
+    { "texto": "Diego e quem vestia verde usavam os números 12 e 27, não necessariamente nessa ordem.", "regras": [["par", ["Diego", "Verde"], ["12", "27"]]] },
+    { "texto": "Fábio usava um número maior que o de Carla, mas menor que o de Elisa.", "regras": [[">", "numero", "Fábio", "Carla"], [">", "numero", "Elisa", "Fábio"]] },
+    { "texto": "Quem chegou em último vestia azul ou usava o número 48 (mas não as duas coisas).", "regras": [["ou", "5º", "Azul", "48"]] },
+    { "texto": "Quem vestia laranja usava um número menor que quem vestia amarelo.", "regras": [[">", "numero", "Amarela", "Laranja"]] },
+    { "texto": "Diego chegou depois de Bruno.", "regras": [[">", "colocacao", "Diego", "Bruno"]] },
+    { "texto": "Quem usava o número 12 cruzou a chegada imediatamente à frente de Fábio.", "regras": [["dif", "colocacao", "Fábio", "12", 1]] }
+  ],
+  "solucao": [
+    ["Bruno", "Verde", "12", "3º"],
+    ["Carla", "Laranja", "35", "1º"],
+    ["Diego", "Azul", "27", "5º"],
+    ["Elisa", "Branca", "61", "2º"],
+    ["Fábio", "Amarela", "48", "4º"]
+  ]
+}

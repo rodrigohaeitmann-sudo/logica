@@ -1,0 +1,31 @@
+{
+  "id": "clube-do-livro",
+  "versao": 1,
+  "titulo": "Clube do livro",
+  "nivel": "dificil",
+  "introducao": "O clube do livro do bairro tem uma regra simples: a cada mês, um participante escolhe a leitura do grupo. De janeiro a maio, cinco participantes fizeram suas indicações — cada livro de um gênero diferente e com um número de páginas diferente. A partir das dicas, descubra o gênero do livro indicado por cada participante, o mês em que foi lido e quantas páginas ele tinha.",
+  "categorias": [
+    { "id": "leitor", "nome": "Leitor(a)", "itens": ["Marta", "Nelson", "Olívia", "Paulo", "Renata"] },
+    { "id": "genero", "nome": "Gênero", "itens": ["Biografia", "Fantasia", "Poesia", "Romance", "Suspense"] },
+    { "id": "mes", "nome": "Mês", "itens": ["Janeiro", "Fevereiro", "Março", "Abril", "Maio"], "valores": [1, 2, 3, 4, 5] },
+    { "id": "paginas", "nome": "Páginas", "itens": ["180", "240", "300", "360", "420"], "valores": [180, 240, 300, 360, 420], "formato": "{} páginas" }
+  ],
+  "dicas": [
+    { "texto": "O livro lido em janeiro tinha 60 páginas a mais que o de Renata.", "regras": [["dif", "paginas", "Janeiro", "Renata", 60]] },
+    { "texto": "Paulo indicou a leitura do mês seguinte à do suspense.", "regras": [["dif", "mes", "Paulo", "Suspense", 1]] },
+    { "texto": "A biografia, que não foi indicada por Marta, foi lida antes da fantasia.", "regras": [["!=", "Biografia", "Marta"], [">", "mes", "Fantasia", "Biografia"]] },
+    { "texto": "Olívia e quem indicou o romance fizeram as indicações de fevereiro e maio, não necessariamente nessa ordem.", "regras": [["par", ["Olívia", "Romance"], ["Fevereiro", "Maio"]]] },
+    { "texto": "A poesia tinha menos páginas que o livro de Nelson.", "regras": [[">", "paginas", "Nelson", "Poesia"]] },
+    { "texto": "O livro de 360 páginas foi lido um mês depois do de 420 páginas.", "regras": [["dif", "mes", "360", "420", 1]] },
+    { "texto": "Marta fez sua indicação depois de Renata, mas antes de Paulo.", "regras": [[">", "mes", "Marta", "Renata"], [">", "mes", "Paulo", "Marta"]] },
+    { "texto": "A fantasia foi lida no mês anterior ao da poesia.", "regras": [["dif", "mes", "Poesia", "Fantasia", 1]] },
+    { "texto": "O romance tinha menos páginas que a fantasia.", "regras": [[">", "paginas", "Fantasia", "Romance"]] }
+  ],
+  "solucao": [
+    ["Marta", "Suspense", "Março", "420"],
+    ["Nelson", "Biografia", "Janeiro", "300"],
+    ["Olívia", "Poesia", "Maio", "180"],
+    ["Paulo", "Fantasia", "Abril", "360"],
+    ["Renata", "Romance", "Fevereiro", "240"]
+  ]
+}

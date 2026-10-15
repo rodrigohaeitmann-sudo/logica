@@ -1,0 +1,31 @@
+{
+  "id": "feira-de-ciencias",
+  "versao": 1,
+  "titulo": "Feira de ciências",
+  "nivel": "medio",
+  "introducao": "A feira de ciências do Colégio Horizonte reuniu projetos de todas as turmas do fundamental II. Quatro alunos, cada um de uma turma diferente, chegaram à final. Cada projeto teve um professor orientador diferente e recebeu uma nota distinta da banca. A partir das dicas, descubra o projeto, a turma, o orientador e a nota de cada finalista.",
+  "categorias": [
+    { "id": "aluno", "nome": "Aluno(a)", "itens": ["Gabriel", "Helena", "Isadora", "Joaquim"] },
+    { "id": "projeto", "nome": "Projeto", "itens": ["Foguete", "Horta", "Robô", "Vulcão"] },
+    { "id": "turma", "nome": "Turma", "itens": ["6º ano", "7º ano", "8º ano", "9º ano"], "valores": [6, 7, 8, 9] },
+    { "id": "orientador", "nome": "Orientador(a)", "itens": ["Lima", "Melo", "Nunes", "Prado"], "formato": "prof. {}" },
+    { "id": "nota", "nome": "Nota", "itens": ["7", "8", "9", "10"], "valores": [7, 8, 9, 10], "formato": "nota {}" }
+  ],
+  "dicas": [
+    { "texto": "Helena está duas turmas abaixo de Gabriel.", "regras": [["dif", "turma", "Gabriel", "Helena", 2]] },
+    { "texto": "O projeto da horta tirou nota menor que o do vulcão.", "regras": [[">", "nota", "Vulcão", "Horta"]] },
+    { "texto": "Quem teve o professor Nunes como orientador está uma turma abaixo de quem fez a horta.", "regras": [["dif", "turma", "Horta", "Nunes", 1]] },
+    { "texto": "O foguete foi orientado pelo professor Lima.", "regras": [["=", "Foguete", "Lima"]] },
+    { "texto": "A nota do 8º ano foi um ponto maior que a do 6º ano.", "regras": [["dif", "nota", "8º ano", "6º ano", 1]] },
+    { "texto": "Joaquim está uma turma acima de Helena.", "regras": [["dif", "turma", "Joaquim", "Helena", 1]] },
+    { "texto": "Quem teve a professora Melo como orientadora tirou nota maior que quem fez o vulcão.", "regras": [[">", "nota", "Melo", "Vulcão"]] },
+    { "texto": "Isadora está numa turma mais adiantada que a de Joaquim.", "regras": [[">", "turma", "Isadora", "Joaquim"]] },
+    { "texto": "O robô tirou nota menor que o foguete.", "regras": [[">", "nota", "Foguete", "Robô"]] }
+  ],
+  "solucao": [
+    ["Gabriel", "Robô", "8º ano", "Melo", "9"],
+    ["Helena", "Vulcão", "6º ano", "Nunes", "8"],
+    ["Isadora", "Foguete", "9º ano", "Lima", "10"],
+    ["Joaquim", "Horta", "7º ano", "Prado", "7"]
+  ]
+}

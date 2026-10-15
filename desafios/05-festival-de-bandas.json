@@ -1,0 +1,36 @@
+{
+  "id": "festival-de-bandas",
+  "versao": 1,
+  "titulo": "Festival de bandas",
+  "nivel": "dificil",
+  "introducao": "O festival Som da Praça reuniu, numa única noite, cinco bandas vindas de cinco cidades diferentes. Cada banda tocou um estilo musical diferente, em um horário diferente, e cada uma é comandada por um(a) vocalista. A partir das dicas, descubra quem é o(a) vocalista de cada banda, o estilo, o horário da apresentação e a cidade de origem.",
+  "categorias": [
+    { "id": "banda", "nome": "Banda", "itens": ["Asfalto", "Brisa", "Corsário", "Dínamo", "Eclipse"] },
+    { "id": "vocal", "nome": "Vocalista", "itens": ["Iara", "Kelvin", "Lorena", "Murilo", "Nara"] },
+    { "id": "estilo", "nome": "Estilo", "itens": ["Forró", "Pop", "Reggae", "Rock", "Samba"] },
+    { "id": "horario", "nome": "Horário", "itens": ["19h", "20h", "21h", "22h", "23h"], "valores": [19, 20, 21, 22, 23] },
+    { "id": "cidade", "nome": "Cidade", "itens": ["Belém", "Curitiba", "Natal", "Recife", "Salvador"] }
+  ],
+  "dicas": [
+    { "texto": "A banda de Belém subiu ao palco duas horas depois da banda de reggae.", "regras": [["dif", "horario", "Belém", "Reggae", 2]] },
+    { "texto": "A Eclipse tocou depois da Brisa e imediatamente antes da Corsário.", "regras": [[">", "horario", "Eclipse", "Brisa"], ["dif", "horario", "Corsário", "Eclipse", 1]] },
+    { "texto": "Kelvin não canta forró nem samba, e sua banda não é de Recife.", "regras": [["!=", "Kelvin", "Forró"], ["!=", "Kelvin", "Samba"], ["!=", "Kelvin", "Recife"]] },
+    { "texto": "Lorena e a banda de rock tocaram às 19h e às 20h, não necessariamente nessa ordem.", "regras": [["par", ["Lorena", "Rock"], ["19h", "20h"]]] },
+    { "texto": "A Dínamo tocou mais tarde que a Asfalto, que por sua vez tocou mais tarde que a Corsário.", "regras": [[">", "horario", "Dínamo", "Asfalto"], [">", "horario", "Asfalto", "Corsário"]] },
+    { "texto": "Iara canta forró ou a banda dela é de Salvador (mas não as duas coisas).", "regras": [["ou", "Iara", "Forró", "Salvador"]] },
+    { "texto": "O samba começou uma hora depois do reggae.", "regras": [["dif", "horario", "Samba", "Reggae", 1]] },
+    { "texto": "A banda de Salvador tocou uma hora antes da banda de reggae.", "regras": [["dif", "horario", "Reggae", "Salvador", 1]] },
+    { "texto": "A banda de Recife se apresentou antes da banda de Salvador.", "regras": [[">", "horario", "Salvador", "Recife"]] },
+    { "texto": "A banda de Natal tocou antes da banda de Curitiba.", "regras": [[">", "horario", "Curitiba", "Natal"]] },
+    { "texto": "O rock foi apresentado antes do pop.", "regras": [[">", "horario", "Pop", "Rock"]] },
+    { "texto": "Nara subiu ao palco mais cedo que Murilo.", "regras": [[">", "horario", "Murilo", "Nara"]] },
+    { "texto": "O forró não abriu o festival.", "regras": [["!=", "Forró", "19h"]] }
+  ],
+  "solucao": [
+    ["Asfalto", "Murilo", "Samba", "22h", "Curitiba"],
+    ["Brisa", "Nara", "Rock", "19h", "Recife"],
+    ["Corsário", "Kelvin", "Reggae", "21h", "Natal"],
+    ["Dínamo", "Iara", "Forró", "23h", "Belém"],
+    ["Eclipse", "Lorena", "Pop", "20h", "Salvador"]
+  ]
+}

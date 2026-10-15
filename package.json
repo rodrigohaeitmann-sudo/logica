@@ -1,0 +1,11 @@
+{
+  "name": "logica",
+  "private": true,
+  "type": "module",
+  "description": "Desafios de lógica (associação em grade) — PWA estático, sem build.",
+  "scripts": {
+    "validar": "node scripts/validar.mjs",
+    "passos": "node scripts/validar.mjs --passos",
+    "servir": "python3 -m http.server 8000"
+  }
+}
