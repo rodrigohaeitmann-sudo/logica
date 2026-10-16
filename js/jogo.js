@@ -1,13 +1,17 @@
-// Tela de jogo: grade em escada, marcações (✕ / ●), painel com dicas, história
-// e quadro de respostas, verificar, dica passo a passo, cronômetro e
-// salvamento automático do progresso.
+// Tela de jogo: grade em escada, marcações (✕ / S), painel com dicas, história,
+// quadro de respostas e relações (anotações de ordem, como no papel), verificar,
+// dica passo a passo, cronômetro e salvamento automático do progresso.
 
 import * as M from './motor.js';
+import * as R from './relacao.js';
 import * as estado from './estado.js';
 import { $, esc, formatarTempo, estrelasHtml, abrirModal, fecharModal, modalAberto } from './ui.js';
 
 const { VAZIO, NAO, SIM } = M;
 export const NIVEL = { facil: 'Fácil', medio: 'Médio', dificil: 'Difícil' };
+// Tipos de desafio: associação (só ligações entre nomes), ordem (antes/depois,
+// vizinhos), cálculo (diferenças exatas: "dois anos mais velho") e misto.
+export const TIPO = { associacao: 'Associação', ordem: 'Ordem', calculo: 'Cálculo', misto: 'Misto' };
 const W_CAT = 22;
 const H_CAT = 22;
 const ZOOM_MIN = -3;
@@ -51,6 +55,8 @@ export function abrir(item, opcoes = {}) {
   if (prog && prog.v !== (d.versao ?? 1)) prog = estado.novoProgresso(d, prog); // desafio mudou
   if (!prog) prog = estado.novoProgresso(d);
   prog = { ...estado.novoProgresso(d), ...prog };
+  const ks = R.relacionaveis(P);
+  prog.relacoes = relacoesValidas(P, ks, prog.relacoes);
   const marcas = prog.resolvido || prog.revelado ? Uint8Array.from(P.gradeSolucao) : M.gradeDeTexto(P, prog.marcas);
   J = {
     item,
@@ -72,7 +78,9 @@ export function abrir(item, opcoes = {}) {
     painelDica: null,
     voltarComBack: !!opcoes.voltarComBack,
     lp: null,
+    rel: { k: ks.length ? ks[0] : -1, form: novoFormRel() },
   };
+  $('aba-relacao').classList.toggle('hidden', !ks.length);
   $('jogo-nivel').textContent = `${NIVEL[d.nivel] || d.nivel} · ${P.m} categorias × ${P.n} itens`;
   $('jogo-nome').textContent = d.titulo;
   document.title = `${d.titulo} — Lógica`;
@@ -272,7 +280,7 @@ function pintar() {
   }
   J.tabela.classList.toggle('final', !!J.prog.resolvido);
   infoCasa();
-  if (J.aba === 'quadro' && painelExpandido() && !J.painelDica) renderPainel();
+  if (painelExpandido() && !J.painelDica && (J.aba === 'quadro' || (J.aba === 'relacao' && ajustes.relPossiveis))) renderPainel();
 }
 
 function nomeCurto(g) {
@@ -290,13 +298,13 @@ function infoCasa() {
     return;
   }
   if (J.sel < 0) {
-    el.innerHTML = 'Toque: <span class="marca">✕</span> → <span class="marca">●</span> → limpa · Segure: <span class="marca">●</span>';
+    el.innerHTML = 'Toque: <span class="marca">✕</span> → <span class="marca">S</span> → limpa · Segure: <span class="marca">S</span>';
     return;
   }
   const c = J.sel;
   const v = J.marcas[c];
   const auto = v === VAZIO && J.ax && J.ax[c];
-  const estadoTxt = v === SIM ? 'combinam ●' : v === NAO ? 'não combinam ✕' : auto ? 'não combinam ✕ (automático)' : 'em aberto';
+  const estadoTxt = v === SIM ? 'combinam <span class="marca">S</span>' : v === NAO ? 'não combinam ✕' : auto ? 'não combinam ✕ (automático)' : 'em aberto';
   el.innerHTML = `<b>${esc(nomeCurto(J.celR[c]))}</b> × <b>${esc(nomeCurto(J.celK[c]))}</b> · ${estadoTxt}`;
 }
 
@@ -312,7 +320,7 @@ function avisarEncerrado() {
   toast(J.prog.resolvido ? 'Desafio resolvido! Para jogar de novo, use “Recomeçar” no menu ⋯.' : 'A resposta foi revelada. Use “Recomeçar” no menu ⋯ para tentar de novo.');
 }
 
-// Toque numa casa: ✕ → ● → vazio. Toque longo: ● (ou limpa um ●).
+// Toque numa casa: ✕ → S → vazio. Toque longo: S (ou limpa um S).
 function tocar(c, longo = false) {
   if (!J) return;
   selecionar(c);
@@ -324,7 +332,7 @@ function tocar(c, longo = false) {
   const atual = J.marcas[c];
   if (atual === VAZIO && J.ax && J.ax[c]) {
     pintar();
-    toast('Essa casa já tem ✕ automático: há um ● na mesma linha ou coluna deste quadro.');
+    toast('Essa casa já tem ✕ automático: há um S na mesma linha ou coluna deste quadro.');
     return;
   }
   let novo;
@@ -519,7 +527,8 @@ function mostrarFesta() {
 }
 
 function recomecar() {
-  if (!confirm('Apagar as marcações e o tempo deste desafio e começar de novo?')) return;
+  const comNotas = (J.prog.relacoes || []).length > 0;
+  if (!confirm(comNotas ? 'Apagar as marcações, as anotações de relação e o tempo deste desafio e começar de novo?' : 'Apagar as marcações e o tempo deste desafio e começar de novo?')) return;
   pausarRelogio();
   const novo = estado.novoProgresso(J.d, J.prog);
   novo.iniciado = true;
@@ -531,6 +540,7 @@ function recomecar() {
   J.alvo.clear();
   J.painelDica = null;
   J.dicaAtual = 0;
+  J.rel.form = novoFormRel();
   salvar();
   pintar();
   renderPainel();
@@ -689,6 +699,7 @@ function renderPainel() {
   painel.classList.toggle('expandido', exp);
   $('painel-toggle').setAttribute('aria-label', exp ? 'Recolher painel' : 'Expandir painel');
   const aba = exp ? J.aba : 'dicas';
+  painel.classList.toggle('aba-relacao', exp && aba === 'relacao' && !J.painelDica);
   painel.querySelectorAll('[role="tab"]').forEach((b) => {
     const on = !J.painelDica && b.dataset.aba === aba;
     b.classList.toggle('on', on);
@@ -701,6 +712,7 @@ function renderPainel() {
   else if (!exp) corpo.innerHTML = carrossel();
   else if (aba === 'dicas') corpo.innerHTML = listaDicas();
   else if (aba === 'historia') corpo.innerHTML = historia();
+  else if (aba === 'relacao' && J.rel.k >= 0) corpo.innerHTML = abaRelacao();
   else corpo.innerHTML = quadro();
   if (exp && aba === 'dicas' && !J.painelDica) {
     const atual = corpo.querySelector('.dica-item.atual');
@@ -754,8 +766,114 @@ function quadro() {
     });
     h += '</tr>';
   }
-  h += '</tbody></table><p class="quadro-nota">O quadro se completa sozinho conforme você marca ● — inclusive ligações indiretas (se A combina com B, e B com C, A aparece junto de C).</p>';
+  h += '</tbody></table><p class="quadro-nota">O quadro se completa sozinho conforme você marca <b class="s-txt">S</b> — inclusive ligações indiretas (se A combina com B, e B com C, A aparece junto de C).</p>';
   return h;
+}
+
+// ---------------------------------------------------------------------------
+// Aba Relação: o jogador anota relações entre itens ("Renata antes de Marta",
+// "Paulo 1 mês depois do suspense") e o app monta as cadeias.
+// ---------------------------------------------------------------------------
+
+function novoFormRel() {
+  return { a: '', t: '<', v: null, b: '', d: '' };
+}
+
+function relacoesValidas(P, ks, lista) {
+  if (!Array.isArray(lista)) return [];
+  const nItens = P.nomes.length;
+  const okItem = (g) => Number.isInteger(g) && g >= 0 && g < nItens;
+  return lista.filter((r) => r && ks.includes(r.k) && okItem(r.a) && okItem(r.b) && r.a !== r.b && R.TIPOS.includes(r.t));
+}
+
+function abaRelacao() {
+  const mostrar = !!ajustes.relPossiveis;
+  return R.html(J.P, {
+    k: J.rel.k,
+    form: J.rel.form,
+    rels: J.prog.relacoes,
+    mostrarPossiveis: mostrar,
+    grade: mostrar ? efetiva(J.ax) : null,
+  });
+}
+
+function ajustarMedida() {
+  const f = J.rel.form;
+  if (!R.exatas(J.P, J.rel.k) && R.preciso(f.t)) f.t = '<';
+  if (!R.preciso(f.t)) return;
+  const difs = R.diferencas(J.P, J.rel.k);
+  if (!difs.includes(Number(f.v))) f.v = difs[0];
+}
+
+const INVERSO = { '<': '>', '>': '<', '+': '-', '-': '+', '~': '~' };
+
+function anotarRelacao() {
+  const f = J.rel.form;
+  const k = J.rel.k;
+  if (f.a === '' || f.b === '') return toast('Escolha os dois itens.');
+  const a = Number(f.a);
+  const b = Number(f.b);
+  if (a === b) return toast('Escolha dois itens diferentes.');
+  ajustarMedida();
+  const v = R.preciso(f.t) ? Number(f.v) : null;
+  const igual = (r) => r.k === k && ((r.a === a && r.b === b && r.t === f.t) || (r.a === b && r.b === a && r.t === INVERSO[f.t])) && (v == null || r.v === v);
+  if (J.prog.relacoes.some(igual)) return toast('Essa relação já está anotada.');
+  const id = J.prog.relacoes.reduce((m, r) => Math.max(m, Number(r.id) || 0), 0) + 1;
+  const nova = { id, k, a, b, t: f.t, v, d: f.d === '' ? null : Number(f.d) };
+  J.prog.relacoes.push(nova);
+  if (!J.prog.iniciado && !encerrado()) {
+    J.prog.iniciado = true;
+    iniciarRelogio();
+  }
+  // Como no papel: a próxima anotação continua a cadeia a partir do 2º item.
+  f.a = String(b);
+  f.b = '';
+  salvar();
+  renderPainel();
+}
+
+function apagarRelacao(id) {
+  J.prog.relacoes = J.prog.relacoes.filter((r) => String(r.id) !== String(id));
+  salvar();
+  renderPainel();
+}
+
+function limparRelacoes() {
+  const k = J.rel.k;
+  const n = J.prog.relacoes.filter((r) => r.k === k).length;
+  if (!n) return;
+  if (!confirm(`Apagar ${n === 1 ? 'a anotação' : `as ${n} anotações`} de ${J.P.cats[k].nome}?`)) return;
+  J.prog.relacoes = J.prog.relacoes.filter((r) => r.k !== k);
+  salvar();
+  renderPainel();
+}
+
+// Setas da faixa de dica: … → última dica → anotação livre → 1ª dica → …
+function navegarDicaRel(passo) {
+  const N = J.P.dicas.length;
+  const f = J.rel.form;
+  const atual = f.d === '' ? N : Number(f.d);
+  const prox = (atual + passo + N + 1) % (N + 1);
+  f.d = prox === N ? '' : String(prox);
+  if (f.d !== '') J.dicaAtual = prox;
+  salvar();
+  renderPainel();
+}
+
+function mudancaPainel(e) {
+  if (!J) return;
+  const el = e.target.closest('[data-rel]');
+  if (!el) return;
+  const campo = el.dataset.rel;
+  if (campo === 'possiveis') {
+    ajustes = estado.getAjustes();
+    ajustes.relPossiveis = el.checked;
+    estado.salvarAjustes(ajustes);
+  } else if (['a', 'b', 't', 'v'].includes(campo)) {
+    J.rel.form[campo] = el.value;
+    ajustarMedida();
+  }
+  renderPainel();
 }
 
 function alternarUsada(i) {
@@ -797,7 +915,28 @@ function cliquePainel(e) {
       aplicar(errs.map((c) => [c, VAZIO]));
       renderPainel();
       toast(errs.length === 1 ? 'Marcação errada apagada.' : `${errs.length} marcações erradas apagadas.`);
+    } else if (a === 'rel-add') {
+      anotarRelacao();
+    } else if (a === 'rel-limpar') {
+      limparRelacoes();
     }
+    return;
+  }
+  const relCat = e.target.closest('[data-rel-cat]');
+  if (relCat) {
+    J.rel.k = Number(relCat.dataset.relCat);
+    ajustarMedida();
+    renderPainel();
+    return;
+  }
+  const relNav = e.target.closest('[data-rel-nav]');
+  if (relNav) {
+    navegarDicaRel(Number(relNav.dataset.relNav));
+    return;
+  }
+  const relDel = e.target.closest('[data-rel-del]');
+  if (relDel) {
+    apagarRelacao(relDel.dataset.relDel);
     return;
   }
   const nav = e.target.closest('[data-car]');
@@ -815,6 +954,7 @@ function cliqueAba(aba) {
   if (!J) return;
   J.painelDica = null;
   J.alvo.clear();
+  if (aba === 'relacao' && J.rel.k >= 0 && (J.aba !== 'relacao' || !painelExpandido())) J.rel.form.d = String(J.dicaAtual);
   if (largo.matches) {
     J.aba = aba;
   } else if (!J.expandido) {
@@ -846,7 +986,7 @@ function mostrarIntro(primeira) {
   pausarRelogio();
   const chips = P.cats.map((c) => `<span class="cat-chip"><b>${esc(c.nome)}:</b> ${c.itens.map(esc).join(', ')}</span>`).join('');
   abrirModal(
-    `<div class="modal-eyebrow">${esc(NIVEL[d.nivel] || d.nivel)} · ${P.m} categorias × ${P.n} itens · ${P.dicas.length} dicas</div>
+    `<div class="modal-eyebrow">${esc(NIVEL[d.nivel] || d.nivel)}${TIPO[d.tipo] ? ` · ${TIPO[d.tipo]}` : ''} · ${P.m} categorias × ${P.n} itens · ${P.dicas.length} dicas</div>
      <h2>${esc(d.titulo)}</h2>
      <p>${esc(d.introducao)}</p>
      <div class="cat-chips" style="margin-bottom:16px">${chips}</div>
@@ -941,6 +1081,7 @@ function ligarEventos() {
   $('btn-verificar').addEventListener('click', verificar);
   $('btn-dica').addEventListener('click', pedirDica);
   $('painel-corpo').addEventListener('click', cliquePainel);
+  $('painel-corpo').addEventListener('change', mudancaPainel);
   $('painel-toggle').addEventListener('click', alternarPainel);
   document.querySelectorAll('#painel [role="tab"]').forEach((b) => b.addEventListener('click', () => cliqueAba(b.dataset.aba)));
 
@@ -993,6 +1134,9 @@ function ligarEventos() {
 
 function teclado(e) {
   if (!J || modalAberto()) return;
+  const tag = e.target && e.target.tagName;
+  if (tag === 'SELECT' || tag === 'INPUT' || tag === 'TEXTAREA') return;
+  if (tag === 'BUTTON' && (e.key === ' ' || e.key === 'Enter')) return; // o botão age sozinho
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
     e.preventDefault();
     desfazer();

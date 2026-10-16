@@ -4,6 +4,7 @@
 const K = {
   progresso: 'logica:progresso',
   ajustes: 'logica:ajustes',
+  filtros: 'logica:filtros',
 };
 
 function ler(chave, padrao) {
@@ -25,7 +26,7 @@ function gravar(chave, valor) {
 }
 
 // --- Ajustes ---
-export const AJUSTES_PADRAO = { autoX: true, conflitos: true, cronometro: true, zoom: 0 };
+export const AJUSTES_PADRAO = { autoX: true, conflitos: true, cronometro: true, zoom: 0, relPossiveis: false };
 
 export function getAjustes() {
   return { ...AJUSTES_PADRAO, ...ler(K.ajustes, {}) };
@@ -35,11 +36,23 @@ export function salvarAjustes(a) {
   gravar(K.ajustes, a);
 }
 
+// --- Filtros da lista de desafios ---
+export const FILTROS_PADRAO = { nivel: '', tipo: '', ocultarResolvidos: false };
+
+export function getFiltros() {
+  return { ...FILTROS_PADRAO, ...ler(K.filtros, {}) };
+}
+
+export function salvarFiltros(f) {
+  gravar(K.filtros, f);
+}
+
 // --- Progresso por desafio ---
 // {
 //   v: versão do desafio, marcas: "0120…" (uma letra por casa), riscadas: [i…],
 //   dicaAtual, tempo (ms), resolvido, revelado, verificacoes, dicasUsadas,
-//   iniciado, melhorTempo, melhoresEstrelas, vezesResolvido, atualizado
+//   iniciado, melhorTempo, melhoresEstrelas, vezesResolvido, atualizado,
+//   relacoes: [{ id, k, a, b, t, v, d }…] (anotações da aba Relação; ver relacao.js)
 // }
 export function todosProgressos() {
   return ler(K.progresso, {});
@@ -75,6 +88,7 @@ export function novoProgresso(d, anterior = null) {
     verificacoes: 0,
     dicasUsadas: 0,
     iniciado: false,
+    relacoes: [],
     melhorTempo: anterior?.melhorTempo ?? null,
     melhoresEstrelas: anterior?.melhoresEstrelas ?? 0,
     vezesResolvido: anterior?.vezesResolvido ?? 0,

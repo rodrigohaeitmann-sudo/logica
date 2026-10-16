@@ -4,13 +4,14 @@
 import * as M from './motor.js';
 import * as estado from './estado.js';
 import * as jogo from './jogo.js';
-import { NIVEL } from './jogo.js';
+import { NIVEL, TIPO } from './jogo.js';
 import { $, esc, formatarTempo, estrelasHtml, mostrarTela, iniciarModal } from './ui.js';
 import { VERSAO } from './versao.js';
 
 const ORDEM_NIVEL = ['facil', 'medio', 'dificil'];
+const ORDEM_TIPO = Object.keys(TIPO);
 
-let DESAFIOS = []; // [{ d, P }]
+let DESAFIOS = []; // [{ d, P, num }] na ordem do índice; num = posição (1, 2, …)
 let carregando = true;
 let erroCarga = null;
 let navegandoNoApp = false;
@@ -18,23 +19,50 @@ let atualizacaoPronta = false;
 
 // ---------- Desafios ----------
 
-async function carregarDesafios() {
+// No site publicado, todos os desafios vêm num pacote só (desafios/pacote.json,
+// montado no deploy). Sem o pacote (ex.: rodando local), lê o índice e os
+// arquivos soltos.
+async function lerPacote() {
+  try {
+    const r = await fetch('desafios/pacote.json', { cache: 'no-cache' });
+    if (!r.ok) return null;
+    const { desafios } = await r.json();
+    return Array.isArray(desafios) ? desafios : null;
+  } catch {
+    return null;
+  }
+}
+
+async function lerArquivosSoltos() {
   const r = await fetch('desafios/index.json', { cache: 'no-cache' });
   if (!r.ok) throw new Error(`índice indisponível (${r.status})`);
   const { desafios } = await r.json();
-  const itens = await Promise.all(
+  return Promise.all(
     desafios.map(async (arq) => {
       try {
         const rr = await fetch(`desafios/${arq}`, { cache: 'no-cache' });
-        const d = await rr.json();
-        return { d, P: M.compilar(d) };
+        return await rr.json();
       } catch (e) {
-        console.error('Desafio inválido:', arq, e);
+        console.error('Desafio indisponível:', arq, e);
         return null;
       }
     }),
   );
-  DESAFIOS = itens.filter(Boolean);
+}
+
+async function carregarDesafios() {
+  const lista = (await lerPacote()) || (await lerArquivosSoltos());
+  DESAFIOS = lista
+    .map((d, i) => {
+      if (!d) return null;
+      try {
+        return { d, P: M.compilar(d), num: i + 1 };
+      } catch (e) {
+        console.error('Desafio inválido:', d.id, e);
+        return null;
+      }
+    })
+    .filter(Boolean);
 }
 
 function acharDesafio(id) {
@@ -116,6 +144,14 @@ function chipStatus(item, p) {
   return '<span class="chip chip-novo">Novo</span>';
 }
 
+function descricao(item) {
+  const { d, P } = item;
+  const partes = [`<span class="nv nv-${esc(d.nivel)}">${esc(NIVEL[d.nivel] || d.nivel)}</span>`];
+  if (TIPO[d.tipo]) partes.push(TIPO[d.tipo]);
+  partes.push(`${P.m} categorias × ${P.n} itens`);
+  return partes.join(' · ');
+}
+
 function linhaDesafio(item, p) {
   const { d, P } = item;
   const andamento = emAndamento(p);
@@ -124,12 +160,62 @@ function linhaDesafio(item, p) {
   if (p && p.melhoresEstrelas) extras.push(`<span class="estrelas" title="Melhor resultado">${estrelasHtml(p.melhoresEstrelas)}</span>`);
   if (p && p.melhorTempo && !p.resolvido) extras.push(`melhor ${formatarTempo(p.melhorTempo)}`);
   return `<button class="desafio-row" data-id="${esc(d.id)}">
-    <div class="desafio-linha"><span class="desafio-nome">${esc(d.titulo)}</span>${chipStatus(item, p)}</div>
-    <div class="desafio-linha"><span class="desafio-meta">${P.m} categorias · ${P.n} itens · ${P.dicas.length} dicas</span>${
+    <div class="desafio-linha"><span class="desafio-num">${item.num}</span><span class="desafio-nome">${esc(d.titulo)}</span>${chipStatus(item, p)}</div>
+    <div class="desafio-linha desafio-sub"><span class="desafio-meta">${descricao(item)}</span>${
       extras.length ? `<span class="desafio-meta">${extras.join(' · ')}</span>` : ''
     }</div>
     ${andamento ? `<div class="track"><div class="fill" style="width:${frac}%"></div></div>` : ''}
   </button>`;
+}
+
+// ---------- Filtros ----------
+
+function passaFiltros(item, p, f) {
+  if (f.nivel && item.d.nivel !== f.nivel) return false;
+  if (f.tipo && item.d.tipo !== f.tipo) return false;
+  if (f.ocultarResolvidos && p && p.resolvido) return false;
+  return true;
+}
+
+function renderFiltros(f, mostrando) {
+  const el = $('filtros');
+  if (!DESAFIOS.length) {
+    el.classList.add('hidden');
+    return;
+  }
+  const niveis = ORDEM_NIVEL.filter((n) => DESAFIOS.some((x) => x.d.nivel === n));
+  const tipos = ORDEM_TIPO.filter((t) => DESAFIOS.some((x) => x.d.tipo === t));
+  const chips = (campo, valores, rotulo) =>
+    `<div class="filtro-chips" role="group" data-filtro="${campo}">` +
+    ['', ...valores].map((v) => `<button class="filtro-chip${f[campo] === v ? ' on' : ''}" data-v="${v}" aria-pressed="${f[campo] === v}">${v ? esc(rotulo(v)) : 'Todos'}</button>`).join('') +
+    '</div>';
+  let h = '';
+  if (niveis.length > 1) h += `<div class="filtro-linha"><span class="filtro-rot">Nível</span>${chips('nivel', niveis, (v) => NIVEL[v] || v)}</div>`;
+  if (tipos.length > 1) h += `<div class="filtro-linha"><span class="filtro-rot">Tipo</span>${chips('tipo', tipos, (v) => TIPO[v])}</div>`;
+  h += `<div class="filtro-rodape"><label class="filtro-toggle"><input type="checkbox" data-filtro-ocultar${f.ocultarResolvidos ? ' checked' : ''}> Esconder os resolvidos</label>
+    <span class="filtro-cont">${mostrando === DESAFIOS.length ? `${DESAFIOS.length} desafios` : `${mostrando} de ${DESAFIOS.length}`}</span></div>`;
+  el.innerHTML = h;
+  el.classList.remove('hidden');
+}
+
+function ligarFiltros() {
+  const el = $('filtros');
+  el.addEventListener('click', (e) => {
+    const b = e.target.closest('.filtro-chip');
+    if (!b) return;
+    const campo = b.closest('[data-filtro]').dataset.filtro;
+    const f = estado.getFiltros();
+    f[campo] = b.dataset.v;
+    estado.salvarFiltros(f);
+    renderHome();
+  });
+  el.addEventListener('change', (e) => {
+    if (!e.target.matches('[data-filtro-ocultar]')) return;
+    const f = estado.getFiltros();
+    f.ocultarResolvidos = e.target.checked;
+    estado.salvarFiltros(f);
+    renderHome();
+  });
 }
 
 function renderHome() {
@@ -165,28 +251,37 @@ function renderHome() {
   badge.title = `${estrelas} de ${DESAFIOS.length * 3} estrelas`;
 
   const cc = $('card-continuar');
+  // Sem nada em andamento, sugere o primeiro desafio ainda não feito.
+  const proximo = continuar ? null : DESAFIOS.find((item) => {
+    const p = progressoValido(item, todos);
+    return !p || (!p.resolvido && !p.revelado);
+  });
   if (continuar) {
     const { item, p } = continuar;
     const frac = Math.round(estado.fracaoMarcada(p, item.P.total) * 100);
     cc.innerHTML = `<div class="continuar-topo"><span class="section-title">Continuar</span><span class="continuar-meta">${formatarTempo(p.tempo)} · ${frac}% marcado</span></div>
-      <div class="continuar-nome">${esc(item.d.titulo)}</div>
+      <div class="continuar-nome"><span class="continuar-num">${item.num}</span>${esc(item.d.titulo)}</div>
+      <div class="continuar-desc">${descricao(item)}</div>
       <div class="track" style="height:7px;margin-top:10px"><div class="fill" style="width:${frac}%"></div></div>
       <button class="btn-primary" data-id="${esc(item.d.id)}">Continuar</button>`;
+    cc.classList.remove('hidden');
+  } else if (proximo) {
+    cc.innerHTML = `<div class="continuar-topo"><span class="section-title">${resolvidos > 0 ? 'Próximo desafio' : 'Comece por aqui'}</span></div>
+      <div class="continuar-nome"><span class="continuar-num">${proximo.num}</span>${esc(proximo.d.titulo)}</div>
+      <div class="continuar-desc">${descricao(proximo)}</div>
+      <button class="btn-primary" data-id="${esc(proximo.d.id)}">Começar</button>`;
     cc.classList.remove('hidden');
   } else {
     cc.classList.add('hidden');
     cc.innerHTML = '';
   }
 
-  const grupos = {};
-  for (const item of DESAFIOS) (grupos[item.d.nivel] = grupos[item.d.nivel] || []).push(item);
-  const ordem = [...ORDEM_NIVEL, ...Object.keys(grupos).filter((k) => !ORDEM_NIVEL.includes(k))];
-  let h = '';
-  for (const nivel of ordem) {
-    if (!grupos[nivel]) continue;
-    h += `<div class="grupo"><div class="grupo-titulo">${esc(NIVEL[nivel] || nivel)}</div>`;
-    for (const item of grupos[nivel]) h += linhaDesafio(item, progressoValido(item, todos));
-    h += '</div>';
+  const f = estado.getFiltros();
+  const visiveis = DESAFIOS.filter((item) => passaFiltros(item, progressoValido(item, todos), f));
+  renderFiltros(f, visiveis.length);
+  let h = visiveis.map((item) => linhaDesafio(item, progressoValido(item, todos))).join('');
+  if (DESAFIOS.length && !visiveis.length) {
+    h = `<div class="lista-vazia">Nenhum desafio com esses filtros.<button class="link-acao" data-acao="limpar-filtros">Mostrar todos</button></div>`;
   }
   $('lista-desafios').innerHTML = h;
 }
@@ -257,10 +352,16 @@ async function iniciar() {
       irPara(s === 'como' ? '#/como' : s === 'config' ? '#/ajustes' : '#/');
     });
   });
+  ligarFiltros();
   $('screen-home').addEventListener('click', (e) => {
     const acao = e.target.closest('[data-acao="atualizar"]');
     if (acao) {
       location.reload();
+      return;
+    }
+    if (e.target.closest('[data-acao="limpar-filtros"]')) {
+      estado.salvarFiltros({ ...estado.FILTROS_PADRAO });
+      renderHome();
       return;
     }
     const alvo = e.target.closest('[data-id]');

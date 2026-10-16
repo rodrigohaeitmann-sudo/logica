@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#f7f2e9">
-  <meta name="description" content="Desafios de lógica de associação: preencha a grade com ✕ e ● a partir das dicas.">
+  <meta name="description" content="Desafios de lógica de associação: preencha a grade com ✕ e S a partir das dicas.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -76,6 +76,7 @@
 
       <div id="card-continuar" class="card hidden"></div>
 
+      <div id="filtros" class="filtros hidden"></div>
       <div id="lista-desafios"></div>
     </section>
 
@@ -93,18 +94,18 @@
         <div class="settings-section-title">Como marcar</div>
         <div class="como-marcas">
           <div class="como-marca"><span class="mini-cel x"></span><span>Toque uma vez: <b>✕</b> (não combinam)</span></div>
-          <div class="como-marca"><span class="mini-cel s"></span><span>Toque de novo: <b>●</b> (combinam)</span></div>
+          <div class="como-marca"><span class="mini-cel s"></span><span>Toque de novo: <b class="s-txt">S</b> (combinam)</span></div>
           <div class="como-marca"><span class="mini-cel"></span><span>Terceiro toque: limpa a casa</span></div>
         </div>
-        <p>Toque e segure uma casa para marcar <b>●</b> direto. Ao marcar um <b>●</b>, o app risca sozinho o resto da linha e da coluna daquele quadro (dá para desligar em Ajustes).</p>
+        <p>Toque e segure uma casa para marcar <b class="s-txt">S</b> direto. Ao marcar um <b class="s-txt">S</b>, o app risca sozinho o resto da linha e da coluna daquele quadro (dá para desligar em Ajustes).</p>
         <p>Use <b>−</b> e <b>+</b> para mudar o tamanho da grade. Nos desafios maiores, arraste a grade para os lados: os nomes das linhas e colunas ficam fixos na borda.</p>
       </div>
 
       <div class="card como-card">
         <div class="settings-section-title">Estratégia</div>
         <ol class="como-lista">
-          <li>Comece pelas dicas diretas (“A é B”, “A não é B”) e marque ● e ✕.</li>
-          <li>Quando só sobrar uma casa livre numa linha ou coluna de um quadro, ela é ●.</li>
+          <li>Comece pelas dicas diretas (“A é B”, “A não é B”) e marque <b class="s-txt">S</b> e ✕.</li>
+          <li>Quando só sobrar uma casa livre numa linha ou coluna de um quadro, ela é <b class="s-txt">S</b>.</li>
           <li>Cruze os quadros: se A combina com B, e B não combina com C, então A também não combina com C.</li>
           <li>Releia as dicas indiretas (“dois anos mais velho”, “logo antes de”) com o que você já descobriu — elas costumam destravar o resto.</li>
           <li>Nos difíceis, às vezes é preciso juntar duas dicas para tirar uma conclusão.</li>
@@ -112,10 +113,33 @@
       </div>
 
       <div class="card como-card">
+        <div class="settings-section-title">Relação: as anotações da margem</div>
+        <p>Nos desafios com datas, idades, preços, horários e outros valores que dá para comparar, a aba <b>Relação</b> guarda o que você tira das dicas, do jeito que se faz na margem da revista.</p>
+        <ol class="como-lista">
+          <li>Com as setas, escolha a dica que está lendo (ela fica marcada na anotação).</li>
+          <li>Escolha um item, a relação e o outro item. A relação pode ser só de ordem (“antes de”, “mais velho que”) ou ter medida exata (“1 mês depois de”, “60 páginas a mais que”).</li>
+          <li>Toque em <b>Anotar</b>. A próxima anotação já começa no item em que a anterior terminou: “Renata antes de Marta” e depois “Marta antes de Paulo” formam a cadeia <b>Renata – Marta – Paulo</b>.</li>
+        </ol>
+        <p>Se quiser, ligue <b>Mostrar os valores ainda possíveis</b>: o app cruza as anotações com os ✕ e <b class="s-txt">S</b> da grade e mostra, embaixo de cada nome, os valores que ainda cabem. Nada disso olha a resposta.</p>
+      </div>
+
+      <div class="card como-card">
+        <div class="settings-section-title">Níveis e tipos</div>
+        <p><b>Médio</b>: cada dica rende alguma coisa sozinha, somada ao que já está na grade. <b>Difícil</b>: em algum momento é preciso juntar duas dicas para chegar a uma conclusão.</p>
+        <ul class="como-lista">
+          <li><b>Associação</b>: só ligações entre nomes (“quem tem o gato não mora em Santos”).</li>
+          <li><b>Ordem</b>: quem vem antes ou depois, quem fica ao lado, o primeiro e o último.</li>
+          <li><b>Cálculo</b>: diferenças exatas (“dois anos mais velho”, “R$ 10 a mais”).</li>
+          <li><b>Misto</b>: um pouco de cada.</li>
+        </ul>
+        <p>Na lista de desafios, os filtros de nível e tipo ajudam a escolher o próximo.</p>
+      </div>
+
+      <div class="card como-card">
         <div class="settings-section-title">Ferramentas</div>
         <ul class="como-lista">
-          <li><b>Dicas, História e Quadro</b> ficam no painel de baixo. Toque numa dica para riscá-la quando já tiver usado.</li>
-          <li>O <b>Quadro</b> monta a resposta sozinho conforme você marca ●.</li>
+          <li><b>Dicas, História, Quadro e Relação</b> ficam no painel de baixo. Toque numa dica para riscá-la quando já tiver usado.</li>
+          <li>O <b>Quadro</b> monta a resposta sozinho conforme você marca <b class="s-txt">S</b>.</li>
           <li><b>Verificar</b> mostra se há marcações erradas. <b>Dica</b> aponta o próximo passo lógico e explica o porquê.</li>
           <li>Resolver sem verificar nem pedir dica vale <b>★★★</b>; usando Verificar, ★★; usando Dica, ★.</li>
           <li>O progresso fica salvo neste aparelho, mesmo offline.</li>
@@ -151,7 +175,7 @@
         <div class="opcao-row">
           <div class="opcao-txt">
             <div class="opcao-nome">Riscar automaticamente</div>
-            <div class="opcao-desc">Ao marcar ●, o resto da linha e da coluna do quadro recebe ✕.</div>
+            <div class="opcao-desc">Ao marcar <b class="s-txt">S</b>, o resto da linha e da coluna do quadro recebe ✕.</div>
           </div>
           <div class="seg-track seg-mini" data-ajuste="autoX">
             <button class="seg-btn" data-v="1">Sim</button><button class="seg-btn" data-v="0">Não</button>
@@ -160,7 +184,7 @@
         <div class="opcao-row">
           <div class="opcao-txt">
             <div class="opcao-nome">Destacar conflitos</div>
-            <div class="opcao-desc">Avisa quando uma linha tem dois ● ou fica toda com ✕ (não revela a resposta).</div>
+            <div class="opcao-desc">Avisa quando uma linha tem dois <b class="s-txt">S</b> ou fica toda com ✕ (não revela a resposta).</div>
           </div>
           <div class="seg-track seg-mini" data-ajuste="conflitos">
             <button class="seg-btn" data-v="1">Sim</button><button class="seg-btn" data-v="0">Não</button>
@@ -237,6 +261,7 @@
           <button role="tab" data-aba="dicas" class="on">Dicas <span class="aba-cont" id="aba-cont"></span></button>
           <button role="tab" data-aba="historia">História</button>
           <button role="tab" data-aba="quadro">Quadro</button>
+          <button role="tab" data-aba="relacao" id="aba-relacao">Relação</button>
           <button class="painel-toggle" id="painel-toggle" aria-label="Expandir painel">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 15 6-6 6 6"/></svg>
           </button>

@@ -15,6 +15,7 @@ const ASSETS = [
   './js/jogo.js',
   './js/motor.js',
   './js/estado.js',
+  './js/relacao.js',
   './js/ui.js',
   './js/versao.js',
   './icons/icon-192.png',
@@ -29,13 +30,20 @@ self.addEventListener('install', (event) => {
     (async () => {
       const cache = await caches.open(CACHE);
       await cache.addAll(ASSETS.map((u) => new Request(u, { cache: 'reload' })));
-      // Desafios listados no índice (assim um desafio novo não exige mexer aqui)
+      // Desafios: o pacote com todos (gerado no deploy); sem ele, os arquivos
+      // listados no índice (assim um desafio novo não exige mexer aqui).
       try {
-        const r = await fetch('./desafios/index.json', { cache: 'reload' });
-        const { desafios } = await r.json();
-        await cache.addAll(desafios.map((f) => new Request(`./desafios/${f}`, { cache: 'reload' })));
+        const r = await fetch('./desafios/pacote.json', { cache: 'reload' });
+        if (!r.ok) throw new Error('sem pacote');
+        await cache.put('./desafios/pacote.json', r);
       } catch (e) {
-        /* offline durante a instalação: os desafios entram no cache ao serem abertos */
+        try {
+          const r = await fetch('./desafios/index.json', { cache: 'reload' });
+          const { desafios } = await r.json();
+          await cache.addAll(desafios.map((f) => new Request(`./desafios/${f}`, { cache: 'reload' })));
+        } catch (e2) {
+          /* offline durante a instalação: os desafios entram no cache ao serem abertos */
+        }
       }
       await self.skipWaiting();
     })(),

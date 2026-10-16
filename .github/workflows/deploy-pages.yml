@@ -40,8 +40,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
       - name: Carimbar a versão (renova o cache offline do app)
         run: sed -i "s/__VERSAO__/${GITHUB_SHA::7}/g" sw.js js/versao.js
+      - name: Juntar os desafios num pacote (o app baixa tudo de uma vez)
+        run: node scripts/empacotar.mjs
       - name: Montar o site (só os arquivos do app)
         run: |
           mkdir -p _site

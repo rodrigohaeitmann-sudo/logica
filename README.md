@@ -16,25 +16,51 @@ Cada desafio tem 4 ou 5 categorias (ex.: pessoa, cor, horário…) com 4 ou 5 it
 cada. Cada item combina com exatamente um item de cada outra categoria. A grade
 em escada cruza as categorias duas a duas:
 
-- toque numa casa: **✕** (não combinam) → **●** (combinam) → limpa;
-- toque e segure: **●** direto;
-- ao marcar **●**, o resto da linha e da coluna daquele quadro recebe ✕
+- toque numa casa: **✕** (não combinam) → **S** (combinam) → limpa;
+- toque e segure: **S** direto;
+- ao marcar **S**, o resto da linha e da coluna daquele quadro recebe ✕
   automaticamente (dá para desligar em Ajustes);
-- o painel de baixo traz as **dicas** (toque para riscar), a **história** e o
-  **quadro de respostas**, que se monta sozinho conforme você marca;
+- o painel de baixo traz as **dicas** (toque para riscar), a **história**, o
+  **quadro de respostas** (se monta sozinho conforme você marca) e a
+  **relação** (veja abaixo);
 - **Verificar** aponta marcações erradas; **Dica** mostra o próximo passo lógico
   e explica qual regra ou dica permite concluí-lo;
 - resolver sem verificar nem pedir dica vale ★★★ (Verificar: ★★; Dica: ★).
 
+### Aba Relação
+
+Nos desafios com categorias que dá para comparar (datas, idades, preços,
+horários, páginas…), a aba **Relação** faz o papel das anotações na margem da
+revista. O jogador escolhe um item, a relação e outro item:
+
+- sem medida: “Renata **antes de** Marta”, “Ana **mais velha que** Bia”;
+- com medida exata: “Paulo **1 mês depois de** Suspense”, “Poesia **60 páginas a menos que** Romance”.
+
+Cada anotação pode ficar ligada a uma dica (as setas mostram o texto dela). A
+anotação seguinte já começa no último item, e o app monta as cadeias
+(**Renata – Marta – Paulo**). Opcionalmente, mostra embaixo de cada item os
+valores que ainda cabem, cruzando as anotações com os ✕ e S da grade — sem
+consultar a resposta. As anotações ficam salvas com o progresso e somem em
+“Recomeçar”.
+
 ## Desafios incluídos
 
-| # | Desafio | Nível | Tamanho |
-|---|---------|-------|---------|
-| 1 | Feira de adoção | Médio | 4 categorias × 4 itens |
-| 2 | Corrida da Primavera | Médio | 4 × 5 |
-| 3 | Feira de ciências | Médio | 5 × 4 |
-| 4 | Clube do livro | Difícil | 4 × 5 |
-| 5 | Festival de bandas | Difícil | 5 × 5 |
+São **100 desafios**: 47 médios e 53 difíceis. Os de número 1 a 5 foram feitos à
+mão; os de 6 a 100 saíram do gerador (abaixo) e passaram pelo mesmo validador.
+
+| Nível | Associação | Ordem | Cálculo | Misto |
+|-------|-----------:|------:|--------:|------:|
+| Médio | 11 | 11 | 10 | 15 |
+| Difícil | 11 | 16 | 15 | 11 |
+
+- **Associação**: só ligações entre nomes (“quem tem o gato não mora em Santos”).
+- **Ordem**: antes/depois, vizinhos, primeiro e último.
+- **Cálculo**: diferenças exatas (“dois anos mais velho”, “R$ 10 a mais”).
+- **Misto**: um pouco de cada.
+
+Tamanhos: 21 de 4×4, 32 de 4 categorias × 5 itens, 28 de 5 × 4 e 19 de 5×5. A
+tela inicial lista os desafios numerados, com filtros de nível e tipo (e a opção
+de esconder os resolvidos).
 
 ## Garantia de que as dicas bastam
 
@@ -47,7 +73,11 @@ deploy acontecer se, para todos os desafios:
 3. dá para chegar à solução **só por dedução, sem chute** — usando as regras da
    grade (eliminação, única opção, transitividade, cruzamento) e as dicas, uma
    de cada vez ou duas combinadas;
-4. nenhuma dica é dispensável (aviso).
+4. o **nível** confere: **médio** sai sem nunca juntar duas dicas; **difícil**
+   exige juntar duas dicas em algum momento (ou é 5×5 com no máximo uma dica
+   direta “A é B”);
+5. nenhuma dica é dispensável (aviso) e os textos não têm deslizes comuns de
+   redação (contração faltando, espaço duplo, falta de ponto final…).
 
 O mesmo motor (`js/motor.js`) gera o botão **Dica** do app.
 
@@ -59,8 +89,9 @@ node scripts/validar.mjs rascunho.json --passos   # testa um desafio avulso
 
 ## Como criar um desafio
 
-1. Crie `desafios/NN-nome.json` e acrescente o arquivo em `desafios/index.json`.
-2. Rode `node scripts/validar.mjs desafios/NN-nome.json --passos` até passar.
+1. Crie `desafios/NNN-nome.json` e acrescente o arquivo em `desafios/index.json`
+   (a ordem do índice é a numeração da lista).
+2. Rode `node scripts/validar.mjs desafios/NNN-nome.json --passos` até passar.
 3. Faça push na `main`: o Actions valida e publica.
 
 ```json
@@ -69,10 +100,13 @@ node scripts/validar.mjs rascunho.json --passos   # testa um desafio avulso
   "versao": 1,
   "titulo": "Feira de adoção",
   "nivel": "medio",
+  "tipo": "misto",
   "introducao": "História que apresenta o desafio…",
   "categorias": [
     { "id": "familia", "nome": "Família", "itens": ["Almeida", "Barros", "Campos", "Duarte"] },
-    { "id": "idade", "nome": "Idade", "itens": ["1 ano", "2 anos", "3 anos", "4 anos"], "valores": [1, 2, 3, 4] }
+    { "id": "idade", "nome": "Idade", "itens": ["1 ano", "2 anos", "3 anos", "4 anos"], "valores": [1, 2, 3, 4],
+      "relacao": { "menor": "mais novo(a) que", "maior": "mais velho(a) que", "menorK": "{k} mais novo(a) que",
+                   "maiorK": "{k} mais velho(a) que", "unidade": ["ano", "anos"], "menorCurto": "mais novo(a)", "maiorCurto": "mais velho(a)" } }
   ],
   "dicas": [
     { "texto": "A família Campos adotou o animal mais novo.", "regras": [["=", "Campos", "1 ano"]] }
@@ -81,15 +115,23 @@ node scripts/validar.mjs rascunho.json --passos   # testa um desafio avulso
 }
 ```
 
-- `nivel`: `facil`, `medio` ou `dificil`.
+- `nivel`: `facil`, `medio` ou `dificil`. `tipo` (opcional): `associacao`,
+  `ordem`, `calculo` ou `misto` (aparece na lista e nos filtros).
 - A primeira categoria é a principal (linhas do quadro de respostas).
 - `valores` (opcional) dá números aos itens para dicas de comparação; sem ele,
   vale a ordem da lista. `formato` (opcional, ex.: `"{} páginas"`) só muda como o
   item aparece nas explicações.
+- `relacao` (opcional, só em categorias com `valores`): rótulos da aba Relação.
+  `menor`/`maior` são as relações sem medida; `menorK`/`maiorK` as com medida
+  (`{k}` vira a quantidade, com `unidade` no singular e no plural ou com
+  `prefixo`, ex. `"R$ "`); `menorCurto`/`maiorCurto` aparecem nas cadeias.
+  `"exata": false` esconde as relações com medida (números que só servem para
+  comparar, como o de um portão). Sem `relacao`, a aba usa “menor que”/“maior que”.
+  Categorias sem `valores` não aparecem na aba; se nenhuma tiver, a aba some.
 - `solucao`: uma linha por item da categoria principal, com um item de cada
   categoria, na ordem das categorias.
-- Se mudar um desafio já publicado, aumente `versao` (o progresso salvo dele é
-  reiniciado, porque a grade mudou).
+- Se mudar a grade ou as dicas de um desafio já publicado, aumente `versao` (o
+  progresso salvo dele é reiniciado).
 
 Regras disponíveis (itens pelo nome; use `"idCategoria:Nome"` se o nome se repetir):
 
@@ -105,6 +147,28 @@ Regras disponíveis (itens pelo nome; use `"idCategoria:Nome"` se o nome se repe
 | `[">", K, A, B]` / `["<", K, A, B]` | comparação pelos valores da categoria K |
 | `["extremo", K, A]` / `["meio", K, A]` | A tem o menor ou o maior valor de K / nenhum dos dois |
 
+## Gerador de desafios
+
+`scripts/gerador/` cria desafios novos com o mesmo motor do app. Para cada um,
+sorteia um tema (29 temas em `temas.mjs`: corrida, prédio, festa junina,
+viagens, plantão médico, horta, mudança…), as categorias e uma solução; junta
+fatos verdadeiros do tipo pedido até a solução ficar única e dedutível; poda o
+que sobra; confere o nível; e escreve as dicas em português (concordância,
+contrações e frases compostas como “Bruno chegou depois de Elisa, mas antes de
+Fábio”, em `lingua.mjs`).
+
+```bash
+node scripts/gerador/gerar.mjs --plano                         # nível, tipo e tamanho de cada número
+node scripts/gerador/gerar.mjs --teste corrida ordem dificil 4 5   # mostra um desafio de teste
+node scripts/gerador/gerar.mjs --gerar 6-100                   # grava em desafios/
+node scripts/validar.mjs                                       # depois, sempre
+```
+
+O resultado é determinístico (semente fixa; `--semente N` muda tudo). O tema, o
+título e a semente de cada número ficam em `scripts/gerador/registro.json`;
+gerar de novo a mesma faixa reproduz os mesmos arquivos. Desafios novos
+precisam entrar em `desafios/index.json`.
+
 ## Desenvolvimento
 
 Sem build: edite e dê push. Para rodar localmente (ES modules não funcionam via
@@ -115,18 +179,26 @@ python3 -m http.server 8000
 # abra http://localhost:8000
 ```
 
+No deploy, `scripts/empacotar.mjs` junta todos os desafios em
+`desafios/pacote.json`, que o app baixa de uma vez (e o service worker guarda
+para uso offline). Localmente, sem o pacote, o app lê o índice e os arquivos
+soltos.
+
 ### Estrutura
 
 ```
 index.html                 SPA: Desafios, Jogo, Como jogar, Ajustes
 css/style.css              Estilo mobile-first + tokens de tema
-js/app.js                  Carrega desafios, navegação (#hash), tela inicial, ajustes
+js/app.js                  Carrega desafios, navegação (#hash), tela inicial (lista e filtros), ajustes
 js/jogo.js                 Grade, marcações, painel, verificar, dica, cronômetro
+js/relacao.js              Aba Relação: anotações, cadeias e valores possíveis
 js/motor.js                Motor lógico: validação, solução única, dedução e textos das dicas
-js/estado.js               Progresso e ajustes no localStorage (chaves "logica:")
+js/estado.js               Progresso, ajustes e filtros no localStorage (chaves "logica:")
 js/ui.js                   Utilidades de interface (janelas, tempo, estrelas)
 desafios/                  Um JSON por desafio + index.json
 scripts/validar.mjs        Validador usado no CI
+scripts/empacotar.mjs      Junta os desafios em desafios/pacote.json (deploy)
+scripts/gerador/           Gerador de desafios (temas, língua, registro)
 sw.js, manifest.json       PWA (offline + instalar na tela inicial)
 .github/workflows/         Valida e publica no GitHub Pages
 ```
