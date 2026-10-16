@@ -8,7 +8,7 @@
 //   item dela identifica uma "entidade" (uma linha do quadro de respostas).
 // - Item global g = c*n + i (i = posição do item dentro da categoria).
 // - Grade: para cada par de categorias (a < b) existe um quadro n×n. Cada casa
-//   vale VAZIO (0), NAO (1, ✕) ou SIM (2, ●). A grade inteira é um Uint8Array.
+//   vale VAZIO (0), NAO (1, ✕) ou SIM (2, S). A grade inteira é um Uint8Array.
 //
 // Regras formais das dicas (arrays JSON, os itens são citados pelo nome — use
 // "idDaCategoria:Nome" se o mesmo nome existir em duas categorias):
@@ -357,7 +357,7 @@ export function gradeParaTexto(g) {
   return s;
 }
 
-// Casas que ficam com ✕ automaticamente: mesma linha/coluna de um ● no mesmo quadro.
+// Casas que ficam com ✕ automaticamente: mesma linha/coluna de um S no mesmo quadro.
 export function autoX(P, g) {
   const { n } = P;
   const out = new Uint8Array(P.total);
@@ -397,7 +397,7 @@ export function erros(P, g) {
   return out;
 }
 
-// Resolvido = todos os ● da solução marcados e nenhum ● errado.
+// Resolvido = todos os S da solução marcados e nenhum S errado.
 export function resolvido(P, g) {
   for (let c = 0; c < P.total; c++) {
     const s = P.gradeSolucao[c];
@@ -407,7 +407,7 @@ export function resolvido(P, g) {
   return true;
 }
 
-// Conflitos visíveis sem olhar a solução: dois ● na mesma linha/coluna de um
+// Conflitos visíveis sem olhar a solução: dois S na mesma linha/coluna de um
 // quadro ou uma linha/coluna inteira de ✕.
 export function conflitos(P, g) {
   const { n } = P;
@@ -436,7 +436,7 @@ export function conflitos(P, g) {
   return out;
 }
 
-// Quadro de respostas a partir dos ● (com transitividade): para cada item da
+// Quadro de respostas a partir dos S (com transitividade): para cada item da
 // categoria principal, o item de cada categoria ligado a ele (ou null).
 export function quadroRespostas(P, g) {
   const N = P.m * P.n;
@@ -648,10 +648,10 @@ export function contarSolucoes(P, { limite = 2, regras = null } = {}) {
 // ---------------------------------------------------------------------------
 //
 // Cada passo: { tipo, marcas: [[casa, valor], ...], ...detalhes }
-//   G1 eliminação: um ● risca o resto da linha e da coluna no mesmo quadro
+//   G1 eliminação: um S risca o resto da linha e da coluna no mesmo quadro
 //   G2 única opção: só sobrou uma casa livre para um item num quadro
-//   G3 transitividade: A–B ● e B–C ● ⇒ A–C ●
-//   G4 transitividade: A–B ● e B–C ✕ ⇒ A–C ✕
+//   G3 transitividade: A–B S e B–C S ⇒ A–C S
+//   G4 transitividade: A–B S e B–C ✕ ⇒ A–C ✕
 //   G5 cruzamento: todas as opções de A numa categoria são ✕ com C ⇒ A–C ✕
 //   dica: o que a dica permite concluir com o que já se sabe
 
@@ -940,7 +940,7 @@ function deduzirDicaDireta(P, g, D) {
   return { marcas };
 }
 
-// Remove de uma lista de marcas os ✕ que são mera consequência (G1) de um ●
+// Remove de uma lista de marcas os ✕ que são mera consequência (G1) de um S
 // da própria lista — deixa a explicação da dica mais enxuta.
 function enxugar(P, marcas) {
   const sims = marcas.filter(([, v]) => v === SIM).map(([c]) => c);
@@ -973,7 +973,9 @@ function primeiro(gen) {
 
 // Próximo passo lógico a partir da grade g (que deve estar correta).
 // Ordem pensada para dicas: do mais mecânico ao que exige reler as dicas.
-export function proximoPasso(P, g) {
+// { pares: false } desliga a técnica de juntar duas dicas (usada para medir o
+// nível: um desafio médio sai sem ela).
+export function proximoPasso(P, g, { pares = true } = {}) {
   let p = primeiro(passosG1(P, g));
   if (p) return p;
   for (const D of P.dicas) {
@@ -997,6 +999,7 @@ export function proximoPasso(P, g) {
     if (r.marcas.length) return { tipo: 'dica', dica: D.i, marcas: enxugar(P, r.marcas) };
   }
   // Juntar duas dicas (técnica mais difícil): só pares que falam de algo em comum.
+  if (!pares) return null;
   for (const [i, j] of paresDeDicas(P)) {
     const D = conjuntoDoPar(P, i, j);
     const r = deduzirDica(P, g, D);
@@ -1037,12 +1040,12 @@ function conjuntoDoPar(P, i, j) {
 }
 
 // Aplica deduções até não haver mais. Não chuta.
-export function deduzirTudo(P, inicial = null, { maxPassos = 5000 } = {}) {
+export function deduzirTudo(P, inicial = null, { maxPassos = 5000, pares = true } = {}) {
   const g = inicial ? Uint8Array.from(inicial) : novaGrade(P);
   const passos = [];
   let contradicao = false;
   for (let k = 0; k < maxPassos; k++) {
-    const p = proximoPasso(P, g);
+    const p = proximoPasso(P, g, { pares });
     if (!p) break;
     if (p.tipo === 'contradicao') { contradicao = true; passos.push(p); break; }
     for (const [c, v] of p.marcas) {

@@ -1,0 +1,762 @@
+{
+ "6": {
+  "arquivo": "006-saguao-do-aeroporto.json",
+  "tema": "aeroporto",
+  "titulo": "Saguão do aeroporto",
+  "semente": 20267025,
+  "estilo": "ordem",
+  "nivel": "medio"
+ },
+ "7": {
+  "arquivo": "007-zoologico-municipal.json",
+  "tema": "zoologico",
+  "titulo": "Zoológico municipal",
+  "semente": 20268025,
+  "estilo": "associacao",
+  "nivel": "dificil"
+ },
+ "8": {
+  "arquivo": "008-concurso-de-bolos.json",
+  "tema": "bolos",
+  "titulo": "Concurso de bolos",
+  "semente": 20269021,
+  "estilo": "calculo",
+  "nivel": "dificil"
+ },
+ "9": {
+  "arquivo": "009-leituras-do-ano.json",
+  "tema": "livros",
+  "titulo": "Leituras do ano",
+  "semente": 20270039,
+  "estilo": "misto",
+  "nivel": "medio"
+ },
+ "10": {
+  "arquivo": "010-edificio-aurora.json",
+  "tema": "predio",
+  "titulo": "Edifício Aurora",
+  "semente": 20271090,
+  "estilo": "ordem",
+  "nivel": "dificil"
+ },
+ "11": {
+  "arquivo": "011-ferias-de-verao.json",
+  "tema": "viagem",
+  "titulo": "Férias de verão",
+  "semente": 20272022,
+  "estilo": "associacao",
+  "nivel": "medio"
+ },
+ "12": {
+  "arquivo": "012-semana-de-provas.json",
+  "tema": "provas",
+  "titulo": "Semana de provas",
+  "semente": 20273022,
+  "estilo": "calculo",
+  "nivel": "dificil"
+ },
+ "13": {
+  "arquivo": "013-torneio-de-xadrez.json",
+  "tema": "xadrez",
+  "titulo": "Torneio de xadrez",
+  "semente": 20274022,
+  "estilo": "misto",
+  "nivel": "medio"
+ },
+ "14": {
+  "arquivo": "014-show-de-talentos.json",
+  "tema": "talentos",
+  "titulo": "Show de talentos",
+  "semente": 20275024,
+  "estilo": "ordem",
+  "nivel": "dificil"
+ },
+ "15": {
+  "arquivo": "015-arraial-da-escola.json",
+  "tema": "festa-junina",
+  "titulo": "Arraial da escola",
+  "semente": 20276028,
+  "estilo": "associacao",
+  "nivel": "medio"
+ },
+ "16": {
+  "arquivo": "016-corrida-noturna.json",
+  "tema": "corrida",
+  "titulo": "Corrida noturna",
+  "semente": 20277040,
+  "estilo": "calculo",
+  "nivel": "dificil"
+ },
+ "17": {
+  "arquivo": "017-trilheiros.json",
+  "tema": "trilhas",
+  "titulo": "Trilheiros",
+  "semente": 20278023,
+  "estilo": "misto",
+  "nivel": "medio"
+ },
+ "18": {
+  "arquivo": "018-copa-do-bairro.json",
+  "tema": "futebol",
+  "titulo": "Copa do bairro",
+  "semente": 20279040,
+  "estilo": "ordem",
+  "nivel": "dificil"
+ },
+ "19": {
+  "arquivo": "019-aniversariantes-do-ano.json",
+  "tema": "aniversarios",
+  "titulo": "Aniversariantes do ano",
+  "semente": 20280028,
+  "estilo": "associacao",
+  "nivel": "medio"
+ },
+ "20": {
+  "arquivo": "020-agenda-da-semana.json",
+  "tema": "agenda",
+  "titulo": "Agenda da semana",
+  "semente": 20281022,
+  "estilo": "calculo",
+  "nivel": "dificil"
+ },
+ "21": {
+  "arquivo": "021-domingo-no-pesqueiro.json",
+  "tema": "pescaria",
+  "titulo": "Domingo no pesqueiro",
+  "semente": 20282024,
+  "estilo": "misto",
+  "nivel": "medio"
+ },
+ "22": {
+  "arquivo": "022-clube-dos-colecionadores.json",
+  "tema": "colecoes",
+  "titulo": "Clube dos colecionadores",
+  "semente": 20283024,
+  "estilo": "ordem",
+  "nivel": "dificil"
+ },
+ "23": {
+  "arquivo": "023-concurso-de-fotografia.json",
+  "tema": "fotografia",
+  "titulo": "Concurso de fotografia",
+  "semente": 20284026,
+  "estilo": "associacao",
+  "nivel": "medio"
+ },
+ "24": {
+  "arquivo": "024-escola-de-musica.json",
+  "tema": "musica",
+  "titulo": "Escola de música",
+  "semente": 20285175,
+  "estilo": "calculo",
+  "nivel": "dificil"
+ },
+ "25": {
+  "arquivo": "025-almoco-de-domingo.json",
+  "tema": "restaurante",
+  "titulo": "Almoço de domingo",
+  "semente": 20286027,
+  "estilo": "misto",
+  "nivel": "medio"
+ },
+ "26": {
+  "arquivo": "026-hotel-beira-mar.json",
+  "tema": "hotel",
+  "titulo": "Hotel Beira-Mar",
+  "semente": 20287038,
+  "estilo": "ordem",
+  "nivel": "dificil"
+ },
+ "27": {
+  "arquivo": "027-jantar-entre-amigos.json",
+  "tema": "restaurante",
+  "titulo": "Jantar entre amigos",
+  "semente": 20288027,
+  "estilo": "associacao",
+  "nivel": "dificil"
+ },
+ "28": {
+  "arquivo": "028-feira-de-sabado.json",
+  "tema": "feira-livre",
+  "titulo": "Feira de sábado",
+  "semente": 20289027,
+  "estilo": "calculo",
+  "nivel": "medio"
+ },
+ "29": {
+  "arquivo": "029-escala-de-plantao.json",
+  "tema": "plantao",
+  "titulo": "Escala de plantão",
+  "semente": 20290023,
+  "estilo": "misto",
+  "nivel": "dificil"
+ },
+ "30": {
+  "arquivo": "030-sessao-de-cinema.json",
+  "tema": "cinema",
+  "titulo": "Sessão de cinema",
+  "semente": 20291022,
+  "estilo": "ordem",
+  "nivel": "medio"
+ },
+ "31": {
+  "arquivo": "031-vizinhos-de-porta.json",
+  "tema": "predio",
+  "titulo": "Vizinhos de porta",
+  "semente": 20292022,
+  "estilo": "associacao",
+  "nivel": "dificil"
+ },
+ "32": {
+  "arquivo": "032-rotina-de-treinos.json",
+  "tema": "academia",
+  "titulo": "Rotina de treinos",
+  "semente": 20293024,
+  "estilo": "calculo",
+  "nivel": "medio"
+ },
+ "33": {
+  "arquivo": "033-horta-comunitaria.json",
+  "tema": "horta",
+  "titulo": "Horta comunitária",
+  "semente": 20294021,
+  "estilo": "misto",
+  "nivel": "dificil"
+ },
+ "34": {
+  "arquivo": "034-feira-de-artesanato.json",
+  "tema": "artesanato",
+  "titulo": "Feira de artesanato",
+  "semente": 20295026,
+  "estilo": "ordem",
+  "nivel": "medio"
+ },
+ "35": {
+  "arquivo": "035-festa-surpresa.json",
+  "tema": "aniversarios",
+  "titulo": "Festa surpresa",
+  "semente": 20296028,
+  "estilo": "associacao",
+  "nivel": "dificil"
+ },
+ "36": {
+  "arquivo": "036-gincana-da-escola.json",
+  "tema": "gincana",
+  "titulo": "Gincana da escola",
+  "semente": 20297023,
+  "estilo": "calculo",
+  "nivel": "medio"
+ },
+ "37": {
+  "arquivo": "037-vida-nova.json",
+  "tema": "mudanca",
+  "titulo": "Vida nova",
+  "semente": 20298057,
+  "estilo": "misto",
+  "nivel": "dificil"
+ },
+ "38": {
+  "arquivo": "038-residencia-medica.json",
+  "tema": "plantao",
+  "titulo": "Residência médica",
+  "semente": 20299023,
+  "estilo": "ordem",
+  "nivel": "medio"
+ },
+ "39": {
+  "arquivo": "039-noite-de-estrelas.json",
+  "tema": "talentos",
+  "titulo": "Noite de estrelas",
+  "semente": 20300143,
+  "estilo": "associacao",
+  "nivel": "dificil"
+ },
+ "40": {
+  "arquivo": "040-meia-maratona.json",
+  "tema": "corrida",
+  "titulo": "Meia maratona",
+  "semente": 20301023,
+  "estilo": "calculo",
+  "nivel": "medio"
+ },
+ "41": {
+  "arquivo": "041-maos-que-criam.json",
+  "tema": "artesanato",
+  "titulo": "Mãos que criam",
+  "semente": 20302026,
+  "estilo": "misto",
+  "nivel": "dificil"
+ },
+ "42": {
+  "arquivo": "042-noite-de-estreia.json",
+  "tema": "cinema",
+  "titulo": "Noite de estreia",
+  "semente": 20303022,
+  "estilo": "ordem",
+  "nivel": "medio"
+ },
+ "43": {
+  "arquivo": "043-torneio-de-pesca.json",
+  "tema": "pescaria",
+  "titulo": "Torneio de pesca",
+  "semente": 20304024,
+  "estilo": "associacao",
+  "nivel": "dificil"
+ },
+ "44": {
+  "arquivo": "044-torneio-de-varzea.json",
+  "tema": "futebol",
+  "titulo": "Torneio de várzea",
+  "semente": 20305040,
+  "estilo": "calculo",
+  "nivel": "medio"
+ },
+ "45": {
+  "arquivo": "045-boletim.json",
+  "tema": "provas",
+  "titulo": "Boletim",
+  "semente": 20306022,
+  "estilo": "misto",
+  "nivel": "dificil"
+ },
+ "46": {
+  "arquivo": "046-feira-de-colecionaveis.json",
+  "tema": "colecoes",
+  "titulo": "Feira de colecionáveis",
+  "semente": 20307041,
+  "estilo": "ordem",
+  "nivel": "dificil"
+ },
+ "47": {
+  "arquivo": "047-hora-da-refeicao.json",
+  "tema": "zoologico",
+  "titulo": "Hora da refeição",
+  "semente": 20308025,
+  "estilo": "associacao",
+  "nivel": "medio"
+ },
+ "48": {
+  "arquivo": "048-pe-na-trilha.json",
+  "tema": "trilhas",
+  "titulo": "Pé na trilha",
+  "semente": 20309023,
+  "estilo": "calculo",
+  "nivel": "dificil"
+ },
+ "49": {
+  "arquivo": "049-embarque-imediato.json",
+  "tema": "aeroporto",
+  "titulo": "Embarque imediato",
+  "semente": 20310025,
+  "estilo": "misto",
+  "nivel": "medio"
+ },
+ "50": {
+  "arquivo": "050-caminhao-de-mudanca.json",
+  "tema": "mudanca",
+  "titulo": "Caminhão de mudança",
+  "semente": 20311091,
+  "estilo": "ordem",
+  "nivel": "dificil"
+ },
+ "51": {
+  "arquivo": "051-barracas-da-feira.json",
+  "tema": "feira-livre",
+  "titulo": "Barracas da feira",
+  "semente": 20312027,
+  "estilo": "associacao",
+  "nivel": "medio"
+ },
+ "52": {
+  "arquivo": "052-bolo-da-vovo.json",
+  "tema": "bolos",
+  "titulo": "Bolo da vovó",
+  "semente": 20313021,
+  "estilo": "calculo",
+  "nivel": "dificil"
+ },
+ "53": {
+  "arquivo": "053-academia-do-bairro.json",
+  "tema": "academia",
+  "titulo": "Academia do bairro",
+  "semente": 20314041,
+  "estilo": "misto",
+  "nivel": "medio"
+ },
+ "54": {
+  "arquivo": "054-pousada-da-serra.json",
+  "tema": "hotel",
+  "titulo": "Pousada da serra",
+  "semente": 20315021,
+  "estilo": "ordem",
+  "nivel": "dificil"
+ },
+ "55": {
+  "arquivo": "055-pe-na-estrada.json",
+  "tema": "viagem",
+  "titulo": "Pé na estrada",
+  "semente": 20316022,
+  "estilo": "associacao",
+  "nivel": "medio"
+ },
+ "56": {
+  "arquivo": "056-xeque-mate.json",
+  "tema": "xadrez",
+  "titulo": "Xeque-mate",
+  "semente": 20317073,
+  "estilo": "calculo",
+  "nivel": "dificil"
+ },
+ "57": {
+  "arquivo": "057-olhar-urbano.json",
+  "tema": "fotografia",
+  "titulo": "Olhar urbano",
+  "semente": 20318026,
+  "estilo": "misto",
+  "nivel": "medio"
+ },
+ "58": {
+  "arquivo": "058-semana-corrida.json",
+  "tema": "agenda",
+  "titulo": "Semana corrida",
+  "semente": 20319022,
+  "estilo": "ordem",
+  "nivel": "dificil"
+ },
+ "59": {
+  "arquivo": "059-maos-na-terra.json",
+  "tema": "horta",
+  "titulo": "Mãos na terra",
+  "semente": 20320021,
+  "estilo": "associacao",
+  "nivel": "medio"
+ },
+ "60": {
+  "arquivo": "060-estante-compartilhada.json",
+  "tema": "livros",
+  "titulo": "Estante compartilhada",
+  "semente": 20321022,
+  "estilo": "calculo",
+  "nivel": "dificil"
+ },
+ "61": {
+  "arquivo": "061-quermesse-da-paroquia.json",
+  "tema": "festa-junina",
+  "titulo": "Quermesse da paróquia",
+  "semente": 20322028,
+  "estilo": "misto",
+  "nivel": "medio"
+ },
+ "62": {
+  "arquivo": "062-festa-junina-da-rua.json",
+  "tema": "festa-junina",
+  "titulo": "Festa junina da rua",
+  "semente": 20323028,
+  "estilo": "ordem",
+  "nivel": "dificil"
+ },
+ "63": {
+  "arquivo": "063-recital-de-fim-de-ano.json",
+  "tema": "musica",
+  "titulo": "Recital de fim de ano",
+  "semente": 20324022,
+  "estilo": "associacao",
+  "nivel": "medio"
+ },
+ "64": {
+  "arquivo": "064-olimpiada-da-primavera.json",
+  "tema": "gincana",
+  "titulo": "Olimpíada da primavera",
+  "semente": 20325108,
+  "estilo": "calculo",
+  "nivel": "dificil"
+ },
+ "65": {
+  "arquivo": "065-compromissos.json",
+  "tema": "agenda",
+  "titulo": "Compromissos",
+  "semente": 20326039,
+  "estilo": "misto",
+  "nivel": "dificil"
+ },
+ "66": {
+  "arquivo": "066-fim-de-bimestre.json",
+  "tema": "provas",
+  "titulo": "Fim de bimestre",
+  "semente": 20327022,
+  "estilo": "ordem",
+  "nivel": "medio"
+ },
+ "67": {
+  "arquivo": "067-condominio-das-palmeiras.json",
+  "tema": "predio",
+  "titulo": "Condomínio das Palmeiras",
+  "semente": 20328022,
+  "estilo": "associacao",
+  "nivel": "dificil"
+ },
+ "68": {
+  "arquivo": "068-mochileiros.json",
+  "tema": "viagem",
+  "titulo": "Mochileiros",
+  "semente": 20329022,
+  "estilo": "calculo",
+  "nivel": "medio"
+ },
+ "69": {
+  "arquivo": "069-pescaria-no-lago.json",
+  "tema": "pescaria",
+  "titulo": "Pescaria no lago",
+  "semente": 20330058,
+  "estilo": "misto",
+  "nivel": "dificil"
+ },
+ "70": {
+  "arquivo": "070-colheita-de-outono.json",
+  "tema": "horta",
+  "titulo": "Colheita de outono",
+  "semente": 20331021,
+  "estilo": "ordem",
+  "nivel": "medio"
+ },
+ "71": {
+  "arquivo": "071-festival-de-confeitaria.json",
+  "tema": "bolos",
+  "titulo": "Festival de confeitaria",
+  "semente": 20332021,
+  "estilo": "associacao",
+  "nivel": "dificil"
+ },
+ "72": {
+  "arquivo": "072-novos-enderecos.json",
+  "tema": "mudanca",
+  "titulo": "Novos endereços",
+  "semente": 20333023,
+  "estilo": "calculo",
+  "nivel": "medio"
+ },
+ "73": {
+  "arquivo": "073-arte-na-praca.json",
+  "tema": "artesanato",
+  "titulo": "Arte na praça",
+  "semente": 20334026,
+  "estilo": "misto",
+  "nivel": "dificil"
+ },
+ "74": {
+  "arquivo": "074-voos-da-manha.json",
+  "tema": "aeroporto",
+  "titulo": "Voos da manhã",
+  "semente": 20335025,
+  "estilo": "ordem",
+  "nivel": "medio"
+ },
+ "75": {
+  "arquivo": "075-restaurante-da-esquina.json",
+  "tema": "restaurante",
+  "titulo": "Restaurante da esquina",
+  "semente": 20336027,
+  "estilo": "associacao",
+  "nivel": "dificil"
+ },
+ "76": {
+  "arquivo": "076-clube-de-xadrez.json",
+  "tema": "xadrez",
+  "titulo": "Clube de xadrez",
+  "semente": 20337022,
+  "estilo": "calculo",
+  "nivel": "medio"
+ },
+ "77": {
+  "arquivo": "077-campeonato-de-society.json",
+  "tema": "futebol",
+  "titulo": "Campeonato de society",
+  "semente": 20338380,
+  "estilo": "misto",
+  "nivel": "dificil"
+ },
+ "78": {
+  "arquivo": "078-aventura-na-serra.json",
+  "tema": "trilhas",
+  "titulo": "Aventura na serra",
+  "semente": 20339023,
+  "estilo": "ordem",
+  "nivel": "medio"
+ },
+ "79": {
+  "arquivo": "079-clique-premiado.json",
+  "tema": "fotografia",
+  "titulo": "Clique premiado",
+  "semente": 20340043,
+  "estilo": "associacao",
+  "nivel": "dificil"
+ },
+ "80": {
+  "arquivo": "080-festival-de-cinema.json",
+  "tema": "cinema",
+  "titulo": "Festival de cinema",
+  "semente": 20341022,
+  "estilo": "calculo",
+  "nivel": "medio"
+ },
+ "81": {
+  "arquivo": "081-maratona-literaria.json",
+  "tema": "livros",
+  "titulo": "Maratona literária",
+  "semente": 20342022,
+  "estilo": "misto",
+  "nivel": "dificil"
+ },
+ "82": {
+  "arquivo": "082-cuidadores-de-bichos.json",
+  "tema": "zoologico",
+  "titulo": "Cuidadores de bichos",
+  "semente": 20343025,
+  "estilo": "ordem",
+  "nivel": "medio"
+ },
+ "83": {
+  "arquivo": "083-gincana-beneficente.json",
+  "tema": "gincana",
+  "titulo": "Gincana beneficente",
+  "semente": 20344074,
+  "estilo": "associacao",
+  "nivel": "dificil"
+ },
+ "84": {
+  "arquivo": "084-conservatorio.json",
+  "tema": "musica",
+  "titulo": "Conservatório",
+  "semente": 20345039,
+  "estilo": "calculo",
+  "nivel": "dificil"
+ },
+ "85": {
+  "arquivo": "085-paixao-por-colecoes.json",
+  "tema": "colecoes",
+  "titulo": "Paixão por coleções",
+  "semente": 20346024,
+  "estilo": "misto",
+  "nivel": "medio"
+ },
+ "86": {
+  "arquivo": "086-palco-aberto.json",
+  "tema": "talentos",
+  "titulo": "Palco aberto",
+  "semente": 20347126,
+  "estilo": "ordem",
+  "nivel": "dificil"
+ },
+ "87": {
+  "arquivo": "087-corrida-beneficente.json",
+  "tema": "corrida",
+  "titulo": "Corrida beneficente",
+  "semente": 20348023,
+  "estilo": "associacao",
+  "nivel": "medio"
+ },
+ "88": {
+  "arquivo": "088-check-in.json",
+  "tema": "hotel",
+  "titulo": "Check-in",
+  "semente": 20349021,
+  "estilo": "calculo",
+  "nivel": "dificil"
+ },
+ "89": {
+  "arquivo": "089-hora-da-xepa.json",
+  "tema": "feira-livre",
+  "titulo": "Hora da xepa",
+  "semente": 20350027,
+  "estilo": "misto",
+  "nivel": "medio"
+ },
+ "90": {
+  "arquivo": "090-vida-saudavel.json",
+  "tema": "academia",
+  "titulo": "Vida saudável",
+  "semente": 20351024,
+  "estilo": "ordem",
+  "nivel": "dificil"
+ },
+ "91": {
+  "arquivo": "091-parabens-pra-voce.json",
+  "tema": "aniversarios",
+  "titulo": "Parabéns pra você",
+  "semente": 20352028,
+  "estilo": "associacao",
+  "nivel": "medio"
+ },
+ "92": {
+  "arquivo": "092-rodada-final.json",
+  "tema": "xadrez",
+  "titulo": "Rodada final",
+  "semente": 20353073,
+  "estilo": "calculo",
+  "nivel": "dificil"
+ },
+ "93": {
+  "arquivo": "093-corredores-do-hospital.json",
+  "tema": "plantao",
+  "titulo": "Corredores do hospital",
+  "semente": 20354023,
+  "estilo": "misto",
+  "nivel": "medio"
+ },
+ "94": {
+  "arquivo": "094-exposicao-coletiva.json",
+  "tema": "fotografia",
+  "titulo": "Exposição coletiva",
+  "semente": 20355026,
+  "estilo": "ordem",
+  "nivel": "dificil"
+ },
+ "95": {
+  "arquivo": "095-arraia-do-bairro.json",
+  "tema": "festa-junina",
+  "titulo": "Arraiá do bairro",
+  "semente": 20356028,
+  "estilo": "calculo",
+  "nivel": "medio"
+ },
+ "96": {
+  "arquivo": "096-recepcao-do-hotel.json",
+  "tema": "hotel",
+  "titulo": "Recepção do hotel",
+  "semente": 20357106,
+  "estilo": "misto",
+  "nivel": "dificil"
+ },
+ "97": {
+  "arquivo": "097-rumo-ao-cume.json",
+  "tema": "trilhas",
+  "titulo": "Rumo ao cume",
+  "semente": 20358023,
+  "estilo": "ordem",
+  "nivel": "medio"
+ },
+ "98": {
+  "arquivo": "098-aulas-de-musica.json",
+  "tema": "musica",
+  "titulo": "Aulas de música",
+  "semente": 20359039,
+  "estilo": "calculo",
+  "nivel": "dificil"
+ },
+ "99": {
+  "arquivo": "099-sarau-da-escola.json",
+  "tema": "talentos",
+  "titulo": "Sarau da escola",
+  "semente": 20360024,
+  "estilo": "misto",
+  "nivel": "medio"
+ },
+ "100": {
+  "arquivo": "100-de-mudanca.json",
+  "tema": "mudanca",
+  "titulo": "De mudança",
+  "semente": 20361057,
+  "estilo": "ordem",
+  "nivel": "dificil"
+ }
+}
