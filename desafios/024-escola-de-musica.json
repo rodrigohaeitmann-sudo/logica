@@ -1,0 +1,31 @@
+{
+  "id": "escola-de-musica",
+  "versao": 1,
+  "titulo": "Escola de música",
+  "nivel": "dificil",
+  "tipo": "calculo",
+  "introducao": "No conservatório da cidade, quatro alunos foram escolhidos para o concerto de primavera. Cada um vai tocar a peça de um compositor diferente, tem aulas com um professor diferente, nasceu em uma cidade diferente e tem uma idade diferente. A partir das dicas, descubra, para cada um, o compositor da peça, quem é o professor, a cidade natal e a idade.",
+  "categorias": [
+    { "id": "musico", "nome": "Aluno(a)", "itens": ["Aline", "Irene", "Lívia", "Vicente"] },
+    { "id": "compositor", "nome": "Compositor(a)", "itens": ["Bach", "Mozart", "Villa-Lobos", "Vivaldi"] },
+    { "id": "professor", "nome": "Professor(a)", "itens": ["Helena", "Nicolas", "Otávio", "Silvio"] },
+    { "id": "cidade", "nome": "Cidade", "itens": ["Ilhéus", "Itajaí", "Juiz de Fora", "Sobral"] },
+    { "id": "idade", "nome": "Idade", "itens": ["15 anos", "16 anos", "17 anos", "18 anos"], "valores": [15, 16, 17, 18], "relacao": {"menor":"mais novo(a) que","maior":"mais velho(a) que","menorK":"{k} mais novo(a) que","maiorK":"{k} mais velho(a) que","unidade":["ano","anos"],"menorCurto":"mais novo(a)","maiorCurto":"mais velho(a)"} }
+  ],
+  "dicas": [
+    { "texto": "Lívia é mais velha que Aline, mas mais nova que quem nasceu em Juiz de Fora.", "regras": [[">", "idade", "Lívia", "Aline"], [">", "idade", "Juiz de Fora", "Lívia"]] },
+    { "texto": "Vicente e quem tem aulas com Otávio têm dois anos de diferença de idade.", "regras": [["dist", "idade", "Vicente", "Otávio", 2]] },
+    { "texto": "Quem nasceu em Sobral é dois anos mais novo que quem vai tocar uma peça de Vivaldi.", "regras": [["dif", "idade", "Vivaldi", "Sobral", 2]] },
+    { "texto": "Quem vai tocar uma peça de Villa-Lobos é um ano mais velho que quem tem aulas com Otávio.", "regras": [["dif", "idade", "Villa-Lobos", "Otávio", 1]] },
+    { "texto": "Quem tem aulas com Nicolas nasceu em Sobral ou tem 18 anos, mas não as duas coisas.", "regras": [["ou", "Nicolas", "Sobral", "18 anos"]] },
+    { "texto": "Quem vai tocar uma peça de Mozart é três anos mais novo que quem nasceu em Itajaí.", "regras": [["dif", "idade", "Itajaí", "Mozart", 3]] },
+    { "texto": "Quem vai tocar uma peça de Villa-Lobos é mais novo que quem tem aulas com Silvio.", "regras": [[">", "idade", "Silvio", "Villa-Lobos"]] },
+    { "texto": "Quem nasceu em Sobral é dois anos mais novo que quem tem aulas com Helena.", "regras": [["dif", "idade", "Helena", "Sobral", 2]] }
+  ],
+  "solucao": [
+    ["Aline", "Mozart", "Otávio", "Ilhéus", "15 anos"],
+    ["Irene", "Vivaldi", "Helena", "Itajaí", "18 anos"],
+    ["Lívia", "Villa-Lobos", "Nicolas", "Sobral", "16 anos"],
+    ["Vicente", "Bach", "Silvio", "Juiz de Fora", "17 anos"]
+  ]
+}

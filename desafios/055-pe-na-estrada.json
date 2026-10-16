@@ -1,0 +1,34 @@
+{
+  "id": "pe-na-estrada",
+  "versao": 1,
+  "titulo": "Pé na estrada",
+  "nivel": "medio",
+  "tipo": "associacao",
+  "introducao": "Quatro colegas de trabalho voltaram das férias cheios de histórias para contar. Cada um ficou em um tipo de hospedagem diferente, viajou com uma companhia diferente, viajou para um destino diferente e usou um meio de transporte diferente. A partir das dicas, descubra, para cada um, a hospedagem, a companhia, o destino e o meio de transporte.",
+  "categorias": [
+    { "id": "viajante", "nome": "Viajante", "itens": ["Flávia", "Gustavo", "Irene", "Nicolas"] },
+    { "id": "hospedagem", "nome": "Hospedagem", "itens": ["Camping", "Casa alugada", "Casa de amigos", "Hostel"] },
+    { "id": "companhia", "nome": "Companhia", "itens": ["Avó", "Cachorro", "Pais", "Sobrinhos"] },
+    { "id": "destino", "nome": "Destino", "itens": ["Gramado", "Ilhabela", "Jericoacoara", "Ouro Preto"] },
+    { "id": "transporte", "nome": "Transporte", "itens": ["Carro", "Ônibus", "Trem", "Van"] }
+  ],
+  "dicas": [
+    { "texto": "Flávia não ficou num camping.", "regras": [["!=", "Flávia", "Camping"]] },
+    { "texto": "Quem foi de ônibus ficou num hostel.", "regras": [["=", "Ônibus", "Hostel"]] },
+    { "texto": "Quem levou a avó foi de van.", "regras": [["=", "Avó", "Van"]] },
+    { "texto": "Quem levou os pais ficou num hostel ou num camping.", "regras": [["ou", "Pais", "Camping", "Hostel"]] },
+    { "texto": "Quem foi de ônibus não viajou para Jericoacoara.", "regras": [["!=", "Ônibus", "Jericoacoara"]] },
+    { "texto": "Irene ficou na casa de amigos.", "regras": [["=", "Casa de amigos", "Irene"]] },
+    { "texto": "Entre Nicolas e quem levou o cachorro, um viajou para Ilhabela e o outro, para Ouro Preto.", "regras": [["par", ["Nicolas", "Cachorro"], ["Ilhabela", "Ouro Preto"]]] },
+    { "texto": "Quem ficou numa casa alugada viajou para Ouro Preto.", "regras": [["=", "Casa alugada", "Ouro Preto"]] },
+    { "texto": "Quem viajou para Ouro Preto ficou numa casa alugada ou era Flávia, mas não as duas coisas.", "regras": [["ou", "Ouro Preto", "Casa alugada", "Flávia"]] },
+    { "texto": "Gustavo foi de trem ou de van.", "regras": [["ou", "Gustavo", "Trem", "Van"]] },
+    { "texto": "Quem levou a avó viajou para Gramado.", "regras": [["=", "Gramado", "Avó"]] }
+  ],
+  "solucao": [
+    ["Flávia", "Hostel", "Cachorro", "Ilhabela", "Ônibus"],
+    ["Gustavo", "Camping", "Pais", "Jericoacoara", "Trem"],
+    ["Irene", "Casa de amigos", "Avó", "Gramado", "Van"],
+    ["Nicolas", "Casa alugada", "Sobrinhos", "Ouro Preto", "Carro"]
+  ]
+}

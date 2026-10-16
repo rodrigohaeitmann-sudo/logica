@@ -1,0 +1,33 @@
+{
+  "id": "almoco-de-domingo",
+  "versao": 1,
+  "titulo": "Almoço de domingo",
+  "nivel": "medio",
+  "tipo": "misto",
+  "introducao": "Quatro amigos se encontraram para um almoço num restaurante do centro, e cada um fez um pedido diferente. Cada um pagou de um jeito diferente, pediu um prato diferente, gastou um valor diferente e chegou em um horário diferente. A partir das dicas, descubra, para cada um, a forma de pagamento, o prato, quanto gastou e o horário de chegada.",
+  "categorias": [
+    { "id": "cliente", "nome": "Cliente", "itens": ["Estela", "Olívia", "Samuel", "Vicente"] },
+    { "id": "pagamento", "nome": "Pagamento", "itens": ["Débito", "Dinheiro", "Pix", "Vale-refeição"] },
+    { "id": "prato", "nome": "Prato", "itens": ["Feijoada", "Moqueca", "Picanha", "Risoto"] },
+    { "id": "conta", "nome": "Conta", "itens": ["R$ 45", "R$ 53", "R$ 61", "R$ 69"], "valores": [45, 53, 61, 69], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":[],"menorCurto":"menos","maiorCurto":"mais","prefixo":"R$ "} },
+    { "id": "chegada", "nome": "Chegada", "itens": ["12h", "12h15", "12h30", "12h45"], "valores": [720, 735, 750, 765], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["minuto","minutos"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "As contas de quem pagou com Pix e de quem chegou por último tiveram R$ 16 de diferença.", "regras": [["dist", "conta", "Pix", "12h45", 16]] },
+    { "texto": "Quem gastou R$ 61 chegou às 12h15.", "regras": [["=", "12h15", "R$ 61"]] },
+    { "texto": "Quem pagou em dinheiro gastou R$ 8 a mais que quem pagou com Pix.", "regras": [["dif", "conta", "Dinheiro", "Pix", 8]] },
+    { "texto": "Vicente, que pediu risoto, não foi quem gastou mais nem quem gastou menos.", "regras": [["=", "Risoto", "Vicente"], ["meio", "conta", "Vicente"]] },
+    { "texto": "Quem gastou R$ 53 chegou às 12h30.", "regras": [["=", "R$ 53", "12h30"]] },
+    { "texto": "Quem pediu moqueca gastou mais que quem chegou por último.", "regras": [[">", "conta", "Moqueca", "12h45"]] },
+    { "texto": "Olívia e quem pediu risoto chegaram com 15 minutos de diferença.", "regras": [["dist", "chegada", "Risoto", "Olívia", 15]] },
+    { "texto": "Quem gastou R$ 53 chegou 15 minutos antes de Samuel.", "regras": [["dif", "chegada", "Samuel", "R$ 53", 15]] },
+    { "texto": "Quem pediu feijoada gastou R$ 61.", "regras": [["=", "R$ 61", "Feijoada"]] },
+    { "texto": "Quem gastou R$ 53 pagou com vale-refeição ou com Pix.", "regras": [["ou", "R$ 53", "Vale-refeição", "Pix"]] }
+  ],
+  "solucao": [
+    ["Estela", "Dinheiro", "Moqueca", "R$ 69", "12h"],
+    ["Olívia", "Pix", "Feijoada", "R$ 61", "12h15"],
+    ["Samuel", "Débito", "Picanha", "R$ 45", "12h45"],
+    ["Vicente", "Vale-refeição", "Risoto", "R$ 53", "12h30"]
+  ]
+}

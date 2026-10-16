@@ -3,12 +3,13 @@
   "versao": 1,
   "titulo": "Feira de adoção",
   "nivel": "medio",
+  "tipo": "misto",
   "introducao": "No último sábado, a ONG Patas Unidas montou uma feira de adoção na praça do bairro. Quatro famílias saíram de lá com um novo companheiro: cada uma adotou um animal de espécie diferente, e nenhum deles tinha a mesma idade. A partir das dicas, descubra o nome do animal adotado por cada família, a espécie e a idade dele.",
   "categorias": [
     { "id": "familia", "nome": "Família", "itens": ["Almeida", "Barros", "Campos", "Duarte"] },
     { "id": "animal", "nome": "Animal", "itens": ["Bolota", "Faísca", "Pipoca", "Thor"] },
     { "id": "especie", "nome": "Espécie", "itens": ["Cachorro", "Calopsita", "Coelho", "Gato"] },
-    { "id": "idade", "nome": "Idade", "itens": ["1 ano", "2 anos", "3 anos", "4 anos"], "valores": [1, 2, 3, 4] }
+    { "id": "idade", "nome": "Idade", "itens": ["1 ano", "2 anos", "3 anos", "4 anos"], "valores": [1, 2, 3, 4], "relacao": {"menor":"mais novo(a) que","maior":"mais velho(a) que","menorK":"{k} mais novo(a) que","maiorK":"{k} mais velho(a) que","unidade":["ano","anos"],"menorCurto":"mais novo(a)","maiorCurto":"mais velho(a)"} }
   ],
   "dicas": [
     { "texto": "A família Campos adotou o animal mais novo.", "regras": [["=", "Campos", "1 ano"]] },

@@ -1,0 +1,28 @@
+{
+  "id": "fim-de-bimestre",
+  "versao": 1,
+  "titulo": "Fim de bimestre",
+  "nivel": "medio",
+  "tipo": "ordem",
+  "introducao": "Caio passou a semana inteira estudando: teve uma prova diferente a cada dia, de segunda a quinta. Cada prova foi aplicada por um professor diferente e começou em um horário diferente. A partir das dicas, descubra, para cada dia, a disciplina, quem aplicou a prova e o horário.",
+  "categorias": [
+    { "id": "dia", "nome": "Dia", "itens": ["Segunda", "Terça", "Quarta", "Quinta"], "valores": [1, 2, 3, 4], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["dia","dias"],"menorCurto":"antes","maiorCurto":"depois"} },
+    { "id": "disciplina", "nome": "Disciplina", "itens": ["Biologia", "Geografia", "Matemática", "Português"] },
+    { "id": "professor", "nome": "Professor(a)", "itens": ["Débora", "Eduarda", "Henrique", "Vicente"] },
+    { "id": "horario", "nome": "Horário", "itens": ["8h", "9h", "10h", "11h"], "valores": [8, 9, 10, 11], "relacao": {"menor":"mais cedo que","maior":"mais tarde que","menorK":"{k} mais cedo que","maiorK":"{k} mais tarde que","unidade":["hora","horas"],"menorCurto":"mais cedo","maiorCurto":"mais tarde"} }
+  ],
+  "dicas": [
+    { "texto": "A prova de segunda-feira foi a de geografia.", "regras": [["=", "Geografia", "Segunda"]] },
+    { "texto": "A prova de quarta-feira, que não foi a de português, começou três horas mais tarde que a prova de terça-feira.", "regras": [["!=", "Quarta", "Português"], ["dif", "horario", "Quarta", "Terça", 3]] },
+    { "texto": "A prova da professora Eduarda começou duas horas mais tarde que a prova do professor Vicente.", "regras": [["dif", "horario", "Eduarda", "Vicente", 2]] },
+    { "texto": "A prova de quinta-feira foi a de matemática ou a de geografia.", "regras": [["ou", "Quinta", "Matemática", "Geografia"]] },
+    { "texto": "A prova do professor Henrique foi a primeira ou a última prova da semana.", "regras": [["extremo", "dia", "Henrique"]] },
+    { "texto": "A prova do professor Henrique começou mais cedo que a prova de quinta-feira.", "regras": [[">", "horario", "Quinta", "Henrique"]] }
+  ],
+  "solucao": [
+    ["Segunda", "Geografia", "Henrique", "9h"],
+    ["Terça", "Português", "Vicente", "8h"],
+    ["Quarta", "Biologia", "Débora", "11h"],
+    ["Quinta", "Matemática", "Eduarda", "10h"]
+  ]
+}

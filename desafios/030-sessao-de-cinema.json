@@ -1,0 +1,32 @@
+{
+  "id": "sessao-de-cinema",
+  "versao": 1,
+  "titulo": "Sessão de cinema",
+  "nivel": "medio",
+  "tipo": "ordem",
+  "introducao": "Quatro amigos combinaram de ir ao cinema no sábado, mas cada um acabou escolhendo um filme diferente. Cada um comprou um lanche diferente, viu um filme de gênero diferente e foi a uma sessão diferente. A partir das dicas, descubra, para cada um, o lanche, o gênero do filme e o horário da sessão.",
+  "categorias": [
+    { "id": "espectador", "nome": "Espectador(a)", "itens": ["Daniel", "Joana", "Leonardo", "Nelson"] },
+    { "id": "lanche", "nome": "Lanche", "itens": ["Balas", "Cachorro-quente", "Nachos", "Pipoca doce"] },
+    { "id": "filme", "nome": "Gênero", "itens": ["Comédia", "Musical", "Romance", "Terror"] },
+    { "id": "sessao", "nome": "Sessão", "itens": ["14h", "16h", "18h", "20h"], "valores": [14, 16, 18, 20], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["hora","horas"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Daniel e quem comprou balas foram a sessões seguidas.", "regras": [["dist", "sessao", "Daniel", "Balas", 2]] },
+    { "texto": "Entre quem comprou nachos e quem foi à sessão das 14h, um viu o musical e o outro, o filme de terror.", "regras": [["par", ["14h", "Nachos"], ["Musical", "Terror"]]] },
+    { "texto": "Leonardo foi à primeira ou à última sessão.", "regras": [["extremo", "sessao", "Leonardo"]] },
+    { "texto": "Joana foi à primeira ou à última sessão.", "regras": [["extremo", "sessao", "Joana"]] },
+    { "texto": "Quem comprou balas viu o filme de terror.", "regras": [["=", "Balas", "Terror"]] },
+    { "texto": "Leonardo foi a uma sessão mais cedo que quem comprou pipoca doce.", "regras": [[">", "sessao", "Pipoca doce", "Leonardo"]] },
+    { "texto": "Daniel não viu a comédia.", "regras": [["!=", "Comédia", "Daniel"]] },
+    { "texto": "Quem comprou nachos e quem viu o romance foram a sessões seguidas.", "regras": [["dist", "sessao", "Romance", "Nachos", 2]] },
+    { "texto": "Quem viu o romance não foi à sessão das 16h.", "regras": [["!=", "Romance", "16h"]] },
+    { "texto": "Quem comprou pipoca doce foi à primeira ou à última sessão.", "regras": [["extremo", "sessao", "Pipoca doce"]] }
+  ],
+  "solucao": [
+    ["Daniel", "Nachos", "Musical", "16h"],
+    ["Joana", "Pipoca doce", "Comédia", "20h"],
+    ["Leonardo", "Balas", "Terror", "14h"],
+    ["Nelson", "Cachorro-quente", "Romance", "18h"]
+  ]
+}

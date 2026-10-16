@@ -1,0 +1,35 @@
+{
+  "id": "maratona-literaria",
+  "versao": 1,
+  "titulo": "Maratona literária",
+  "nivel": "dificil",
+  "tipo": "misto",
+  "introducao": "No clube de leitura do bairro, cada participante escolhe a leitura de um mês. Este ano, cinco participantes fizeram suas indicações. Cada um leu uma edição de tipo diferente, indicou um livro de gênero diferente, costuma ler em um lugar diferente e indicou um livro com um número diferente de páginas. A partir das dicas, descubra, para cada um, o tipo de edição, o gênero do livro, onde costuma ler e o número de páginas do livro.",
+  "categorias": [
+    { "id": "leitor", "nome": "Leitor(a)", "itens": ["Carolina", "Eduarda", "Fernando", "Giovana", "Ursula"] },
+    { "id": "edicao", "nome": "Edição", "itens": ["Capa dura", "De bolso", "Digital", "Ilustrada", "Usada"] },
+    { "id": "genero", "nome": "Gênero", "itens": ["Crônicas", "Fantasia", "Ficção científica", "Romance", "Suspense"] },
+    { "id": "lugar", "nome": "Onde lê", "itens": ["Biblioteca", "Café", "Ônibus", "Parque", "Rede"] },
+    { "id": "paginas", "nome": "Páginas", "itens": ["120", "160", "200", "240", "280"], "valores": [120, 160, 200, 240, 280], "formato": "{} páginas", "relacao": {"menor":"menos páginas que","maior":"mais páginas que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["página","páginas"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "Quem leu uma edição de bolso indicou um livro mais curto que o de quem costuma ler na rede.", "regras": [[">", "paginas", "Rede", "De bolso"]] },
+    { "texto": "Os livros de quem leu uma edição de bolso e de quem indicou o suspense têm 120 páginas de diferença.", "regras": [["dist", "paginas", "Suspense", "De bolso", 120]] },
+    { "texto": "Quem leu uma edição de capa dura indicou um livro com 120 páginas a menos que o de quem leu uma edição digital.", "regras": [["dif", "paginas", "Digital", "Capa dura", 120]] },
+    { "texto": "Fernando, quem costuma ler no parque, quem leu uma edição de bolso e quem indicou o livro de 200 páginas são quatro pessoas diferentes.", "regras": [["distintos", "Fernando", "200", "Parque", "De bolso"]] },
+    { "texto": "Ursula indicou um livro mais longo que o de quem indicou a ficção científica.", "regras": [[">", "paginas", "Ursula", "Ficção científica"]] },
+    { "texto": "Entre quem costuma ler na rede e quem indicou o livro de 280 páginas, um é Ursula e o outro, Carolina.", "regras": [["par", ["Rede", "280"], ["Ursula", "Carolina"]]] },
+    { "texto": "Quem costuma ler no ônibus indicou um livro com 80 páginas a mais que o de quem leu uma edição de bolso.", "regras": [["dif", "paginas", "Ônibus", "De bolso", 80]] },
+    { "texto": "Quem indicou o livro de fantasia leu uma edição usada ou indicou um livro de 120 páginas, mas não as duas coisas.", "regras": [["ou", "Fantasia", "Usada", "120"]] },
+    { "texto": "Entre Fernando e Eduarda, um leu uma edição de capa dura e o outro, usada.", "regras": [["par", ["Fernando", "Eduarda"], ["Capa dura", "Usada"]]] },
+    { "texto": "Entre quem indicou o romance e quem indicou o suspense, um era Ursula e o outro, Giovana.", "regras": [["par", ["Romance", "Suspense"], ["Ursula", "Giovana"]]] },
+    { "texto": "Quem costuma ler no café não indicou nem o livro mais longo nem o mais curto.", "regras": [["meio", "paginas", "Café"]] }
+  ],
+  "solucao": [
+    ["Carolina", "Digital", "Crônicas", "Parque", "280"],
+    ["Eduarda", "Usada", "Fantasia", "Ônibus", "200"],
+    ["Fernando", "Capa dura", "Ficção científica", "Café", "160"],
+    ["Giovana", "De bolso", "Romance", "Biblioteca", "120"],
+    ["Ursula", "Ilustrada", "Suspense", "Rede", "240"]
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "olimpiada-da-primavera",
+  "versao": 1,
+  "titulo": "Olimpíada da primavera",
+  "nivel": "dificil",
+  "tipo": "calculo",
+  "introducao": "A gincana anual do colégio reuniu quatro equipes, cada uma batizada com o nome de um animal brasileiro. Cada equipe venceu uma prova diferente, teve um líder diferente, usou camisetas de uma cor diferente e somou uma pontuação diferente. A partir das dicas, descubra, para cada equipe, a prova que venceu, quem liderou a equipe, a cor das camisetas e a pontuação final.",
+  "categorias": [
+    { "id": "equipe", "nome": "Equipe", "itens": ["Arara", "Boto", "Capivara", "Tatu"] },
+    { "id": "prova", "nome": "Prova vencida", "itens": ["Arrecadação", "Caça ao tesouro", "Corrida de saco", "Paródia"] },
+    { "id": "lider", "nome": "Líder", "itens": ["Estela", "João", "Mônica", "Simone"] },
+    { "id": "cor", "nome": "Camiseta", "itens": ["Amarela", "Azul", "Verde", "Vermelha"] },
+    { "id": "pontos", "nome": "Pontos", "itens": ["80 pts", "95 pts", "110 pts", "125 pts"], "valores": [80, 95, 110, 125], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["ponto","pontos"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "A equipe de Estela somou 15 pontos a menos que a equipe que venceu a corrida de saco.", "regras": [["dif", "pontos", "Corrida de saco", "Estela", 15]] },
+    { "texto": "A diferença entre a equipe que venceu a corrida de saco e a equipe que venceu a arrecadação de alimentos foi de 30 pontos.", "regras": [["dist", "pontos", "Corrida de saco", "Arrecadação", 30]] },
+    { "texto": "Entre a equipe de Estela e a equipe de João, uma somou 95 pontos e a outra, 110 pontos.", "regras": [["par", ["Estela", "João"], ["95 pts", "110 pts"]]] },
+    { "texto": "A equipe de Estela somou 15 pontos a menos que a equipe que usou camisetas vermelhas.", "regras": [["dif", "pontos", "Vermelha", "Estela", 15]] },
+    { "texto": "A equipe Capivara somou 15 pontos a mais que a equipe que venceu a prova de paródia.", "regras": [["dif", "pontos", "Capivara", "Paródia", 15]] },
+    { "texto": "A equipe que usou camisetas verdes somou 45 pontos a menos que a equipe Boto.", "regras": [["dif", "pontos", "Boto", "Verde", 45]] },
+    { "texto": "A equipe Arara somou 30 pontos a menos que a equipe que usou camisetas vermelhas.", "regras": [["dif", "pontos", "Vermelha", "Arara", 30]] },
+    { "texto": "A equipe de Mônica somou mais pontos que a equipe que usou camisetas azuis.", "regras": [[">", "pontos", "Mônica", "Azul"]] }
+  ],
+  "solucao": [
+    ["Arara", "Arrecadação", "Simone", "Verde", "80 pts"],
+    ["Boto", "Caça ao tesouro", "Mônica", "Amarela", "125 pts"],
+    ["Capivara", "Corrida de saco", "João", "Vermelha", "110 pts"],
+    ["Tatu", "Paródia", "Estela", "Azul", "95 pts"]
+  ]
+}

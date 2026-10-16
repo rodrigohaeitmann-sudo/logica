@@ -1,0 +1,33 @@
+{
+  "id": "vida-saudavel",
+  "versao": 1,
+  "titulo": "Vida saudável",
+  "nivel": "dificil",
+  "tipo": "ordem",
+  "introducao": "Na academia do bairro, quatro alunos se conheceram durante a semana de aulas experimentais. Cada um faz uma modalidade diferente, tem um objetivo diferente, tem um professor diferente e treina em um horário diferente. A partir das dicas, descubra, para cada um, a modalidade, o objetivo, quem é o professor e o horário do treino.",
+  "categorias": [
+    { "id": "aluno", "nome": "Aluno(a)", "itens": ["Beatriz", "Laura", "Raquel", "Valter"] },
+    { "id": "modalidade", "nome": "Modalidade", "itens": ["Hidroginástica", "Musculação", "Spinning", "Zumba"] },
+    { "id": "objetivo", "nome": "Objetivo", "itens": ["Estresse", "Fôlego", "Peso", "Postura"] },
+    { "id": "professor", "nome": "Professor(a)", "itens": ["Carolina", "Eduardo", "Miguel", "Paulo"] },
+    { "id": "horario", "nome": "Horário", "itens": ["18h", "19h", "20h", "21h"], "valores": [18, 19, 20, 21], "relacao": {"menor":"mais cedo que","maior":"mais tarde que","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["hora","horas"],"menorCurto":"mais cedo","maiorCurto":"mais tarde"} }
+  ],
+  "dicas": [
+    { "texto": "Valter e quem faz spinning treinam com uma hora de diferença.", "regras": [["dist", "horario", "Valter", "Spinning", 1]] },
+    { "texto": "Laura e quem treina com Eduardo treinam com uma hora de diferença.", "regras": [["dist", "horario", "Eduardo", "Laura", 1]] },
+    { "texto": "Raquel e quem faz musculação treinam com duas horas de diferença.", "regras": [["dist", "horario", "Raquel", "Musculação", 2]] },
+    { "texto": "Laura e quem treina com Carolina treinam com uma hora de diferença.", "regras": [["dist", "horario", "Laura", "Carolina", 1]] },
+    { "texto": "Quem faz spinning treina mais tarde que quem treina com Paulo.", "regras": [[">", "horario", "Spinning", "Paulo"]] },
+    { "texto": "Quem treina para ganhar fôlego não é quem treina mais cedo nem quem treina mais tarde.", "regras": [["meio", "horario", "Fôlego"]] },
+    { "texto": "Quem treina com Eduardo não faz musculação.", "regras": [["!=", "Musculação", "Eduardo"]] },
+    { "texto": "Quem treina para ganhar fôlego e quem treina com Miguel treinam com duas horas de diferença.", "regras": [["dist", "horario", "Miguel", "Fôlego", 2]] },
+    { "texto": "Laura treina mais tarde que quem treina para aliviar o estresse.", "regras": [[">", "horario", "Laura", "Estresse"]] },
+    { "texto": "Quem treina para perder peso treina mais cedo que quem faz hidroginástica.", "regras": [[">", "horario", "Hidroginástica", "Peso"]] }
+  ],
+  "solucao": [
+    ["Beatriz", "Musculação", "Estresse", "Carolina", "18h"],
+    ["Laura", "Zumba", "Fôlego", "Paulo", "19h"],
+    ["Raquel", "Spinning", "Peso", "Eduardo", "20h"],
+    ["Valter", "Hidroginástica", "Postura", "Miguel", "21h"]
+  ]
+}

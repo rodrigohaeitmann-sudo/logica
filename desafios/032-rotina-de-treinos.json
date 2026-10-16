@@ -1,0 +1,38 @@
+{
+  "id": "rotina-de-treinos",
+  "versao": 1,
+  "titulo": "Rotina de treinos",
+  "nivel": "medio",
+  "tipo": "calculo",
+  "introducao": "Na academia do bairro, cinco alunos se conheceram durante a semana de aulas experimentais. Cada um tem um objetivo diferente, tem um professor diferente, vai à academia um número diferente de vezes por semana e treina em um horário diferente. A partir das dicas, descubra, para cada um, o objetivo, quem é o professor, quantas vezes por semana vai à academia e o horário do treino.",
+  "categorias": [
+    { "id": "aluno", "nome": "Aluno(a)", "itens": ["Ana", "Enzo", "Jorge", "Natália", "Paulo"] },
+    { "id": "objetivo", "nome": "Objetivo", "itens": ["Estresse", "Flexibilidade", "Lesão", "Peso", "Postura"] },
+    { "id": "professor", "nome": "Professor(a)", "itens": ["Carolina", "Helena", "Ivan", "Marcelo", "Valéria"] },
+    { "id": "frequencia", "nome": "Frequência", "itens": ["1 vez", "2 vezes", "3 vezes", "4 vezes", "5 vezes"], "valores": [1, 2, 3, 4, 5], "formato": "{} por semana", "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["vez","vezes"],"menorCurto":"menos","maiorCurto":"mais"} },
+    { "id": "horario", "nome": "Horário", "itens": ["7h", "8h", "9h", "10h", "11h"], "valores": [7, 8, 9, 10, 11], "relacao": {"menor":"mais cedo que","maior":"mais tarde que","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["hora","horas"],"menorCurto":"mais cedo","maiorCurto":"mais tarde"} }
+  ],
+  "dicas": [
+    { "texto": "Quem treina para aliviar o estresse treina duas horas depois de quem treina com Carolina.", "regras": [["dif", "horario", "Estresse", "Carolina", 2]] },
+    { "texto": "Entre Ana e Enzo, um treina às 10h e o outro, às 11h.", "regras": [["par", ["Ana", "Enzo"], ["10h", "11h"]]] },
+    { "texto": "Quem treina para perder peso vai à academia uma vez a mais por semana que quem treina com Ivan.", "regras": [["dif", "frequencia", "Peso", "Ivan", 1]] },
+    { "texto": "Quem treina às 8h não é quem vai mais vezes nem quem vai menos vezes à academia.", "regras": [["meio", "frequencia", "8h"]] },
+    { "texto": "Quem treina às 9h vai à academia uma vez a menos por semana que quem treina às 8h.", "regras": [["dif", "frequencia", "8h", "9h", 1]] },
+    { "texto": "Natália não treina com Ivan.", "regras": [["!=", "Ivan", "Natália"]] },
+    { "texto": "Quem treina para se recuperar de uma lesão treina mais tarde que quem vai mais vezes à academia.", "regras": [[">", "horario", "Lesão", "5 vezes"]] },
+    { "texto": "Jorge não vai à academia três vezes por semana.", "regras": [["!=", "Jorge", "3 vezes"]] },
+    { "texto": "Quem vai à academia duas vezes por semana é quem treina mais cedo ou quem treina mais tarde.", "regras": [["extremo", "horario", "2 vezes"]] },
+    { "texto": "Paulo vai à academia duas vezes a menos por semana que quem treina com Carolina.", "regras": [["dif", "frequencia", "Carolina", "Paulo", 2]] },
+    { "texto": "Enzo vai à academia mais vezes por semana que quem treina com Helena.", "regras": [[">", "frequencia", "Enzo", "Helena"]] },
+    { "texto": "Ana não treina às 10h.", "regras": [["!=", "10h", "Ana"]] },
+    { "texto": "Quem treina para ganhar flexibilidade não treina com Carolina.", "regras": [["!=", "Carolina", "Flexibilidade"]] },
+    { "texto": "Entre Paulo e Enzo, um treina com Helena e o outro, com Valéria.", "regras": [["par", ["Paulo", "Enzo"], ["Helena", "Valéria"]]] }
+  ],
+  "solucao": [
+    ["Ana", "Lesão", "Ivan", "1 vez", "11h"],
+    ["Enzo", "Estresse", "Valéria", "5 vezes", "10h"],
+    ["Jorge", "Postura", "Carolina", "4 vezes", "8h"],
+    ["Natália", "Flexibilidade", "Marcelo", "3 vezes", "9h"],
+    ["Paulo", "Peso", "Helena", "2 vezes", "7h"]
+  ]
+}

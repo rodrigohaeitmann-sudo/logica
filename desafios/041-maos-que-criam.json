@@ -1,0 +1,35 @@
+{
+  "id": "maos-que-criam",
+  "versao": 1,
+  "titulo": "Mãos que criam",
+  "nivel": "dificil",
+  "tipo": "misto",
+  "introducao": "Cinco artesãos de cidades diferentes foram convidados para a feira de inverno do centro cultural. Cada um veio de uma cidade diferente, trabalha com um material diferente, cobra um preço diferente por peça e ficou em uma banca diferente. A partir das dicas, descubra, para cada um, a cidade de origem, o material, o preço por peça e a banca.",
+  "categorias": [
+    { "id": "artesao", "nome": "Artesão(ã)", "itens": ["Daniela", "Eduardo", "Marina", "Nicolas", "Yasmin"] },
+    { "id": "cidade", "nome": "Cidade", "itens": ["Bichinho", "Caruaru", "Cunha", "Olinda", "Tiradentes"] },
+    { "id": "material", "nome": "Material", "itens": ["Cerâmica", "Couro", "Metal", "Papel", "Vidro"] },
+    { "id": "preco", "nome": "Preço", "itens": ["R$ 30", "R$ 40", "R$ 50", "R$ 60", "R$ 70"], "valores": [30, 40, 50, 60, 70], "relacao": {"menor":"mais barato que","maior":"mais caro que","menorK":"{k} mais barato que","maiorK":"{k} mais caro que","prefixo":"R$ ","menorCurto":"mais barato","maiorCurto":"mais caro"} },
+    { "id": "banca", "nome": "Banca", "itens": ["Banca 1", "Banca 2", "Banca 3", "Banca 4", "Banca 5"], "valores": [1, 2, 3, 4, 5], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["banca","bancas"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Yasmin ficou na banca logo antes da de quem veio de Caruaru.", "regras": [["dif", "banca", "Caruaru", "Yasmin", 1]] },
+    { "texto": "Eduardo e quem cobra o preço mais baixo ficaram em bancas vizinhas.", "regras": [["dist", "banca", "Eduardo", "R$ 30", 1]] },
+    { "texto": "Marina cobra R$ 10 a mais que quem trabalha com couro.", "regras": [["dif", "preco", "Marina", "Couro", 10]] },
+    { "texto": "Entre quem ficou na banca 3 e quem ficou na banca 4, um trabalha com metal e o outro, com cerâmica.", "regras": [["par", ["Banca 3", "Banca 4"], ["Metal", "Cerâmica"]]] },
+    { "texto": "Quem ficou na banca 3 cobra R$ 40 a mais que quem veio de Bichinho.", "regras": [["dif", "preco", "Banca 3", "Bichinho", 40]] },
+    { "texto": "Entre quem cobra o preço mais alto e quem cobra R$ 40 por peça, um ficou na banca 4 e o outro, na banca 3.", "regras": [["par", ["R$ 70", "R$ 40"], ["Banca 4", "Banca 3"]]] },
+    { "texto": "Quem trabalha com vidro ficou na primeira ou na última banca.", "regras": [["extremo", "banca", "Vidro"]] },
+    { "texto": "Entre Nicolas e quem trabalha com couro, um ficou na banca 5 e o outro, na banca 4.", "regras": [["par", ["Nicolas", "Couro"], ["Banca 5", "Banca 4"]]] },
+    { "texto": "Entre Nicolas e quem veio de Olinda, um ficou na banca 4 e o outro, na banca 5.", "regras": [["par", ["Nicolas", "Olinda"], ["Banca 4", "Banca 5"]]] },
+    { "texto": "Quem veio de Bichinho cobra R$ 40 a menos que quem veio de Cunha.", "regras": [["dif", "preco", "Cunha", "Bichinho", 40]] },
+    { "texto": "Quem cobra R$ 70 por peça trabalha com cerâmica ou com papel reciclado.", "regras": [["ou", "R$ 70", "Cerâmica", "Papel"]] }
+  ],
+  "solucao": [
+    ["Daniela", "Olinda", "Couro", "R$ 60", "Banca 5"],
+    ["Eduardo", "Caruaru", "Papel", "R$ 50", "Banca 2"],
+    ["Marina", "Cunha", "Cerâmica", "R$ 70", "Banca 3"],
+    ["Nicolas", "Tiradentes", "Metal", "R$ 40", "Banca 4"],
+    ["Yasmin", "Bichinho", "Vidro", "R$ 30", "Banca 1"]
+  ]
+}

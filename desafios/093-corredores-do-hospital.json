@@ -1,0 +1,34 @@
+{
+  "id": "corredores-do-hospital",
+  "versao": 1,
+  "titulo": "Corredores do hospital",
+  "nivel": "medio",
+  "tipo": "misto",
+  "introducao": "No Hospital Santa Clara, quatro residentes dividem a escala de plantões da semana. Cada um tem um passatempo diferente nas folgas, toma uma bebida diferente no intervalo, faz residência em uma especialidade diferente e dá plantão em um dia diferente. A partir das dicas, descubra, para cada um, o passatempo, a bebida do intervalo, a especialidade e o dia do plantão.",
+  "categorias": [
+    { "id": "residente", "nome": "Residente", "itens": ["Fábio", "Henrique", "Renata", "Wagner"] },
+    { "id": "hobby", "nome": "Passatempo", "itens": ["Cozinhar", "Nadar", "Pedalar", "Plantas"] },
+    { "id": "bebida", "nome": "Bebida", "itens": ["Café", "Chá", "Chocolate quente", "Mate"] },
+    { "id": "especialidade", "nome": "Especialidade", "itens": ["Cardiologia", "Infectologia", "Ortopedia", "Pediatria"] },
+    { "id": "dia", "nome": "Dia", "itens": ["Segunda", "Terça", "Quarta", "Quinta"], "valores": [1, 2, 3, 4], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["dia","dias"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Quem toma café no intervalo não dá nem o primeiro nem o último plantão da semana.", "regras": [["meio", "dia", "Café"]] },
+    { "texto": "Quem toma chocolate quente no intervalo é residente de cardiologia.", "regras": [["=", "Cardiologia", "Chocolate quente"]] },
+    { "texto": "Renata dá plantão antes de quem é residente de pediatria.", "regras": [[">", "dia", "Pediatria", "Renata"]] },
+    { "texto": "Quem gosta de pedalar nas folgas toma chá no intervalo.", "regras": [["=", "Pedalar", "Chá"]] },
+    { "texto": "Quem é residente de infectologia não dá nem o primeiro nem o último plantão da semana.", "regras": [["meio", "dia", "Infectologia"]] },
+    { "texto": "Fábio gosta de nadar nas folgas.", "regras": [["=", "Fábio", "Nadar"]] },
+    { "texto": "Henrique e quem gosta de cuidar das plantas nas folgas dão plantão em dias seguidos.", "regras": [["dist", "dia", "Henrique", "Plantas", 1]] },
+    { "texto": "Fábio toma chocolate quente ou chá no intervalo.", "regras": [["ou", "Fábio", "Chocolate quente", "Chá"]] },
+    { "texto": "Quem toma café no intervalo não é residente de infectologia.", "regras": [["!=", "Infectologia", "Café"]] },
+    { "texto": "Quem é residente de pediatria dá plantão dois dias antes de quem gosta de nadar nas folgas.", "regras": [["dif", "dia", "Nadar", "Pediatria", 2]] },
+    { "texto": "Quem gosta de cuidar das plantas nas folgas dá o primeiro ou o último plantão da semana.", "regras": [["extremo", "dia", "Plantas"]] }
+  ],
+  "solucao": [
+    ["Fábio", "Nadar", "Chocolate quente", "Cardiologia", "Quinta"],
+    ["Henrique", "Cozinhar", "Café", "Pediatria", "Terça"],
+    ["Renata", "Plantas", "Mate", "Ortopedia", "Segunda"],
+    ["Wagner", "Pedalar", "Chá", "Infectologia", "Quarta"]
+  ]
+}

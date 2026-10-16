@@ -1,0 +1,29 @@
+{
+  "id": "compromissos",
+  "versao": 1,
+  "titulo": "Compromissos",
+  "nivel": "dificil",
+  "tipo": "misto",
+  "introducao": "Júlio anotou na agenda um compromisso para cada dia útil da semana. Cada compromisso aconteceu em um lugar diferente e começou em um horário diferente. A partir das dicas, descubra, para cada dia, o compromisso, o local e o horário.",
+  "categorias": [
+    { "id": "dia", "nome": "Dia", "itens": ["Segunda", "Terça", "Quarta", "Quinta"], "valores": [1, 2, 3, 4], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["dia","dias"],"menorCurto":"antes","maiorCurto":"depois"} },
+    { "id": "compromisso", "nome": "Compromisso", "itens": ["Banco", "Cabeleireiro", "Cinema", "Revisão do carro"] },
+    { "id": "local", "nome": "Local", "itens": ["Centro", "Clube", "Escritório", "Zona sul"] },
+    { "id": "horario", "nome": "Horário", "itens": ["13h", "14h", "15h", "16h"], "valores": [13, 14, 15, 16], "relacao": {"menor":"mais cedo que","maior":"mais tarde que","menorK":"{k} mais cedo que","maiorK":"{k} mais tarde que","unidade":["hora","horas"],"menorCurto":"mais cedo","maiorCurto":"mais tarde"} }
+  ],
+  "dicas": [
+    { "texto": "A ida ao cabeleireiro começou às 14h.", "regras": [["=", "Cabeleireiro", "14h"]] },
+    { "texto": "A revisão do carro e a visita ao banco aconteceram em dias seguidos.", "regras": [["dist", "dia", "Banco", "Revisão do carro", 1]] },
+    { "texto": "Entre o compromisso no escritório e o compromisso na zona sul, um aconteceu na quinta-feira e o outro, na segunda-feira.", "regras": [["par", ["Escritório", "Zona sul"], ["Quinta", "Segunda"]]] },
+    { "texto": "O compromisso na zona sul aconteceu antes do compromisso que começou mais tarde.", "regras": [[">", "dia", "16h", "Zona sul"]] },
+    { "texto": "O compromisso que começou às 14h aconteceu na zona sul ou no clube.", "regras": [["ou", "14h", "Clube", "Zona sul"]] },
+    { "texto": "O compromisso de segunda-feira e a sessão de cinema começaram com três horas de diferença.", "regras": [["dist", "horario", "Cinema", "Segunda", 3]] },
+    { "texto": "A visita ao banco e a ida ao cabeleireiro aconteceram em dias seguidos.", "regras": [["dist", "dia", "Cabeleireiro", "Banco", 1]] }
+  ],
+  "solucao": [
+    ["Segunda", "Revisão do carro", "Zona sul", "13h"],
+    ["Terça", "Banco", "Centro", "15h"],
+    ["Quarta", "Cabeleireiro", "Clube", "14h"],
+    ["Quinta", "Cinema", "Escritório", "16h"]
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "horta-comunitaria",
+  "versao": 1,
+  "titulo": "Horta comunitária",
+  "nivel": "dificil",
+  "tipo": "misto",
+  "introducao": "Na horta comunitária da vila, cinco vizinhos cuidam cada um de um canteiro. Cada um protege a cabeça do sol de um jeito diferente, colheu uma quantidade diferente e rega a horta em um dia diferente da semana. A partir das dicas, descubra, para cada um, o que usa na cabeça, quanto colheu e o dia da rega.",
+  "categorias": [
+    { "id": "horticultor", "nome": "Horticultor(a)", "itens": ["Daniela", "Henrique", "Nina", "Samuel", "Valter"] },
+    { "id": "chapeu", "nome": "Proteção", "itens": ["Bandana", "Boné", "Chapéu de palha", "Lenço", "Viseira"] },
+    { "id": "colheita", "nome": "Colheita", "itens": ["4 kg", "5 kg", "6 kg", "7 kg", "8 kg"], "valores": [4, 5, 6, 7, 8], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["kg","kg"],"menorCurto":"menos","maiorCurto":"mais"} },
+    { "id": "dia", "nome": "Dia", "itens": ["Terça", "Quarta", "Quinta", "Sexta", "Sábado"], "valores": [2, 3, 4, 5, 6], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["dia","dias"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Quem colheu 5 kg rega a horta na quarta-feira ou usa um lenço, mas não as duas coisas.", "regras": [["ou", "5 kg", "Quarta", "Lenço"]] },
+    { "texto": "Nina e quem usa a bandana regam a horta com três dias de diferença.", "regras": [["dist", "dia", "Bandana", "Nina", 3]] },
+    { "texto": "Henrique é quem rega a horta primeiro ou por último na semana.", "regras": [["extremo", "dia", "Henrique"]] },
+    { "texto": "Entre quem usa a bandana e quem usa o boné, um é Daniela e o outro, Henrique.", "regras": [["par", ["Bandana", "Boné"], ["Daniela", "Henrique"]]] },
+    { "texto": "Quem usa o chapéu de palha, quem colheu 7 kg, quem colheu 8 kg e quem rega a horta primeiro na semana são quatro pessoas diferentes.", "regras": [["distintos", "Chapéu de palha", "7 kg", "8 kg", "Terça"]] },
+    { "texto": "Quem rega a horta na quarta-feira colheu mais que Valter.", "regras": [[">", "colheita", "Quarta", "Valter"]] },
+    { "texto": "Entre quem usa a viseira e quem rega a horta na sexta-feira, um colheu 6 kg e o outro, 5 kg.", "regras": [["par", ["Sexta", "Viseira"], ["6 kg", "5 kg"]]] },
+    { "texto": "Quem usa o lenço e quem mais colheu regam a horta com dois dias de diferença.", "regras": [["dist", "dia", "8 kg", "Lenço", 2]] },
+    { "texto": "Quem usa o lenço rega a horta antes de quem mais colheu.", "regras": [[">", "dia", "8 kg", "Lenço"]] }
+  ],
+  "solucao": [
+    ["Daniela", "Boné", "8 kg", "Quinta"],
+    ["Henrique", "Bandana", "7 kg", "Sábado"],
+    ["Nina", "Viseira", "5 kg", "Quarta"],
+    ["Samuel", "Chapéu de palha", "6 kg", "Sexta"],
+    ["Valter", "Lenço", "4 kg", "Terça"]
+  ]
+}

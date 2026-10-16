@@ -1,0 +1,34 @@
+{
+  "id": "copa-do-bairro",
+  "versao": 1,
+  "titulo": "Copa do bairro",
+  "nivel": "dificil",
+  "tipo": "ordem",
+  "introducao": "Quatro times amadores disputaram o torneio de futebol do bairro neste fim de semana. Cada time representa um bairro diferente, jogou com um uniforme de cor diferente, tinha um capitão diferente e terminou em uma posição diferente. A partir das dicas, descubra, para cada time, o bairro que representa, a cor do uniforme, quem comandou o time em campo e a colocação.",
+  "categorias": [
+    { "id": "time", "nome": "Time", "itens": ["Aurora", "Bela Vista", "Estrela", "Vila Nova"] },
+    { "id": "bairro", "nome": "Bairro", "itens": ["Butantã", "Mooca", "Santana", "Tatuapé"] },
+    { "id": "uniforme", "nome": "Uniforme", "itens": ["Amarelo", "Azul", "Laranja", "Vermelho"] },
+    { "id": "capitao", "nome": "Capitão(ã)", "itens": ["Bruno", "Diego", "Guilherme", "Lívia"] },
+    { "id": "colocacao", "nome": "Colocação", "itens": ["1º", "2º", "3º", "4º"], "valores": [1, 2, 3, 4], "formato": "{} lugar", "relacao": {"menor":"à frente de","maior":"atrás de","menorK":"{k} à frente de","maiorK":"{k} atrás de","unidade":["posição","posições"],"menorCurto":"à frente","maiorCurto":"atrás"} }
+  ],
+  "dicas": [
+    { "texto": "O time de Diego terminou à frente do time da Mooca.", "regras": [[">", "colocacao", "Mooca", "Diego"]] },
+    { "texto": "O time do Butantã não terminou nem em primeiro nem em último lugar.", "regras": [["meio", "colocacao", "Butantã"]] },
+    { "texto": "O time de Bruno e o time que jogou de azul terminaram em posições seguidas.", "regras": [["dist", "colocacao", "Azul", "Bruno", 1]] },
+    { "texto": "O Vila Nova terminou à frente do time do Butantã.", "regras": [[">", "colocacao", "Butantã", "Vila Nova"]] },
+    { "texto": "O time de Lívia era o Aurora.", "regras": [["=", "Aurora", "Lívia"]] },
+    { "texto": "O time de Bruno era o Estrela ou jogou de vermelho, mas não as duas coisas.", "regras": [["ou", "Bruno", "Vermelho", "Estrela"]] },
+    { "texto": "O time que jogou de laranja terminou atrás do time que jogou de amarelo.", "regras": [[">", "colocacao", "Laranja", "Amarelo"]] },
+    { "texto": "O time de Bruno e o time que jogou de amarelo terminaram com duas posições de diferença.", "regras": [["dist", "colocacao", "Bruno", "Amarelo", 2]] },
+    { "texto": "O Vila Nova e o time que jogou de laranja terminaram em posições seguidas.", "regras": [["dist", "colocacao", "Laranja", "Vila Nova", 1]] },
+    { "texto": "O Estrela representa a Mooca ou Santana.", "regras": [["ou", "Estrela", "Santana", "Mooca"]] },
+    { "texto": "O Estrela terminou atrás do time de Guilherme, mas à frente do time de Lívia.", "regras": [[">", "colocacao", "Estrela", "Guilherme"], [">", "colocacao", "Lívia", "Estrela"]] }
+  ],
+  "solucao": [
+    ["Aurora", "Mooca", "Azul", "Lívia", "4º"],
+    ["Bela Vista", "Butantã", "Vermelho", "Bruno", "3º"],
+    ["Estrela", "Santana", "Laranja", "Diego", "2º"],
+    ["Vila Nova", "Tatuapé", "Amarelo", "Guilherme", "1º"]
+  ]
+}

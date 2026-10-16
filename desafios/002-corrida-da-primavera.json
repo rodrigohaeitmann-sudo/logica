@@ -2,13 +2,14 @@
   "id": "corrida-da-primavera",
   "versao": 1,
   "titulo": "Corrida da Primavera",
-  "nivel": "medio",
+  "nivel": "dificil",
+  "tipo": "ordem",
   "introducao": "Cinco amigos treinaram juntos durante meses e se inscreveram na Corrida da Primavera, de 10 km. No dia da prova, cada um vestiu uma camiseta de cor diferente e recebeu um número de peito. Ao cruzarem a linha de chegada, não houve empates entre eles. A partir das dicas, descubra a cor da camiseta, o número de peito e a colocação de cada um entre os cinco amigos.",
   "categorias": [
     { "id": "corredor", "nome": "Corredor(a)", "itens": ["Bruno", "Carla", "Diego", "Elisa", "Fábio"] },
     { "id": "camiseta", "nome": "Camiseta", "itens": ["Amarela", "Azul", "Branca", "Laranja", "Verde"] },
-    { "id": "numero", "nome": "Número", "itens": ["12", "27", "35", "48", "61"], "valores": [12, 27, 35, 48, 61], "formato": "nº {}" },
-    { "id": "colocacao", "nome": "Colocação", "itens": ["1º", "2º", "3º", "4º", "5º"], "valores": [1, 2, 3, 4, 5], "formato": "{} lugar" }
+    { "id": "numero", "nome": "Número", "itens": ["12", "27", "35", "48", "61"], "valores": [12, 27, 35, 48, 61], "formato": "nº {}", "relacao": {"menor":"menor que","maior":"maior que","menorCurto":"menor","maiorCurto":"maior","exata":false} },
+    { "id": "colocacao", "nome": "Colocação", "itens": ["1º", "2º", "3º", "4º", "5º"], "valores": [1, 2, 3, 4, 5], "formato": "{} lugar", "relacao": {"menor":"à frente de","maior":"atrás de","menorK":"{k} à frente de","maiorK":"{k} atrás de","unidade":["posição","posições"],"menorCurto":"à frente","maiorCurto":"atrás"} }
   ],
   "dicas": [
     { "texto": "Carla cruzou a chegada imediatamente à frente de quem vestia branco.", "regras": [["dif", "colocacao", "Branca", "Carla", 1]] },

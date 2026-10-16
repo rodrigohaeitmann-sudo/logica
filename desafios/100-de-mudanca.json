@@ -1,0 +1,31 @@
+{
+  "id": "de-mudanca",
+  "versao": 1,
+  "titulo": "De mudança",
+  "nivel": "dificil",
+  "tipo": "ordem",
+  "introducao": "Nos últimos anos, cinco famílias que moravam na mesma rua se mudaram para outras cidades. Cada família fez a viagem da mudança de um jeito diferente, levou um animal de estimação diferente na mudança e se mudou em um ano diferente. A partir das dicas, descubra, para cada família, como fez a viagem, o animal de estimação e o ano da mudança.",
+  "categorias": [
+    { "id": "familia", "nome": "Família", "itens": ["Almeida", "Barros", "Macedo", "Rezende", "Vieira"] },
+    { "id": "transporte", "nome": "Viagem", "itens": ["Avião", "Caminhão", "Carro", "Ônibus", "Trem"] },
+    { "id": "pet", "nome": "Animal", "itens": ["Aquário", "Calopsita", "Coelho", "Gato", "Tartaruga"] },
+    { "id": "ano", "nome": "Ano", "itens": ["2016", "2018", "2020", "2022", "2024"], "valores": [2016, 2018, 2020, 2022, 2024], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["ano","anos"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "A família Rezende e a família que fez a viagem de avião se mudaram com seis anos de diferença.", "regras": [["dist", "ano", "Avião", "Rezende", 6]] },
+    { "texto": "A família que fez a viagem de carro se mudou oito anos antes da família que levou o aquário.", "regras": [["dif", "ano", "Aquário", "Carro", 8]] },
+    { "texto": "A família Almeida e a família que fez a viagem no próprio caminhão de mudança se mudaram com seis anos de diferença.", "regras": [["dist", "ano", "Caminhão", "Almeida", 6]] },
+    { "texto": "A família Barros e a família que levou o gato se mudaram com dois anos de diferença.", "regras": [["dist", "ano", "Gato", "Barros", 2]] },
+    { "texto": "A família que fez a viagem de trem e a família que fez a viagem no próprio caminhão de mudança se mudaram com seis anos de diferença.", "regras": [["dist", "ano", "Caminhão", "Trem", 6]] },
+    { "texto": "A família Barros se mudou dois anos depois da família que levou a calopsita.", "regras": [["dif", "ano", "Barros", "Calopsita", 2]] },
+    { "texto": "Entre a família que se mudou em 2022 e a família que se mudou em 2018, uma era a família Vieira e a outra, a família Almeida.", "regras": [["par", ["2022", "2018"], ["Vieira", "Almeida"]]] },
+    { "texto": "A família que levou o coelho fez a viagem de avião ou se mudou em 2016, mas não as duas coisas.", "regras": [["ou", "Coelho", "2016", "Avião"]] }
+  ],
+  "solucao": [
+    ["Almeida", "Trem", "Calopsita", "2018"],
+    ["Barros", "Ônibus", "Tartaruga", "2020"],
+    ["Macedo", "Caminhão", "Aquário", "2024"],
+    ["Rezende", "Carro", "Coelho", "2016"],
+    ["Vieira", "Avião", "Gato", "2022"]
+  ]
+}

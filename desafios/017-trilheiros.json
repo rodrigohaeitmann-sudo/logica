@@ -1,0 +1,36 @@
+{
+  "id": "trilheiros",
+  "versao": 1,
+  "titulo": "Trilheiros",
+  "nivel": "medio",
+  "tipo": "misto",
+  "introducao": "No encontro anual do clube de montanhismo, cinco sócios contaram como foi a última aventura de cada um. Cada um levou um item especial diferente na mochila, fez uma trilha diferente, fez a travessia com uma companhia diferente e alcançou uma altitude diferente. A partir das dicas, descubra, para cada um, o item especial, a trilha, a companhia e a altitude alcançada.",
+  "categorias": [
+    { "id": "trilheiro", "nome": "Trilheiro(a)", "itens": ["Ana", "Caio", "Elisa", "Guilherme", "Lívia"] },
+    { "id": "item", "nome": "Item especial", "itens": ["Câmera", "Canivete", "Cantil", "Lanterna", "Rede"] },
+    { "id": "trilha", "nome": "Trilha", "itens": ["Cachoeira Alta", "Gruta Clara", "Pedra Azul", "Pico da Névoa", "Vale Verde"] },
+    { "id": "companhia", "nome": "Companhia", "itens": ["Cachorro", "Colegas", "Guia", "Irmão", "Primos"] },
+    { "id": "altitude", "nome": "Altitude", "itens": ["1.200 m", "1.450 m", "1.700 m", "1.950 m", "2.200 m"], "valores": [1200, 1450, 1700, 1950, 2200], "relacao": {"menor":"mais baixo que","maior":"mais alto que","menorK":"{k} abaixo de","maiorK":"{k} acima de","unidade":["metro","metros"],"menorCurto":"mais baixo","maiorCurto":"mais alto"} }
+  ],
+  "dicas": [
+    { "texto": "Entre quem alcançou 1.200 metros de altitude e quem alcançou a maior altitude, um fez a trilha do Pico da Névoa e o outro, da Gruta Clara.", "regras": [["par", ["1.200 m", "2.200 m"], ["Pico da Névoa", "Gruta Clara"]]] },
+    { "texto": "Caio alcançou uma altitude maior que quem fez a travessia com o cachorro.", "regras": [[">", "altitude", "Caio", "Cachorro"]] },
+    { "texto": "Lívia fez a trilha do Pico da Névoa.", "regras": [["=", "Pico da Névoa", "Lívia"]] },
+    { "texto": "Quem levou o cantil alcançou 1.950 metros de altitude.", "regras": [["=", "Cantil", "1.950 m"]] },
+    { "texto": "Quem levou o canivete alcançou uma altitude maior que quem fez a travessia com um guia.", "regras": [[">", "altitude", "Canivete", "Guia"]] },
+    { "texto": "Quem fez a travessia com o irmão alcançou 1.450 metros de altitude.", "regras": [["=", "Irmão", "1.450 m"]] },
+    { "texto": "Quem fez a travessia com o cachorro levou um canivete.", "regras": [["=", "Canivete", "Cachorro"]] },
+    { "texto": "Elisa alcançou 500 metros a menos que quem levou a rede.", "regras": [["dif", "altitude", "Rede", "Elisa", 500]] },
+    { "texto": "Quem levou a lanterna alcançou 750 metros a menos que quem levou o cantil.", "regras": [["dif", "altitude", "Cantil", "Lanterna", 750]] },
+    { "texto": "Guilherme, quem fez a travessia com os primos, quem fez a trilha da Cachoeira Alta e quem fez a travessia com o cachorro são quatro pessoas diferentes.", "regras": [["distintos", "Primos", "Guilherme", "Cachoeira Alta", "Cachorro"]] },
+    { "texto": "Caio não fez a trilha da Cachoeira Alta.", "regras": [["!=", "Cachoeira Alta", "Caio"]] },
+    { "texto": "Quem fez a trilha da Pedra Azul alcançou 1.450 metros de altitude.", "regras": [["=", "1.450 m", "Pedra Azul"]] }
+  ],
+  "solucao": [
+    ["Ana", "Cantil", "Cachoeira Alta", "Colegas", "1.950 m"],
+    ["Caio", "Rede", "Gruta Clara", "Primos", "2.200 m"],
+    ["Elisa", "Canivete", "Vale Verde", "Cachorro", "1.700 m"],
+    ["Guilherme", "Câmera", "Pedra Azul", "Irmão", "1.450 m"],
+    ["Lívia", "Lanterna", "Pico da Névoa", "Guia", "1.200 m"]
+  ]
+}

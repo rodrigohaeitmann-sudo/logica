@@ -1,0 +1,37 @@
+{
+  "id": "quermesse-da-paroquia",
+  "versao": 1,
+  "titulo": "Quermesse da paróquia",
+  "nivel": "medio",
+  "tipo": "misto",
+  "introducao": "Cinco vizinhos se ofereceram para trabalhar nas barracas da festa junina da rua. Cada um ficou em uma barraca diferente, usou um acessório típico diferente, tem um doce junino preferido diferente e começou o turno em um horário diferente. A partir das dicas, descubra, para cada um, a barraca, o acessório típico, o doce preferido e o horário de início do turno.",
+  "categorias": [
+    { "id": "voluntario", "nome": "Voluntário(a)", "itens": ["Fabiana", "Júlio", "Marcelo", "Renata", "Yuri"] },
+    { "id": "barraca", "nome": "Barraca", "itens": ["Argola", "Boca do palhaço", "Cachorro-quente", "Pamonha", "Quentão"] },
+    { "id": "traje", "nome": "Acessório", "itens": ["Bigode pintado", "Chapéu de palha", "Lenço vermelho", "Trança postiça", "Vestido de chita"] },
+    { "id": "doce", "nome": "Doce preferido", "itens": ["Bolo de milho", "Canjica", "Cocada", "Curau", "Pinhão"] },
+    { "id": "turno", "nome": "Início do turno", "itens": ["15h", "16h", "17h", "18h", "19h"], "valores": [15, 16, 17, 18, 19], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["hora","horas"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Entre quem adora pinhão e quem adora canjica, um usou um bigode pintado e o outro, um vestido de chita.", "regras": [["par", ["Pinhão", "Canjica"], ["Bigode pintado", "Vestido de chita"]]] },
+    { "texto": "Quem ficou na barraca de pamonha começou o turno duas horas antes de quem usou o chapéu de palha.", "regras": [["dif", "turno", "Chapéu de palha", "Pamonha", 2]] },
+    { "texto": "Quem usou o lenço vermelho foi o primeiro ou o último a começar o turno.", "regras": [["extremo", "turno", "Lenço vermelho"]] },
+    { "texto": "Renata usou um lenço vermelho.", "regras": [["=", "Lenço vermelho", "Renata"]] },
+    { "texto": "Quem usou a trança postiça começou o turno às 15h ou era Fabiana, mas não as duas coisas.", "regras": [["ou", "Trança postiça", "Fabiana", "15h"]] },
+    { "texto": "Quem adora bolo de milho começou o turno às 16h ou ficou na barraca de quentão, mas não as duas coisas.", "regras": [["ou", "Bolo de milho", "Quentão", "16h"]] },
+    { "texto": "Quem adora bolo de milho começou o turno uma hora depois de quem adora cocada.", "regras": [["dif", "turno", "Bolo de milho", "Cocada", 1]] },
+    { "texto": "Quem ficou na barraca de cachorro-quente não começou o turno às 15h.", "regras": [["!=", "Cachorro-quente", "15h"]] },
+    { "texto": "Júlio usou um bigode pintado.", "regras": [["=", "Bigode pintado", "Júlio"]] },
+    { "texto": "Quem usou o vestido de chita começou o turno às 17h.", "regras": [["=", "17h", "Vestido de chita"]] },
+    { "texto": "Quem adora pinhão começou o turno às 15h.", "regras": [["=", "15h", "Pinhão"]] },
+    { "texto": "Marcelo começou o turno uma hora depois de Fabiana.", "regras": [["dif", "turno", "Marcelo", "Fabiana", 1]] },
+    { "texto": "Quem usou o chapéu de palha ficou na barraca de argola ou na barraca de quentão.", "regras": [["ou", "Chapéu de palha", "Argola", "Quentão"]] }
+  ],
+  "solucao": [
+    ["Fabiana", "Pamonha", "Trança postiça", "Curau", "16h"],
+    ["Júlio", "Boca do palhaço", "Bigode pintado", "Pinhão", "15h"],
+    ["Marcelo", "Cachorro-quente", "Vestido de chita", "Canjica", "17h"],
+    ["Renata", "Quentão", "Lenço vermelho", "Bolo de milho", "19h"],
+    ["Yuri", "Argola", "Chapéu de palha", "Cocada", "18h"]
+  ]
+}

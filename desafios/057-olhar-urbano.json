@@ -1,0 +1,33 @@
+{
+  "id": "olhar-urbano",
+  "versao": 1,
+  "titulo": "Olhar urbano",
+  "nivel": "medio",
+  "tipo": "misto",
+  "introducao": "Cinco fotógrafos amadores tiveram fotos selecionadas para a exposição do centro cultural. Cada um fotografou um tema diferente, usou um equipamento diferente e ficou em uma posição diferente no concurso. A partir das dicas, descubra, para cada um, o tema das fotos, o equipamento e a colocação.",
+  "categorias": [
+    { "id": "fotografo", "nome": "Fotógrafo(a)", "itens": ["Davi", "Flávia", "Giovana", "João", "Teresa"] },
+    { "id": "tema", "nome": "Tema", "itens": ["Céu noturno", "Flores", "Prédios antigos", "Retratos", "Vida nas ruas"] },
+    { "id": "camera", "nome": "Equipamento", "itens": ["Celular", "Compacta", "Drone", "Instantânea", "Profissional"] },
+    { "id": "colocacao", "nome": "Colocação", "itens": ["1º", "2º", "3º", "4º", "5º"], "valores": [1, 2, 3, 4, 5], "formato": "{} lugar", "relacao": {"menor":"à frente de","maior":"atrás de","menorK":"{k} à frente de","maiorK":"{k} atrás de","unidade":["posição","posições"],"menorCurto":"à frente","maiorCurto":"atrás"} }
+  ],
+  "dicas": [
+    { "texto": "Giovana usou uma câmera compacta.", "regras": [["=", "Giovana", "Compacta"]] },
+    { "texto": "Quem fotografou retratos usou uma câmera instantânea.", "regras": [["=", "Instantânea", "Retratos"]] },
+    { "texto": "Quem fotografou retratos ficou três posições à frente de quem fotografou o céu noturno.", "regras": [["dif", "colocacao", "Céu noturno", "Retratos", 3]] },
+    { "texto": "João ficou à frente de quem usou a câmera compacta.", "regras": [[">", "colocacao", "Compacta", "João"]] },
+    { "texto": "Quem usou o celular, quem ficou em 2º lugar e quem ficou em 4º lugar são três pessoas diferentes.", "regras": [["distintos", "2º", "4º", "Celular"]] },
+    { "texto": "Quem fotografou prédios antigos ficou em último lugar.", "regras": [["=", "5º", "Prédios antigos"]] },
+    { "texto": "Quem fotografou flores usou um drone.", "regras": [["=", "Flores", "Drone"]] },
+    { "texto": "Giovana e Davi ficaram com três posições de diferença.", "regras": [["dist", "colocacao", "Giovana", "Davi", 3]] },
+    { "texto": "Flávia e João ficaram com duas posições de diferença.", "regras": [["dist", "colocacao", "Flávia", "João", 2]] },
+    { "texto": "Quem fotografou o céu noturno ficou logo atrás de quem usou a câmera profissional.", "regras": [["dif", "colocacao", "Céu noturno", "Profissional", 1]] }
+  ],
+  "solucao": [
+    ["Davi", "Retratos", "Instantânea", "1º"],
+    ["Flávia", "Prédios antigos", "Celular", "5º"],
+    ["Giovana", "Céu noturno", "Compacta", "4º"],
+    ["João", "Vida nas ruas", "Profissional", "3º"],
+    ["Teresa", "Flores", "Drone", "2º"]
+  ]
+}

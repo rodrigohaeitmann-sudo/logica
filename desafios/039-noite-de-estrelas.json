@@ -1,0 +1,30 @@
+{
+  "id": "noite-de-estrelas",
+  "versao": 1,
+  "titulo": "Noite de estrelas",
+  "nivel": "dificil",
+  "tipo": "associacao",
+  "introducao": "No show de talentos do clube, quatro participantes se apresentaram para uma plateia lotada. Cada um apresentou um talento diferente, levou alguém diferente para torcer e usou um figurino de cor diferente. A partir das dicas, descubra, para cada um, o talento, quem levou para torcer e a cor do figurino.",
+  "categorias": [
+    { "id": "artista", "nome": "Artista", "itens": ["Caio", "Ivan", "Sérgio", "Teresa"] },
+    { "id": "talento", "nome": "Talento", "itens": ["Acrobacias", "Beatbox", "Sapateado", "Ventriloquia"] },
+    { "id": "torcida", "nome": "Torcida", "itens": ["Irmão", "Mãe", "Padrinho", "Tia"] },
+    { "id": "figurino", "nome": "Figurino", "itens": ["Dourado", "Prateado", "Preto", "Vermelho"] }
+  ],
+  "dicas": [
+    { "texto": "Quem levou a tia para torcer era Sérgio ou Ivan.", "regras": [["ou", "Tia", "Ivan", "Sérgio"]] },
+    { "texto": "Quem fez sapateado era Sérgio ou usou um figurino dourado, mas não as duas coisas.", "regras": [["ou", "Sapateado", "Sérgio", "Dourado"]] },
+    { "texto": "Quem usou um figurino dourado fez ventriloquia ou beatbox.", "regras": [["ou", "Dourado", "Ventriloquia", "Beatbox"]] },
+    { "texto": "Caio não levou a mãe para torcer.", "regras": [["!=", "Caio", "Mãe"]] },
+    { "texto": "Quem levou a tia para torcer era Teresa ou fez beatbox, mas não as duas coisas.", "regras": [["ou", "Tia", "Beatbox", "Teresa"]] },
+    { "texto": "Entre quem levou a mãe para torcer e quem levou o irmão para torcer, um usou um figurino dourado e o outro, prateado.", "regras": [["par", ["Mãe", "Irmão"], ["Dourado", "Prateado"]]] },
+    { "texto": "Entre quem usou um figurino dourado e quem usou um figurino vermelho, um fez sapateado e o outro, ventriloquia.", "regras": [["par", ["Dourado", "Vermelho"], ["Sapateado", "Ventriloquia"]]] },
+    { "texto": "Entre quem usou um figurino prateado e quem usou um figurino vermelho, um levou o padrinho para torcer e o outro, a mãe.", "regras": [["par", ["Prateado", "Vermelho"], ["Padrinho", "Mãe"]]] }
+  ],
+  "solucao": [
+    ["Caio", "Ventriloquia", "Irmão", "Dourado"],
+    ["Ivan", "Beatbox", "Tia", "Preto"],
+    ["Sérgio", "Sapateado", "Padrinho", "Vermelho"],
+    ["Teresa", "Acrobacias", "Mãe", "Prateado"]
+  ]
+}

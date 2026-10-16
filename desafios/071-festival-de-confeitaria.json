@@ -1,0 +1,32 @@
+{
+  "id": "festival-de-confeitaria",
+  "versao": 1,
+  "titulo": "Festival de confeitaria",
+  "nivel": "dificil",
+  "tipo": "associacao",
+  "introducao": "No festival de confeitaria da cidade, quatro participantes chegaram à final. Cada um usou uma cobertura diferente, mora em um bairro diferente, fez um bolo de sabor diferente e decorou o bolo de um jeito diferente. A partir das dicas, descubra, para cada um, a cobertura, o bairro, o sabor do bolo e a decoração.",
+  "categorias": [
+    { "id": "confeiteiro", "nome": "Confeiteiro(a)", "itens": ["Eduarda", "Nelson", "Pedro", "Tiago"] },
+    { "id": "cobertura", "nome": "Cobertura", "itens": ["Doce de leite", "Ganache", "Glacê", "Merengue"] },
+    { "id": "bairro", "nome": "Bairro", "itens": ["Freguesia", "Pinheiros", "Santana", "Saúde"] },
+    { "id": "sabor", "nome": "Sabor", "itens": ["Cenoura", "Fubá", "Limão", "Nozes"] },
+    { "id": "decoracao", "nome": "Decoração", "itens": ["Castanhas", "Confeitos", "Morangos", "Raspas"] }
+  ],
+  "dicas": [
+    { "texto": "Quem mora em Santana, quem usou cobertura de glacê e quem mora em Pinheiros são três pessoas diferentes.", "regras": [["distintos", "Santana", "Glacê", "Pinheiros"]] },
+    { "texto": "Entre quem decorou o bolo com morangos frescos e quem decorou o bolo com confeitos coloridos, um mora na Freguesia e o outro, em Pinheiros.", "regras": [["par", ["Morangos", "Confeitos"], ["Freguesia", "Pinheiros"]]] },
+    { "texto": "Quem usou cobertura de merengue fez o bolo de nozes ou o bolo de fubá.", "regras": [["ou", "Merengue", "Fubá", "Nozes"]] },
+    { "texto": "Quem mora em Santana é Pedro ou Tiago.", "regras": [["ou", "Santana", "Pedro", "Tiago"]] },
+    { "texto": "Entre Nelson e quem fez o bolo de nozes, um decorou o bolo com confeitos coloridos e o outro, com raspas de chocolate.", "regras": [["par", ["Nozes", "Nelson"], ["Confeitos", "Raspas"]]] },
+    { "texto": "Entre quem decorou o bolo com morangos frescos e quem decorou o bolo com raspas de chocolate, um usou cobertura de ganache e o outro, cobertura de glacê.", "regras": [["par", ["Morangos", "Raspas"], ["Ganache", "Glacê"]]] },
+    { "texto": "Entre quem usou cobertura de ganache e quem usou cobertura de merengue, um mora na Saúde e o outro, em Santana.", "regras": [["par", ["Ganache", "Merengue"], ["Saúde", "Santana"]]] },
+    { "texto": "Entre quem fez o bolo de cenoura e quem usou cobertura de merengue, um decorou o bolo com raspas de chocolate e o outro, com castanhas.", "regras": [["par", ["Cenoura", "Merengue"], ["Raspas", "Castanhas"]]] },
+    { "texto": "Tiago, quem usou cobertura de doce de leite e quem mora em Santana são três pessoas diferentes.", "regras": [["distintos", "Tiago", "Doce de leite", "Santana"]] }
+  ],
+  "solucao": [
+    ["Eduarda", "Doce de leite", "Pinheiros", "Nozes", "Confeitos"],
+    ["Nelson", "Ganache", "Saúde", "Cenoura", "Raspas"],
+    ["Pedro", "Merengue", "Santana", "Fubá", "Castanhas"],
+    ["Tiago", "Glacê", "Freguesia", "Limão", "Morangos"]
+  ]
+}

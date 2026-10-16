@@ -1,0 +1,33 @@
+{
+  "id": "edificio-aurora",
+  "versao": 1,
+  "titulo": "Edifício Aurora",
+  "nivel": "dificil",
+  "tipo": "ordem",
+  "introducao": "Quatro vizinhos do mesmo prédio organizaram juntos a festa de fim de ano do condomínio. Cada um tem uma profissão diferente, toca um instrumento diferente, tem um carro de cor diferente e mora em um andar diferente. A partir das dicas, descubra, para cada um, a profissão, o instrumento que toca, a cor do carro e o andar.",
+  "categorias": [
+    { "id": "morador", "nome": "Morador(a)", "itens": ["Fernanda", "Glória", "Nicolas", "Yasmin"] },
+    { "id": "profissao", "nome": "Profissão", "itens": ["Dentista", "Fisioterapeuta", "Florista", "Nutricionista"] },
+    { "id": "instrumento", "nome": "Instrumento", "itens": ["Bateria", "Piano", "Saxofone", "Teclado"] },
+    { "id": "carro", "nome": "Carro", "itens": ["Prata", "Preto", "Verde", "Vermelho"] },
+    { "id": "andar", "nome": "Andar", "itens": ["1º andar", "2º andar", "3º andar", "4º andar"], "valores": [1, 2, 3, 4], "relacao": {"menor":"abaixo de","maior":"acima de","menorK":"{k} abaixo de","maiorK":"{k} acima de","unidade":["andar","andares"],"menorCurto":"abaixo","maiorCurto":"acima"} }
+  ],
+  "dicas": [
+    { "texto": "Fernanda mora no andar logo abaixo do de quem tem o carro verde.", "regras": [["dif", "andar", "Verde", "Fernanda", 1]] },
+    { "texto": "Entre quem toca saxofone e quem mora no 2º andar, um é fisioterapeuta e o outro, dentista.", "regras": [["par", ["2º andar", "Saxofone"], ["Fisioterapeuta", "Dentista"]]] },
+    { "texto": "Glória mora no andar logo acima do de quem é fisioterapeuta.", "regras": [["dif", "andar", "Glória", "Fisioterapeuta", 1]] },
+    { "texto": "Quem tem o carro verde mora abaixo de quem tem o carro vermelho.", "regras": [[">", "andar", "Vermelho", "Verde"]] },
+    { "texto": "Quem mora no andar mais baixo toca bateria ou tem um carro vermelho, mas não as duas coisas.", "regras": [["ou", "1º andar", "Bateria", "Vermelho"]] },
+    { "texto": "Nicolas e Fernanda moram a dois andares de distância.", "regras": [["dist", "andar", "Nicolas", "Fernanda", 2]] },
+    { "texto": "Quem tem o carro preto e quem toca saxofone moram em andares vizinhos.", "regras": [["dist", "andar", "Saxofone", "Preto", 1]] },
+    { "texto": "Quem mora no 2º andar é Fernanda ou Glória.", "regras": [["ou", "2º andar", "Fernanda", "Glória"]] },
+    { "texto": "Quem toca saxofone mora acima de quem é florista.", "regras": [[">", "andar", "Saxofone", "Florista"]] },
+    { "texto": "Quem toca piano mora acima de quem é fisioterapeuta.", "regras": [[">", "andar", "Piano", "Fisioterapeuta"]] }
+  ],
+  "solucao": [
+    ["Fernanda", "Fisioterapeuta", "Teclado", "Preto", "2º andar"],
+    ["Glória", "Dentista", "Saxofone", "Verde", "3º andar"],
+    ["Nicolas", "Nutricionista", "Piano", "Vermelho", "4º andar"],
+    ["Yasmin", "Florista", "Bateria", "Prata", "1º andar"]
+  ]
+}

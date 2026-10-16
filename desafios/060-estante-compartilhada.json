@@ -1,0 +1,32 @@
+{
+  "id": "estante-compartilhada",
+  "versao": 1,
+  "titulo": "Estante compartilhada",
+  "nivel": "dificil",
+  "tipo": "calculo",
+  "introducao": "Cinco amigos que adoram ler resolveram indicar um livro cada um para o grupo. Cada um leu uma edição de tipo diferente, costuma ler em um lugar diferente e indicou um livro com um número diferente de páginas. A partir das dicas, descubra, para cada um, o tipo de edição, onde costuma ler e o número de páginas do livro.",
+  "categorias": [
+    { "id": "leitor", "nome": "Leitor(a)", "itens": ["Bruno", "Fabiana", "Heitor", "Mônica", "Nicolas"] },
+    { "id": "edicao", "nome": "Edição", "itens": ["Capa dura", "De bolso", "Digital", "Ilustrada", "Usada"] },
+    { "id": "lugar", "nome": "Onde lê", "itens": ["Biblioteca", "Café", "Cama", "Parque", "Varanda"] },
+    { "id": "paginas", "nome": "Páginas", "itens": ["150", "230", "310", "390", "470"], "valores": [150, 230, 310, 390, 470], "formato": "{} páginas", "relacao": {"menor":"menos páginas que","maior":"mais páginas que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["página","páginas"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "Quem costuma ler no parque indicou um livro com 80 páginas a mais que o de quem leu uma edição usada.", "regras": [["dif", "paginas", "Parque", "Usada", 80]] },
+    { "texto": "Os livros de Bruno e de quem costuma ler na biblioteca têm 160 páginas de diferença.", "regras": [["dist", "paginas", "Bruno", "Biblioteca", 160]] },
+    { "texto": "Quem costuma ler na biblioteca indicou um livro com 160 páginas a menos que o de quem costuma ler no parque.", "regras": [["dif", "paginas", "Parque", "Biblioteca", 160]] },
+    { "texto": "Quem leu uma edição de bolso indicou um livro com 240 páginas a menos que o de quem costuma ler na varanda.", "regras": [["dif", "paginas", "Varanda", "De bolso", 240]] },
+    { "texto": "Nicolas indicou um livro com 80 páginas a mais que o de quem leu uma edição ilustrada.", "regras": [["dif", "paginas", "Nicolas", "Ilustrada", 80]] },
+    { "texto": "Quem costuma ler na cama indicou um livro com 80 páginas a menos que o de Heitor.", "regras": [["dif", "paginas", "Heitor", "Cama", 80]] },
+    { "texto": "Nicolas indicou um livro com 80 páginas a mais que o de Heitor.", "regras": [["dif", "paginas", "Nicolas", "Heitor", 80]] },
+    { "texto": "Fabiana indicou um livro com 160 páginas a menos que o de Nicolas.", "regras": [["dif", "paginas", "Nicolas", "Fabiana", 160]] },
+    { "texto": "Quem leu uma edição digital indicou um livro de 150 páginas ou um livro de 310 páginas.", "regras": [["ou", "Digital", "310", "150"]] }
+  ],
+  "solucao": [
+    ["Bruno", "Capa dura", "Parque", "470"],
+    ["Fabiana", "De bolso", "Cama", "150"],
+    ["Heitor", "Ilustrada", "Café", "230"],
+    ["Mônica", "Usada", "Varanda", "390"],
+    ["Nicolas", "Digital", "Biblioteca", "310"]
+  ]
+}

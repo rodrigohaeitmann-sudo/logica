@@ -1,0 +1,32 @@
+{
+  "id": "aventura-na-serra",
+  "versao": 1,
+  "titulo": "Aventura na serra",
+  "nivel": "medio",
+  "tipo": "ordem",
+  "introducao": "Quatro amigos de um grupo de trilhas fizeram, cada um, uma travessia diferente nas férias. Cada um fez a travessia com uma companhia diferente, fez uma trilha diferente, levou um item especial diferente na mochila e fez a travessia em um mês diferente. A partir das dicas, descubra, para cada um, a companhia, a trilha, o item especial e o mês da travessia.",
+  "categorias": [
+    { "id": "trilheiro", "nome": "Trilheiro(a)", "itens": ["Daniela", "Estela", "Sofia", "Valter"] },
+    { "id": "companhia", "nome": "Companhia", "itens": ["Cachorro", "Colegas", "Irmão", "Primos"] },
+    { "id": "trilha", "nome": "Trilha", "itens": ["Cachoeira Alta", "Lagoa Funda", "Morro do Sol", "Serra Fria"] },
+    { "id": "item", "nome": "Item especial", "itens": ["Binóculo", "Bússola", "Câmera", "Canivete"] },
+    { "id": "mes", "nome": "Mês", "itens": ["Julho", "Agosto", "Setembro", "Outubro"], "valores": [7, 8, 9, 10], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["mês","meses"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Quem levou o binóculo fez sua travessia depois de quem fez a travessia com o cachorro.", "regras": [[">", "mes", "Binóculo", "Cachorro"]] },
+    { "texto": "Entre Valter e quem fez a travessia com os primos, um fez a trilha da Lagoa Funda e o outro, da Cachoeira Alta.", "regras": [["par", ["Primos", "Valter"], ["Lagoa Funda", "Cachoeira Alta"]]] },
+    { "texto": "Quem levou o binóculo fez sua travessia em agosto.", "regras": [["=", "Binóculo", "Agosto"]] },
+    { "texto": "Valter fez sua travessia dois meses antes de quem fez a trilha do Morro do Sol.", "regras": [["dif", "mes", "Morro do Sol", "Valter", 2]] },
+    { "texto": "Quem fez a trilha do Morro do Sol e quem fez a trilha da Cachoeira Alta fizeram suas travessias em meses seguidos.", "regras": [["dist", "mes", "Morro do Sol", "Cachoeira Alta", 1]] },
+    { "texto": "Quem levou a bússola fez sua travessia em julho.", "regras": [["=", "Julho", "Bússola"]] },
+    { "texto": "Quem fez a trilha da Serra Fria fez sua travessia no mês seguinte ao de Daniela.", "regras": [["dif", "mes", "Serra Fria", "Daniela", 1]] },
+    { "texto": "Estela fez sua travessia no mês anterior ao de quem fez a travessia com o irmão.", "regras": [["dif", "mes", "Irmão", "Estela", 1]] },
+    { "texto": "Quem levou a câmera fez sua travessia em setembro.", "regras": [["=", "Câmera", "Setembro"]] }
+  ],
+  "solucao": [
+    ["Daniela", "Irmão", "Morro do Sol", "Câmera", "Setembro"],
+    ["Estela", "Primos", "Cachoeira Alta", "Binóculo", "Agosto"],
+    ["Sofia", "Colegas", "Serra Fria", "Canivete", "Outubro"],
+    ["Valter", "Cachorro", "Lagoa Funda", "Bússola", "Julho"]
+  ]
+}

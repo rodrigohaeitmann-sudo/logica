@@ -1,0 +1,31 @@
+{
+  "id": "barracas-da-feira",
+  "versao": 1,
+  "titulo": "Barracas da feira",
+  "nivel": "medio",
+  "tipo": "associacao",
+  "introducao": "Quatro produtores rurais vendem suas frutas na feira do produtor, todo domingo de manhã. Cada um usa um avental diferente, vende uma fruta diferente e dá um brinde diferente aos fregueses. A partir das dicas, descubra, para cada um, o avental, a fruta e o brinde.",
+  "categorias": [
+    { "id": "feirante", "nome": "Feirante", "itens": ["Heloísa", "Jorge", "Rita", "Tiago"] },
+    { "id": "avental", "nome": "Avental", "itens": ["Amarelo", "Azul", "Vermelho", "Xadrez"] },
+    { "id": "produto", "nome": "Fruta", "itens": ["Abacaxi", "Caqui", "Goiaba", "Manga"] },
+    { "id": "brinde", "nome": "Brinde", "itens": ["Bala", "Cheiro-verde", "Limão", "Pimenta"] }
+  ],
+  "dicas": [
+    { "texto": "Quem usa um avental azul é Tiago ou Heloísa.", "regras": [["ou", "Azul", "Tiago", "Heloísa"]] },
+    { "texto": "Quem usa um avental amarelo, quem vende manga e quem usa um avental azul são três pessoas diferentes.", "regras": [["distintos", "Amarelo", "Manga", "Azul"]] },
+    { "texto": "Quem usa um avental vermelho dá uma pimenta ou um limão de brinde.", "regras": [["ou", "Vermelho", "Pimenta", "Limão"]] },
+    { "texto": "Quem vende manga dá uma bala de brinde.", "regras": [["=", "Manga", "Bala"]] },
+    { "texto": "Tiago dá um limão de brinde.", "regras": [["=", "Limão", "Tiago"]] },
+    { "texto": "Entre quem dá cheiro-verde de brinde e quem dá uma bala de brinde, um vende goiaba e o outro, manga.", "regras": [["par", ["Cheiro-verde", "Bala"], ["Goiaba", "Manga"]]] },
+    { "texto": "Quem usa um avental vermelho é Heloísa ou Rita.", "regras": [["ou", "Vermelho", "Heloísa", "Rita"]] },
+    { "texto": "Rita dá cheiro-verde de brinde.", "regras": [["=", "Cheiro-verde", "Rita"]] },
+    { "texto": "Quem dá um limão de brinde vende abacaxi.", "regras": [["=", "Abacaxi", "Limão"]] }
+  ],
+  "solucao": [
+    ["Heloísa", "Vermelho", "Caqui", "Pimenta"],
+    ["Jorge", "Xadrez", "Manga", "Bala"],
+    ["Rita", "Amarelo", "Goiaba", "Cheiro-verde"],
+    ["Tiago", "Azul", "Abacaxi", "Limão"]
+  ]
+}

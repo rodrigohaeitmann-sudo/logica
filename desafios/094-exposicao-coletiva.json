@@ -1,0 +1,34 @@
+{
+  "id": "exposicao-coletiva",
+  "versao": 1,
+  "titulo": "Exposição coletiva",
+  "nivel": "dificil",
+  "tipo": "ordem",
+  "introducao": "Cinco fotógrafos amadores tiveram fotos selecionadas para a exposição do centro cultural. Cada um mora em uma cidade diferente, fotografou um tema diferente, usou um equipamento diferente e ficou em uma posição diferente no concurso. A partir das dicas, descubra, para cada um, a cidade onde mora, o tema das fotos, o equipamento e a colocação.",
+  "categorias": [
+    { "id": "fotografo", "nome": "Fotógrafo(a)", "itens": ["Carolina", "Eduardo", "Leonardo", "Sofia", "Zélia"] },
+    { "id": "cidade", "nome": "Cidade", "itens": ["Anápolis", "Caxias do Sul", "Niterói", "Ribeirão Preto", "Santos"] },
+    { "id": "tema", "nome": "Tema", "itens": ["Animais", "Céu noturno", "Esportes", "Prédios antigos", "Retratos"] },
+    { "id": "camera", "nome": "Equipamento", "itens": ["Analógica", "Compacta", "Drone", "Instantânea", "Profissional"] },
+    { "id": "colocacao", "nome": "Colocação", "itens": ["1º", "2º", "3º", "4º", "5º"], "valores": [1, 2, 3, 4, 5], "formato": "{} lugar", "relacao": {"menor":"à frente de","maior":"atrás de","menorK":"{k} à frente de","maiorK":"{k} atrás de","unidade":["posição","posições"],"menorCurto":"à frente","maiorCurto":"atrás"} }
+  ],
+  "dicas": [
+    { "texto": "Quem mora em Ribeirão Preto ficou à frente de Sofia.", "regras": [[">", "colocacao", "Sofia", "Ribeirão Preto"]] },
+    { "texto": "Quem usou a câmera compacta ficou imediatamente à frente de quem usou a câmera instantânea.", "regras": [["dif", "colocacao", "Instantânea", "Compacta", 1]] },
+    { "texto": "Quem usou o drone ficou atrás de quem fotografou animais.", "regras": [[">", "colocacao", "Drone", "Animais"]] },
+    { "texto": "Entre quem usou o drone e quem usou a câmera analógica, um era Sofia e o outro, Zélia.", "regras": [["par", ["Drone", "Analógica"], ["Sofia", "Zélia"]]] },
+    { "texto": "Entre Leonardo e quem ficou em 3º lugar, um mora em Santos e o outro, em Caxias do Sul.", "regras": [["par", ["Leonardo", "3º"], ["Santos", "Caxias do Sul"]]] },
+    { "texto": "Quem usou a câmera analógica ficou imediatamente à frente de quem fotografou retratos.", "regras": [["dif", "colocacao", "Retratos", "Analógica", 1]] },
+    { "texto": "Entre quem mora em Niterói e quem mora em Ribeirão Preto, um ficou em 5º lugar e o outro, em 2º lugar.", "regras": [["par", ["Niterói", "Ribeirão Preto"], ["5º", "2º"]]] },
+    { "texto": "Quem fotografou prédios antigos ficou à frente de quem mora em Santos.", "regras": [[">", "colocacao", "Santos", "Prédios antigos"]] },
+    { "texto": "Entre quem fotografou o céu noturno e quem mora em Santos, um é Carolina e o outro, Zélia.", "regras": [["par", ["Céu noturno", "Santos"], ["Carolina", "Zélia"]]] },
+    { "texto": "Entre quem mora em Anápolis e quem mora em Ribeirão Preto, um usou uma câmera profissional e o outro, uma câmera instantânea.", "regras": [["par", ["Anápolis", "Ribeirão Preto"], ["Profissional", "Instantânea"]]] }
+  ],
+  "solucao": [
+    ["Carolina", "Ribeirão Preto", "Céu noturno", "Instantânea", "2º"],
+    ["Eduardo", "Anápolis", "Retratos", "Profissional", "4º"],
+    ["Leonardo", "Caxias do Sul", "Prédios antigos", "Compacta", "1º"],
+    ["Sofia", "Niterói", "Esportes", "Drone", "5º"],
+    ["Zélia", "Santos", "Animais", "Analógica", "3º"]
+  ]
+}

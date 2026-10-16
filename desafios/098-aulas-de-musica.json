@@ -1,0 +1,31 @@
+{
+  "id": "aulas-de-musica",
+  "versao": 1,
+  "titulo": "Aulas de música",
+  "nivel": "dificil",
+  "tipo": "calculo",
+  "introducao": "No conservatório da cidade, quatro alunos foram escolhidos para o concerto de primavera. Cada um nasceu em uma cidade diferente, toca um instrumento diferente, tem aulas com um professor diferente e estuda música há um tempo diferente. A partir das dicas, descubra, para cada um, a cidade natal, o instrumento, quem é o professor e há quanto tempo estuda música.",
+  "categorias": [
+    { "id": "musico", "nome": "Aluno(a)", "itens": ["Daniela", "Nádia", "Túlio", "Vera"] },
+    { "id": "cidade", "nome": "Cidade", "itens": ["Ilhéus", "Juiz de Fora", "Mossoró", "Petrópolis"] },
+    { "id": "instrumento", "nome": "Instrumento", "itens": ["Clarinete", "Flauta", "Viola", "Violoncelo"] },
+    { "id": "professor", "nome": "Professor(a)", "itens": ["Carolina", "Lauro", "Mônica", "Olívia"] },
+    { "id": "estudo", "nome": "Tempo de estudo", "itens": ["2 anos", "4 anos", "6 anos", "8 anos"], "valores": [2, 4, 6, 8], "relacao": {"menor":"há menos tempo que","maior":"há mais tempo que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["ano","anos"],"menorCurto":"menos tempo","maiorCurto":"mais tempo"} }
+  ],
+  "dicas": [
+    { "texto": "Daniela estuda música há menos tempo que quem tem aulas com Mônica.", "regras": [[">", "estudo", "Mônica", "Daniela"]] },
+    { "texto": "Entre quem tem aulas com Mônica e quem nasceu em Ilhéus, um é Túlio e o outro, Vera.", "regras": [["par", ["Mônica", "Ilhéus"], ["Túlio", "Vera"]]] },
+    { "texto": "Daniela estuda música há dois anos a menos que quem toca violoncelo.", "regras": [["dif", "estudo", "Violoncelo", "Daniela", 2]] },
+    { "texto": "Quem nasceu em Petrópolis estuda música há dois anos a mais que quem toca flauta transversal.", "regras": [["dif", "estudo", "Petrópolis", "Flauta", 2]] },
+    { "texto": "Quem toca violoncelo nasceu em Juiz de Fora ou tem aulas com Lauro, mas não as duas coisas.", "regras": [["ou", "Violoncelo", "Juiz de Fora", "Lauro"]] },
+    { "texto": "Entre quem estuda música há 4 anos e quem estuda música há 6 anos, um tem aulas com Carolina e o outro, com Olívia.", "regras": [["par", ["4 anos", "6 anos"], ["Carolina", "Olívia"]]] },
+    { "texto": "Quem toca viola estuda música há dois anos a menos que quem tem aulas com Olívia.", "regras": [["dif", "estudo", "Olívia", "Viola", 2]] },
+    { "texto": "Vera estuda música há quatro anos a menos que quem nasceu em Mossoró.", "regras": [["dif", "estudo", "Mossoró", "Vera", 4]] }
+  ],
+  "solucao": [
+    ["Daniela", "Mossoró", "Clarinete", "Olívia", "6 anos"],
+    ["Nádia", "Petrópolis", "Viola", "Carolina", "4 anos"],
+    ["Túlio", "Juiz de Fora", "Violoncelo", "Mônica", "8 anos"],
+    ["Vera", "Ilhéus", "Flauta", "Lauro", "2 anos"]
+  ]
+}

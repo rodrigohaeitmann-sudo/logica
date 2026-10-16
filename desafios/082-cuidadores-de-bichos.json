@@ -1,0 +1,35 @@
+{
+  "id": "cuidadores-de-bichos",
+  "versao": 1,
+  "titulo": "Cuidadores de bichos",
+  "nivel": "medio",
+  "tipo": "ordem",
+  "introducao": "No zoológico da cidade, cinco tratadores são responsáveis cada um por um animal diferente. Cada um deu um apelido diferente ao seu animal, trabalha com um ajudante diferente e alimenta seu animal em um horário diferente. A partir das dicas, descubra, para cada um, o apelido do animal, o ajudante e o horário da refeição.",
+  "categorias": [
+    { "id": "tratador", "nome": "Tratador(a)", "itens": ["Cecília", "Gabriela", "Helena", "Júlio", "Ricardo"] },
+    { "id": "apelido", "nome": "Apelido", "itens": ["Bolinha", "Faísca", "Nuvem", "Pingo", "Trovão"] },
+    { "id": "ajudante", "nome": "Ajudante", "itens": ["Diana", "Leonardo", "Natan", "Otávio", "Tânia"] },
+    { "id": "horario", "nome": "Horário", "itens": ["9h", "10h", "11h", "12h", "13h"], "valores": [9, 10, 11, 12, 13], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["hora","horas"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Quem deu ao animal o apelido de Pingo alimenta seu animal antes de quem tem Leonardo como ajudante.", "regras": [[">", "horario", "Leonardo", "Pingo"]] },
+    { "texto": "Júlio e Cecília alimentam seus animais com duas horas de diferença.", "regras": [["dist", "horario", "Júlio", "Cecília", 2]] },
+    { "texto": "Quem deu ao animal o apelido de Nuvem não tem Leonardo como ajudante.", "regras": [["!=", "Leonardo", "Nuvem"]] },
+    { "texto": "Ricardo alimenta seu animal depois de quem tem Otávio como ajudante.", "regras": [[">", "horario", "Ricardo", "Otávio"]] },
+    { "texto": "Quem tem Diana como ajudante alimenta seu animal duas horas depois de Cecília.", "regras": [["dif", "horario", "Diana", "Cecília", 2]] },
+    { "texto": "Júlio não deu ao animal o apelido de Nuvem.", "regras": [["!=", "Júlio", "Nuvem"]] },
+    { "texto": "Quem deu ao animal o apelido de Faísca alimenta seu animal depois de quem deu ao animal o apelido de Bolinha.", "regras": [[">", "horario", "Faísca", "Bolinha"]] },
+    { "texto": "Quem tem Otávio como ajudante alimenta seu animal uma hora depois de quem tem Tânia como ajudante.", "regras": [["dif", "horario", "Otávio", "Tânia", 1]] },
+    { "texto": "Júlio alimenta seu animal às 13h.", "regras": [["=", "13h", "Júlio"]] },
+    { "texto": "Helena e quem deu ao animal o apelido de Trovão alimentam seus animais com uma hora de diferença.", "regras": [["dist", "horario", "Trovão", "Helena", 1]] },
+    { "texto": "Helena tem Tânia como ajudante.", "regras": [["=", "Helena", "Tânia"]] },
+    { "texto": "Quem tem Leonardo como ajudante alimenta seu animal antes de quem tem Natan como ajudante.", "regras": [[">", "horario", "Natan", "Leonardo"]] }
+  ],
+  "solucao": [
+    ["Cecília", "Bolinha", "Leonardo", "11h"],
+    ["Gabriela", "Trovão", "Otávio", "10h"],
+    ["Helena", "Pingo", "Tânia", "9h"],
+    ["Júlio", "Faísca", "Diana", "13h"],
+    ["Ricardo", "Nuvem", "Natan", "12h"]
+  ]
+}

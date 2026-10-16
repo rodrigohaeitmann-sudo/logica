@@ -1,0 +1,33 @@
+{
+  "id": "meia-maratona",
+  "versao": 1,
+  "titulo": "Meia maratona",
+  "nivel": "medio",
+  "tipo": "calculo",
+  "introducao": "Quatro amigos que treinam juntos no parque se inscreveram numa corrida de rua no último domingo. Cada um treina com uma equipe de corrida diferente, veio de uma cidade diferente, correu com uma camiseta de cor diferente e tem uma idade diferente. A partir das dicas, descubra, para cada um, a equipe de treino, a cidade de origem, a cor da camiseta e a idade.",
+  "categorias": [
+    { "id": "corredor", "nome": "Corredor(a)", "itens": ["Ana", "Davi", "Nina", "Samuel"] },
+    { "id": "equipe", "nome": "Equipe", "itens": ["Largada", "Passo Firme", "Pé na Pista", "Vento Sul"] },
+    { "id": "cidade", "nome": "Cidade", "itens": ["Franca", "Piracicaba", "Santos", "Sorocaba"] },
+    { "id": "camiseta", "nome": "Camiseta", "itens": ["Amarela", "Laranja", "Rosa", "Roxa"] },
+    { "id": "idade", "nome": "Idade", "itens": ["22 anos", "25 anos", "28 anos", "31 anos"], "valores": [22, 25, 28, 31], "relacao": {"menor":"mais novo(a) que","maior":"mais velho(a) que","menorK":"{k} mais novo(a) que","maiorK":"{k} mais velho(a) que","unidade":["ano","anos"],"menorCurto":"mais novo(a)","maiorCurto":"mais velho(a)"} }
+  ],
+  "dicas": [
+    { "texto": "Quem correu de laranja é o mais velho ou o mais novo do grupo.", "regras": [["extremo", "idade", "Laranja"]] },
+    { "texto": "Nina é seis anos mais nova que quem correu de amarelo.", "regras": [["dif", "idade", "Amarela", "Nina", 6]] },
+    { "texto": "Quem correu de roxo é três anos mais novo que quem veio de Franca.", "regras": [["dif", "idade", "Franca", "Roxa", 3]] },
+    { "texto": "Entre Samuel e Davi, um treina com a equipe Largada e o outro, com a equipe Passo Firme.", "regras": [["par", ["Samuel", "Davi"], ["Largada", "Passo Firme"]]] },
+    { "texto": "Nina é seis anos mais nova que quem treina com a equipe Largada.", "regras": [["dif", "idade", "Largada", "Nina", 6]] },
+    { "texto": "Davi é seis anos mais velho que quem correu de rosa.", "regras": [["dif", "idade", "Davi", "Rosa", 6]] },
+    { "texto": "Quem veio de Santos é três anos mais velho que quem veio de Sorocaba.", "regras": [["dif", "idade", "Santos", "Sorocaba", 3]] },
+    { "texto": "Quem veio de Franca não correu de rosa.", "regras": [["!=", "Franca", "Rosa"]] },
+    { "texto": "Ana não treina com a equipe Pé na Pista.", "regras": [["!=", "Pé na Pista", "Ana"]] },
+    { "texto": "Samuel é mais novo que quem correu de laranja.", "regras": [[">", "idade", "Laranja", "Samuel"]] }
+  ],
+  "solucao": [
+    ["Ana", "Vento Sul", "Piracicaba", "Laranja", "31 anos"],
+    ["Davi", "Largada", "Franca", "Amarela", "28 anos"],
+    ["Nina", "Pé na Pista", "Sorocaba", "Rosa", "22 anos"],
+    ["Samuel", "Passo Firme", "Santos", "Roxa", "25 anos"]
+  ]
+}

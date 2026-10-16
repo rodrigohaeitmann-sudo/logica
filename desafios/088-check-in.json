@@ -1,0 +1,36 @@
+{
+  "id": "check-in",
+  "versao": 1,
+  "titulo": "Check-in",
+  "nivel": "dificil",
+  "tipo": "calculo",
+  "introducao": "Durante o feriado, cinco hóspedes que não se conheciam ficaram no mesmo hotel. Cada um viajou por um motivo diferente, tem um pedido preferido diferente no café da manhã, veio de uma cidade diferente e passou um número diferente de noites no hotel. A partir das dicas, descubra, para cada um, o motivo da viagem, o pedido do café da manhã, a cidade de origem e quantas noites passou no hotel.",
+  "categorias": [
+    { "id": "hospede", "nome": "Hóspede", "itens": ["Alice", "Júlia", "Patrícia", "Vanessa", "Wagner"] },
+    { "id": "motivo", "nome": "Motivo", "itens": ["Congresso", "Descanso", "Lua de mel", "Show", "Trabalho"] },
+    { "id": "cafe", "nome": "Café da manhã", "itens": ["Omelete", "Panqueca", "Pão de queijo", "Salada de frutas", "Tapioca"] },
+    { "id": "cidade", "nome": "Cidade", "itens": ["Brasília", "Fortaleza", "Porto Alegre", "Recife", "Salvador"] },
+    { "id": "noites", "nome": "Noites", "itens": ["2 noites", "3 noites", "4 noites", "5 noites", "6 noites"], "valores": [2, 3, 4, 5, 6], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["noite","noites"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "Patrícia pede salada de frutas no café da manhã ou passou quatro noites no hotel, mas não as duas coisas.", "regras": [["ou", "Patrícia", "Salada de frutas", "4 noites"]] },
+    { "texto": "Entre quem viajou para um congresso e quem viajou para descansar, um veio de Recife e o outro, de Brasília.", "regras": [["par", ["Congresso", "Descanso"], ["Recife", "Brasília"]]] },
+    { "texto": "Wagner passou menos noites no hotel que quem pede panqueca no café da manhã.", "regras": [[">", "noites", "Panqueca", "Wagner"]] },
+    { "texto": "Quem pede omelete no café da manhã passou menos noites no hotel que quem veio de Porto Alegre.", "regras": [[">", "noites", "Porto Alegre", "Omelete"]] },
+    { "texto": "Quem veio de Fortaleza passou mais noites no hotel que quem pede panqueca no café da manhã.", "regras": [[">", "noites", "Fortaleza", "Panqueca"]] },
+    { "texto": "Quem viajou em lua de mel passou três noites a mais no hotel que quem veio de Brasília.", "regras": [["dif", "noites", "Lua de mel", "Brasília", 3]] },
+    { "texto": "Quem veio de Fortaleza passou uma noite a mais no hotel que quem pede salada de frutas no café da manhã.", "regras": [["dif", "noites", "Fortaleza", "Salada de frutas", 1]] },
+    { "texto": "Quem viajou a trabalho passou duas noites a mais no hotel que quem veio de Salvador.", "regras": [["dif", "noites", "Trabalho", "Salvador", 2]] },
+    { "texto": "Alice passou uma noite a menos no hotel que Júlia.", "regras": [["dif", "noites", "Júlia", "Alice", 1]] },
+    { "texto": "Entre Wagner e quem pede salada de frutas no café da manhã, um viajou para descansar e o outro, em lua de mel.", "regras": [["par", ["Wagner", "Salada de frutas"], ["Descanso", "Lua de mel"]]] },
+    { "texto": "Quem pede pão de queijo no café da manhã passou uma noite a mais no hotel que quem viajou para descansar.", "regras": [["dif", "noites", "Pão de queijo", "Descanso", 1]] },
+    { "texto": "Júlia não foi quem passou mais noites nem quem passou menos noites no hotel.", "regras": [["meio", "noites", "Júlia"]] }
+  ],
+  "solucao": [
+    ["Alice", "Congresso", "Pão de queijo", "Recife", "3 noites"],
+    ["Júlia", "Show", "Panqueca", "Salvador", "4 noites"],
+    ["Patrícia", "Lua de mel", "Salada de frutas", "Porto Alegre", "5 noites"],
+    ["Vanessa", "Trabalho", "Tapioca", "Fortaleza", "6 noites"],
+    ["Wagner", "Descanso", "Omelete", "Brasília", "2 noites"]
+  ]
+}

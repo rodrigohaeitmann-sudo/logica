@@ -1,0 +1,35 @@
+{
+  "id": "parabens-pra-voce",
+  "versao": 1,
+  "titulo": "Parabéns pra você",
+  "nivel": "medio",
+  "tipo": "associacao",
+  "introducao": "Cinco colegas da mesma turma da escola sempre convidam a sala inteira para suas festas de aniversário. Cada um escolheu um tema de festa diferente, ganhou um presente diferente e comemorou em um lugar diferente. A partir das dicas, descubra, para cada um, o tema da festa, o presente e onde comemorou.",
+  "categorias": [
+    { "id": "aniversariante", "nome": "Aniversariante", "itens": ["Estela", "Fábio", "Iara", "Miguel", "Valter"] },
+    { "id": "tema", "nome": "Tema", "itens": ["Circo", "Espaço", "Futebol", "Safári", "Super-heróis"] },
+    { "id": "presente", "nome": "Presente", "itens": ["Bicicleta", "Câmera", "Patins", "Relógio", "Violão"] },
+    { "id": "local", "nome": "Local", "itens": ["Casa", "Parque", "Praia", "Salão", "Sítio"] }
+  ],
+  "dicas": [
+    { "texto": "Quem ganhou os patins comemorou num salão de festas.", "regras": [["=", "Salão", "Patins"]] },
+    { "texto": "Quem ganhou o violão comemorou no parque.", "regras": [["=", "Parque", "Violão"]] },
+    { "texto": "Iara não ganhou uma câmera.", "regras": [["!=", "Câmera", "Iara"]] },
+    { "texto": "Quem escolheu o tema safári não comemorou num sítio.", "regras": [["!=", "Sítio", "Safári"]] },
+    { "texto": "Quem escolheu o tema circo comemorou no parque.", "regras": [["=", "Circo", "Parque"]] },
+    { "texto": "Estela, quem escolheu o tema futebol, quem escolheu o tema circo e quem comemorou num sítio são quatro pessoas diferentes.", "regras": [["distintos", "Futebol", "Circo", "Sítio", "Estela"]] },
+    { "texto": "Valter escolheu o tema espaço sideral ou super-heróis.", "regras": [["ou", "Valter", "Espaço", "Super-heróis"]] },
+    { "texto": "Entre Miguel e quem ganhou a bicicleta, um escolheu o tema safári e o outro, super-heróis.", "regras": [["par", ["Bicicleta", "Miguel"], ["Safári", "Super-heróis"]]] },
+    { "texto": "Quem escolheu o tema safári não comemorou em casa.", "regras": [["!=", "Safári", "Casa"]] },
+    { "texto": "Fábio ganhou um par de patins ou comemorou no parque, mas não as duas coisas.", "regras": [["ou", "Fábio", "Parque", "Patins"]] },
+    { "texto": "Quem comemorou na praia ganhou um violão ou uma bicicleta.", "regras": [["ou", "Praia", "Bicicleta", "Violão"]] },
+    { "texto": "Entre Valter e Estela, um ganhou um par de patins e o outro, uma bicicleta.", "regras": [["par", ["Valter", "Estela"], ["Patins", "Bicicleta"]]] }
+  ],
+  "solucao": [
+    ["Estela", "Safári", "Bicicleta", "Praia"],
+    ["Fábio", "Circo", "Violão", "Parque"],
+    ["Iara", "Futebol", "Relógio", "Casa"],
+    ["Miguel", "Super-heróis", "Câmera", "Sítio"],
+    ["Valter", "Espaço", "Patins", "Salão"]
+  ]
+}

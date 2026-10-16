@@ -1,0 +1,28 @@
+{
+  "id": "semana-de-provas",
+  "versao": 1,
+  "titulo": "Semana de provas",
+  "nivel": "dificil",
+  "tipo": "calculo",
+  "introducao": "Diana passou a semana inteira estudando: teve uma prova diferente a cada dia, de segunda a quinta. Cada prova foi aplicada por um professor diferente e teve uma nota diferente. A partir das dicas, descubra, para cada dia, quem aplicou a prova, a disciplina e a nota.",
+  "categorias": [
+    { "id": "dia", "nome": "Dia", "itens": ["Segunda", "Terça", "Quarta", "Quinta"], "valores": [1, 2, 3, 4], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["dia","dias"],"menorCurto":"antes","maiorCurto":"depois"} },
+    { "id": "professor", "nome": "Professor(a)", "itens": ["Isabela", "Júlio", "Natália", "Ursula"] },
+    { "id": "disciplina", "nome": "Disciplina", "itens": ["Física", "História", "Inglês", "Matemática"] },
+    { "id": "nota", "nome": "Nota", "itens": ["6,5", "7", "7,5", "8"], "valores": [6.5, 7, 7.5, 8], "formato": "nota {}", "relacao": {"menor":"nota menor que","maior":"nota maior que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["ponto","pontos"],"menorCurto":"menor","maiorCurto":"maior"} }
+  ],
+  "dicas": [
+    { "texto": "A prova da professora Isabela teve um ponto e meio a menos que a da prova de história.", "regras": [["dif", "nota", "História", "Isabela", 1.5]] },
+    { "texto": "As notas da prova da professora Natália e da prova da professora Isabela tiveram um ponto de diferença.", "regras": [["dist", "nota", "Natália", "Isabela", 1]] },
+    { "texto": "A prova de quinta-feira teve um ponto a mais que a da prova de inglês.", "regras": [["dif", "nota", "Quinta", "Inglês", 1]] },
+    { "texto": "A prova de matemática não foi nem a primeira nem a última prova da semana.", "regras": [["meio", "dia", "Matemática"]] },
+    { "texto": "A prova que teve nota 7 foi na quarta-feira ou foi aplicada pelo professor Júlio, mas não as duas coisas.", "regras": [["ou", "7", "Júlio", "Quarta"]] },
+    { "texto": "A prova de terça-feira teve meio ponto a mais que a da prova de matemática.", "regras": [["dif", "nota", "Terça", "Matemática", 0.5]] }
+  ],
+  "solucao": [
+    ["Segunda", "Natália", "Física", "7,5"],
+    ["Terça", "Júlio", "Inglês", "7"],
+    ["Quarta", "Isabela", "Matemática", "6,5"],
+    ["Quinta", "Ursula", "História", "8"]
+  ]
+}

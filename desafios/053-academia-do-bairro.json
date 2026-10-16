@@ -1,0 +1,33 @@
+{
+  "id": "academia-do-bairro",
+  "versao": 1,
+  "titulo": "Academia do bairro",
+  "nivel": "medio",
+  "tipo": "misto",
+  "introducao": "Cinco amigos se matricularam juntos numa academia, mas acabaram criando rotinas bem diferentes. Cada um tem um professor diferente, treina em um horário diferente e vai à academia um número diferente de vezes por semana. A partir das dicas, descubra, para cada um, quem é o professor, o horário do treino e quantas vezes por semana vai à academia.",
+  "categorias": [
+    { "id": "aluno", "nome": "Aluno(a)", "itens": ["Flávia", "Hugo", "Isabela", "Mateus", "Vanessa"] },
+    { "id": "professor", "nome": "Professor(a)", "itens": ["Elias", "Gustavo", "Lucas", "Pedro", "Tatiana"] },
+    { "id": "horario", "nome": "Horário", "itens": ["6h", "7h", "8h", "9h", "10h"], "valores": [6, 7, 8, 9, 10], "relacao": {"menor":"mais cedo que","maior":"mais tarde que","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["hora","horas"],"menorCurto":"mais cedo","maiorCurto":"mais tarde"} },
+    { "id": "frequencia", "nome": "Frequência", "itens": ["2 vezes", "3 vezes", "4 vezes", "5 vezes", "6 vezes"], "valores": [2, 3, 4, 5, 6], "formato": "{} por semana", "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["vez","vezes"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "Hugo não vai à academia cinco vezes por semana.", "regras": [["!=", "Hugo", "5 vezes"]] },
+    { "texto": "Quem treina com Pedro não treina às 9h.", "regras": [["!=", "9h", "Pedro"]] },
+    { "texto": "Mateus treina às 9h.", "regras": [["=", "9h", "Mateus"]] },
+    { "texto": "Isabela vai à academia uma vez a mais por semana que quem treina às 8h.", "regras": [["dif", "frequencia", "Isabela", "8h", 1]] },
+    { "texto": "Quem vai à academia cinco vezes por semana treina uma hora depois de quem vai à academia três vezes por semana.", "regras": [["dif", "horario", "5 vezes", "3 vezes", 1]] },
+    { "texto": "Vanessa treina com Lucas.", "regras": [["=", "Lucas", "Vanessa"]] },
+    { "texto": "Quem treina com Gustavo vai à academia três vezes a menos por semana que quem treina mais tarde.", "regras": [["dif", "frequencia", "10h", "Gustavo", 3]] },
+    { "texto": "Flávia não treina com Tatiana.", "regras": [["!=", "Tatiana", "Flávia"]] },
+    { "texto": "Quem treina com Pedro vai à academia cinco vezes por semana.", "regras": [["=", "Pedro", "5 vezes"]] },
+    { "texto": "Entre Hugo e Vanessa, um treina às 6h e o outro, às 10h.", "regras": [["par", ["Hugo", "Vanessa"], ["6h", "10h"]]] }
+  ],
+  "solucao": [
+    ["Flávia", "Elias", "8h", "4 vezes"],
+    ["Hugo", "Gustavo", "6h", "3 vezes"],
+    ["Isabela", "Pedro", "7h", "5 vezes"],
+    ["Mateus", "Tatiana", "9h", "2 vezes"],
+    ["Vanessa", "Lucas", "10h", "6 vezes"]
+  ]
+}

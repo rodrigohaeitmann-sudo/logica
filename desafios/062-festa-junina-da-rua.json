@@ -1,0 +1,36 @@
+{
+  "id": "festa-junina-da-rua",
+  "versao": 1,
+  "titulo": "Festa junina da rua",
+  "nivel": "dificil",
+  "tipo": "ordem",
+  "introducao": "Cinco vizinhos se ofereceram para trabalhar nas barracas da festa junina da rua. Cada um ficou em uma barraca diferente, tem um doce junino preferido diferente, usou um acessório típico diferente e começou o turno em um horário diferente. A partir das dicas, descubra, para cada um, a barraca, o doce preferido, o acessório típico e o horário de início do turno.",
+  "categorias": [
+    { "id": "voluntario", "nome": "Voluntário(a)", "itens": ["Eduarda", "Isabela", "Nádia", "Tatiana", "Vítor"] },
+    { "id": "barraca", "nome": "Barraca", "itens": ["Cachorro-quente", "Maçã do amor", "Pamonha", "Pescaria", "Quentão"] },
+    { "id": "doce", "nome": "Doce preferido", "itens": ["Canjica", "Cocada", "Paçoca", "Pé de moleque", "Pinhão"] },
+    { "id": "traje", "nome": "Acessório", "itens": ["Bigode pintado", "Camisa xadrez", "Macacão", "Trança postiça", "Vestido de chita"] },
+    { "id": "turno", "nome": "Início do turno", "itens": ["16h", "17h", "18h", "19h", "20h"], "valores": [16, 17, 18, 19, 20], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["hora","horas"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Quem ficou na barraca de pamonha começou o turno depois de quem adora cocada.", "regras": [[">", "turno", "Pamonha", "Cocada"]] },
+    { "texto": "Vítor começou o turno uma hora depois de quem ficou na barraca de pescaria.", "regras": [["dif", "turno", "Vítor", "Pescaria", 1]] },
+    { "texto": "Quem ficou na barraca de maçã do amor começou o turno três horas antes de quem ficou na barraca de quentão.", "regras": [["dif", "turno", "Quentão", "Maçã do amor", 3]] },
+    { "texto": "Quem adora pé de moleque começou o turno antes de quem usou o macacão remendado.", "regras": [[">", "turno", "Macacão", "Pé de moleque"]] },
+    { "texto": "Eduarda e Isabela começaram seus turnos com uma hora de diferença.", "regras": [["dist", "turno", "Isabela", "Eduarda", 1]] },
+    { "texto": "Quem ficou na barraca de pescaria começou o turno duas horas antes de quem usou a camisa xadrez.", "regras": [["dif", "turno", "Camisa xadrez", "Pescaria", 2]] },
+    { "texto": "Eduarda começou o turno três horas antes de quem usou o macacão remendado.", "regras": [["dif", "turno", "Macacão", "Eduarda", 3]] },
+    { "texto": "Quem usou o vestido de chita começou o turno antes de quem ficou na barraca de pescaria.", "regras": [[">", "turno", "Pescaria", "Vestido de chita"]] },
+    { "texto": "Quem ficou na barraca de cachorro-quente começou o turno três horas antes de Tatiana.", "regras": [["dif", "turno", "Tatiana", "Cachorro-quente", 3]] },
+    { "texto": "Quem adora canjica começou o turno uma hora antes de quem adora pinhão.", "regras": [["dif", "turno", "Pinhão", "Canjica", 1]] },
+    { "texto": "Quem adora pinhão ficou na barraca de pescaria ou na barraca de maçã do amor.", "regras": [["ou", "Pinhão", "Pescaria", "Maçã do amor"]] },
+    { "texto": "Quem começou o turno às 16h usou uma camisa xadrez ou uma trança postiça.", "regras": [["ou", "16h", "Trança postiça", "Camisa xadrez"]] }
+  ],
+  "solucao": [
+    ["Eduarda", "Maçã do amor", "Pé de moleque", "Trança postiça", "16h"],
+    ["Isabela", "Cachorro-quente", "Canjica", "Vestido de chita", "17h"],
+    ["Nádia", "Pescaria", "Pinhão", "Bigode pintado", "18h"],
+    ["Tatiana", "Pamonha", "Paçoca", "Camisa xadrez", "20h"],
+    ["Vítor", "Quentão", "Cocada", "Macacão", "19h"]
+  ]
+}

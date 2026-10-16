@@ -1,0 +1,29 @@
+{
+  "id": "hotel-beira-mar",
+  "versao": 1,
+  "titulo": "Hotel Beira-Mar",
+  "nivel": "dificil",
+  "tipo": "ordem",
+  "introducao": "Durante o feriado, quatro hóspedes que não se conheciam ficaram no mesmo hotel. Cada um viajou por um motivo diferente, veio de uma cidade diferente e ficou em um andar diferente. A partir das dicas, descubra, para cada um, o motivo da viagem, a cidade de origem e o andar.",
+  "categorias": [
+    { "id": "hospede", "nome": "Hóspede", "itens": ["Alexandre", "Guilherme", "Lorena", "Paula"] },
+    { "id": "motivo", "nome": "Motivo", "itens": ["Descanso", "Lua de mel", "Maratona", "Trabalho"] },
+    { "id": "cidade", "nome": "Cidade", "itens": ["Belo Horizonte", "Brasília", "Fortaleza", "Porto Alegre"] },
+    { "id": "andar", "nome": "Andar", "itens": ["1º andar", "2º andar", "3º andar", "4º andar"], "valores": [1, 2, 3, 4], "relacao": {"menor":"abaixo de","maior":"acima de","menorK":"{k} abaixo de","maiorK":"{k} acima de","unidade":["andar","andares"],"menorCurto":"abaixo","maiorCurto":"acima"} }
+  ],
+  "dicas": [
+    { "texto": "Paula não veio de Belo Horizonte.", "regras": [["!=", "Belo Horizonte", "Paula"]] },
+    { "texto": "Alexandre ficou no andar logo abaixo do de Lorena.", "regras": [["dif", "andar", "Lorena", "Alexandre", 1]] },
+    { "texto": "Quem viajou em lua de mel ficou abaixo de quem viajou para descansar.", "regras": [[">", "andar", "Descanso", "Lua de mel"]] },
+    { "texto": "Lorena e quem veio de Belo Horizonte ficaram a dois andares de distância.", "regras": [["dist", "andar", "Lorena", "Belo Horizonte", 2]] },
+    { "texto": "Entre quem viajou para correr uma maratona e quem viajou para descansar, um veio de Fortaleza e o outro, de Belo Horizonte.", "regras": [["par", ["Maratona", "Descanso"], ["Fortaleza", "Belo Horizonte"]]] },
+    { "texto": "Quem veio de Brasília e quem veio de Belo Horizonte ficaram em andares vizinhos.", "regras": [["dist", "andar", "Belo Horizonte", "Brasília", 1]] },
+    { "texto": "Guilherme e quem viajou para correr uma maratona ficaram em andares vizinhos.", "regras": [["dist", "andar", "Maratona", "Guilherme", 1]] }
+  ],
+  "solucao": [
+    ["Alexandre", "Maratona", "Fortaleza", "3º andar"],
+    ["Guilherme", "Descanso", "Belo Horizonte", "2º andar"],
+    ["Lorena", "Trabalho", "Porto Alegre", "4º andar"],
+    ["Paula", "Lua de mel", "Brasília", "1º andar"]
+  ]
+}

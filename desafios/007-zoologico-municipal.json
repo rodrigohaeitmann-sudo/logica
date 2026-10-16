@@ -1,0 +1,32 @@
+{
+  "id": "zoologico-municipal",
+  "versao": 1,
+  "titulo": "Zoológico municipal",
+  "nivel": "dificil",
+  "tipo": "associacao",
+  "introducao": "Cinco tratadores do zoológico municipal participaram de uma entrevista para o jornal do bairro. Cada um deu um apelido diferente ao seu animal, trabalha com um ajudante diferente e cuida de um animal diferente. A partir das dicas, descubra, para cada um, o apelido do animal, o ajudante e o animal.",
+  "categorias": [
+    { "id": "tratador", "nome": "Tratador(a)", "itens": ["Gustavo", "Helena", "Natália", "Raquel", "Simone"] },
+    { "id": "apelido", "nome": "Apelido", "itens": ["Biscoito", "Faísca", "Pingo", "Pipoca", "Trovão"] },
+    { "id": "ajudante", "nome": "Ajudante", "itens": ["Ana", "Júlio", "Larissa", "Orlando", "Tatiana"] },
+    { "id": "animal", "nome": "Animal", "itens": ["Anta", "Girafa", "Hipopótamo", "Leão", "Tigre"] }
+  ],
+  "dicas": [
+    { "texto": "Natália, quem tem Júlio como ajudante e quem tem Larissa como ajudante são três pessoas diferentes.", "regras": [["distintos", "Júlio", "Larissa", "Natália"]] },
+    { "texto": "Entre quem deu ao animal o apelido de Trovão e quem deu ao animal o apelido de Biscoito, um tem Tatiana como ajudante e o outro, Larissa.", "regras": [["par", ["Trovão", "Biscoito"], ["Tatiana", "Larissa"]]] },
+    { "texto": "Entre Helena e Simone, uma cuida do leão e a outra, da anta.", "regras": [["par", ["Helena", "Simone"], ["Leão", "Anta"]]] },
+    { "texto": "Quem tem Júlio como ajudante deu ao animal o apelido de Pipoca ou cuida do hipopótamo, mas não as duas coisas.", "regras": [["ou", "Júlio", "Pipoca", "Hipopótamo"]] },
+    { "texto": "Quem tem Larissa como ajudante deu ao animal o apelido de Pingo ou Biscoito.", "regras": [["ou", "Larissa", "Biscoito", "Pingo"]] },
+    { "texto": "Entre Gustavo e quem deu ao animal o apelido de Faísca, um cuida da girafa e o outro, da anta.", "regras": [["par", ["Gustavo", "Faísca"], ["Girafa", "Anta"]]] },
+    { "texto": "Quem deu ao animal o apelido de Biscoito, quem tem Júlio como ajudante, quem cuida da girafa e quem cuida do hipopótamo são quatro pessoas diferentes.", "regras": [["distintos", "Biscoito", "Júlio", "Girafa", "Hipopótamo"]] },
+    { "texto": "Quem tem Júlio como ajudante é Natália ou Simone.", "regras": [["ou", "Júlio", "Simone", "Natália"]] },
+    { "texto": "Natália, quem deu ao animal o apelido de Pingo e quem tem Ana como ajudante são três pessoas diferentes.", "regras": [["distintos", "Pingo", "Ana", "Natália"]] }
+  ],
+  "solucao": [
+    ["Gustavo", "Pingo", "Orlando", "Girafa"],
+    ["Helena", "Faísca", "Ana", "Anta"],
+    ["Natália", "Trovão", "Tatiana", "Hipopótamo"],
+    ["Raquel", "Biscoito", "Larissa", "Tigre"],
+    ["Simone", "Pipoca", "Júlio", "Leão"]
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "arte-na-praca",
+  "versao": 1,
+  "titulo": "Arte na praça",
+  "nivel": "dificil",
+  "tipo": "misto",
+  "introducao": "Na feira de artesanato da praça, cinco artesãos montaram suas bancas lado a lado. Cada um trabalha com um material diferente, cobra um preço diferente por peça e ficou em uma banca diferente. A partir das dicas, descubra, para cada um, o material, o preço por peça e a banca.",
+  "categorias": [
+    { "id": "artesao", "nome": "Artesão(ã)", "itens": ["Diana", "Flávia", "Nelson", "Vítor", "Zélia"] },
+    { "id": "material", "nome": "Material", "itens": ["Cerâmica", "Couro", "Madeira", "Metal", "Papel"] },
+    { "id": "preco", "nome": "Preço", "itens": ["R$ 30", "R$ 40", "R$ 50", "R$ 60", "R$ 70"], "valores": [30, 40, 50, 60, 70], "relacao": {"menor":"mais barato que","maior":"mais caro que","menorK":"{k} mais barato que","maiorK":"{k} mais caro que","prefixo":"R$ ","menorCurto":"mais barato","maiorCurto":"mais caro"} },
+    { "id": "banca", "nome": "Banca", "itens": ["Banca 1", "Banca 2", "Banca 3", "Banca 4", "Banca 5"], "valores": [1, 2, 3, 4, 5], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["banca","bancas"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Entre quem trabalha com metal e quem trabalha com cerâmica, um cobra R$ 40 por peça e o outro, R$ 70.", "regras": [["par", ["Metal", "Cerâmica"], ["R$ 40", "R$ 70"]]] },
+    { "texto": "Flávia trabalha com couro ou com cerâmica.", "regras": [["ou", "Flávia", "Couro", "Cerâmica"]] },
+    { "texto": "Quem trabalha com metal não cobra nem o preço mais alto nem o mais baixo.", "regras": [["meio", "preco", "Metal"]] },
+    { "texto": "Entre quem ficou na banca 3 e quem ficou na banca 4, um é Vítor e o outro, Nelson.", "regras": [["par", ["Banca 3", "Banca 4"], ["Vítor", "Nelson"]]] },
+    { "texto": "Diana cobra R$ 10 a mais que quem ficou na banca 3.", "regras": [["dif", "preco", "Diana", "Banca 3", 10]] },
+    { "texto": "Os preços de Flávia e de Nelson têm R$ 20 de diferença.", "regras": [["dist", "preco", "Nelson", "Flávia", 20]] },
+    { "texto": "Quem cobra R$ 50 por peça ficou duas bancas depois de quem trabalha com madeira.", "regras": [["dif", "banca", "R$ 50", "Madeira", 2]] },
+    { "texto": "Diana ficou três bancas antes de quem cobra R$ 70 por peça.", "regras": [["dif", "banca", "R$ 70", "Diana", 3]] },
+    { "texto": "Zélia e quem cobra R$ 50 por peça ficaram em bancas vizinhas.", "regras": [["dist", "banca", "R$ 50", "Zélia", 1]] }
+  ],
+  "solucao": [
+    ["Diana", "Madeira", "R$ 60", "Banca 1"],
+    ["Flávia", "Couro", "R$ 30", "Banca 5"],
+    ["Nelson", "Papel", "R$ 50", "Banca 3"],
+    ["Vítor", "Cerâmica", "R$ 70", "Banca 4"],
+    ["Zélia", "Metal", "R$ 40", "Banca 2"]
+  ]
+}

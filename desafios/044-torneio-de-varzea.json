@@ -1,0 +1,27 @@
+{
+  "id": "torneio-de-varzea",
+  "versao": 1,
+  "titulo": "Torneio de várzea",
+  "nivel": "medio",
+  "tipo": "calculo",
+  "introducao": "Quatro times amadores disputaram o torneio de futebol do bairro neste fim de semana. Cada time representa um bairro diferente, tinha um capitão diferente e marcou um número diferente de gols. A partir das dicas, descubra, para cada time, o bairro que representa, quem comandou o time em campo e quantos gols marcou.",
+  "categorias": [
+    { "id": "time", "nome": "Time", "itens": ["Bela Vista", "Juventude", "União", "Vila Nova"] },
+    { "id": "bairro", "nome": "Bairro", "itens": ["Ipiranga", "Lapa", "Mooca", "Tatuapé"] },
+    { "id": "capitao", "nome": "Capitão(ã)", "itens": ["Carolina", "Fernando", "Miguel", "Tânia"] },
+    { "id": "gols", "nome": "Gols", "itens": ["1 gol", "3 gols", "9 gols", "12 gols"], "valores": [1, 3, 9, 12], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["gol","gols"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "A diferença entre os gols do time da Mooca e os do Bela Vista foi de seis.", "regras": [["dist", "gols", "Mooca", "Bela Vista", 6]] },
+    { "texto": "O time da Lapa marcou dois gols a mais que o Juventude.", "regras": [["dif", "gols", "Lapa", "Juventude", 2]] },
+    { "texto": "O time de Carolina marcou dois gols a menos que o time da Lapa.", "regras": [["dif", "gols", "Lapa", "Carolina", 2]] },
+    { "texto": "O time de Fernando marcou três gols a mais que o União.", "regras": [["dif", "gols", "Fernando", "União", 3]] },
+    { "texto": "O time do Tatuapé marcou três gols a mais que o time de Tânia.", "regras": [["dif", "gols", "Tatuapé", "Tânia", 3]] }
+  ],
+  "solucao": [
+    ["Bela Vista", "Lapa", "Miguel", "3 gols"],
+    ["Juventude", "Ipiranga", "Carolina", "1 gol"],
+    ["União", "Mooca", "Tânia", "9 gols"],
+    ["Vila Nova", "Tatuapé", "Fernando", "12 gols"]
+  ]
+}

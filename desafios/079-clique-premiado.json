@@ -1,0 +1,29 @@
+{
+  "id": "clique-premiado",
+  "versao": 1,
+  "titulo": "Clique premiado",
+  "nivel": "dificil",
+  "tipo": "associacao",
+  "introducao": "No concurso de fotografia da biblioteca municipal, quatro participantes chegaram à final. Cada um fotografou um tema diferente, usou um equipamento diferente e mora em uma cidade diferente. A partir das dicas, descubra, para cada um, o tema das fotos, o equipamento e a cidade onde mora.",
+  "categorias": [
+    { "id": "fotografo", "nome": "Fotógrafo(a)", "itens": ["Alexandre", "Cecília", "Igor", "Valéria"] },
+    { "id": "tema", "nome": "Tema", "itens": ["Animais", "Céu noturno", "Retratos", "Vida nas ruas"] },
+    { "id": "camera", "nome": "Equipamento", "itens": ["Analógica", "Compacta", "Drone", "Instantânea"] },
+    { "id": "cidade", "nome": "Cidade", "itens": ["Maringá", "Niterói", "Ribeirão Preto", "Santos"] }
+  ],
+  "dicas": [
+    { "texto": "Entre quem mora em Santos e quem usou o drone, um fotografou o céu noturno e o outro, retratos.", "regras": [["par", ["Santos", "Drone"], ["Céu noturno", "Retratos"]]] },
+    { "texto": "Entre Igor e quem fotografou o céu noturno, um usou uma câmera analógica e o outro, uma câmera compacta.", "regras": [["par", ["Céu noturno", "Igor"], ["Analógica", "Compacta"]]] },
+    { "texto": "Quem usou a câmera instantânea mora em Niterói ou fotografou animais, mas não as duas coisas.", "regras": [["ou", "Instantânea", "Animais", "Niterói"]] },
+    { "texto": "Entre quem fotografou a vida nas ruas e quem fotografou retratos, um era Igor e o outro, Alexandre.", "regras": [["par", ["Vida nas ruas", "Retratos"], ["Igor", "Alexandre"]]] },
+    { "texto": "Quem usou a câmera compacta, quem usou o drone e quem fotografou a vida nas ruas são três pessoas diferentes.", "regras": [["distintos", "Compacta", "Drone", "Vida nas ruas"]] },
+    { "texto": "Cecília não usou uma câmera compacta.", "regras": [["!=", "Cecília", "Compacta"]] },
+    { "texto": "Cecília, quem mora em Maringá e quem usou o drone são três pessoas diferentes.", "regras": [["distintos", "Maringá", "Cecília", "Drone"]] }
+  ],
+  "solucao": [
+    ["Alexandre", "Retratos", "Drone", "Niterói"],
+    ["Cecília", "Animais", "Instantânea", "Ribeirão Preto"],
+    ["Igor", "Vida nas ruas", "Analógica", "Maringá"],
+    ["Valéria", "Céu noturno", "Compacta", "Santos"]
+  ]
+}

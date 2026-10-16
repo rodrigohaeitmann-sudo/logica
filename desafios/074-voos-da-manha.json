@@ -1,0 +1,30 @@
+{
+  "id": "voos-da-manha",
+  "versao": 1,
+  "titulo": "Voos da manhã",
+  "nivel": "medio",
+  "tipo": "ordem",
+  "introducao": "Quatro amigos de infância se reencontraram por acaso no saguão do aeroporto, cada um a caminho de um lugar. Cada um viajou por um motivo diferente, partiu em um horário diferente e embarcou por um portão diferente. A partir das dicas, descubra, para cada um, o motivo da viagem, o horário do voo e o portão de embarque.",
+  "categorias": [
+    { "id": "passageiro", "nome": "Passageiro(a)", "itens": ["Eduarda", "Guilherme", "Júlia", "Teresa"] },
+    { "id": "motivo", "nome": "Motivo", "itens": ["Congresso", "Estudos", "Show", "Trabalho"] },
+    { "id": "horario", "nome": "Horário", "itens": ["7h", "8h", "9h", "10h"], "valores": [7, 8, 9, 10], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["hora","horas"],"menorCurto":"antes","maiorCurto":"depois"} },
+    { "id": "portao", "nome": "Portão", "itens": ["Portão 2", "Portão 5", "Portão 14", "Portão 21"], "valores": [2, 5, 14, 21], "relacao": {"menor":"menor que","maior":"maior que","menorCurto":"menor","maiorCurto":"maior","exata":false} }
+  ],
+  "dicas": [
+    { "texto": "Júlia não embarcou nem pelo portão de número mais alto nem pelo de número mais baixo.", "regras": [["meio", "portao", "Júlia"]] },
+    { "texto": "Quem viajou para ver um show embarcou pelo portão de número mais baixo.", "regras": [["=", "Show", "Portão 2"]] },
+    { "texto": "Guilherme embarcou por um portão de número menor que o de Teresa.", "regras": [[">", "portao", "Teresa", "Guilherme"]] },
+    { "texto": "Quem embarcou pelo portão de número mais alto partiu uma hora antes de quem embarcou pelo portão de número mais baixo.", "regras": [["dif", "horario", "Portão 2", "Portão 21", 1]] },
+    { "texto": "Teresa não foi a primeira nem a última a partir.", "regras": [["meio", "horario", "Teresa"]] },
+    { "texto": "Júlia não viajou para estudar.", "regras": [["!=", "Júlia", "Estudos"]] },
+    { "texto": "Eduarda e quem viajou para um congresso partiram com duas horas de diferença.", "regras": [["dist", "horario", "Congresso", "Eduarda", 2]] },
+    { "texto": "Quem embarcou pelo portão 5 partiu duas horas depois de quem embarcou pelo portão 2.", "regras": [["dif", "horario", "Portão 5", "Portão 2", 2]] }
+  ],
+  "solucao": [
+    ["Eduarda", "Estudos", "7h", "Portão 21"],
+    ["Guilherme", "Show", "8h", "Portão 2"],
+    ["Júlia", "Trabalho", "10h", "Portão 5"],
+    ["Teresa", "Congresso", "9h", "Portão 14"]
+  ]
+}

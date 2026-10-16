@@ -1,0 +1,29 @@
+{
+  "id": "arraial-da-escola",
+  "versao": 1,
+  "titulo": "Arraial da escola",
+  "nivel": "medio",
+  "tipo": "associacao",
+  "introducao": "Quatro vizinhos se ofereceram para trabalhar nas barracas da festa junina da rua. Cada um usou um acessório típico diferente, tem um doce junino preferido diferente e ficou em uma barraca diferente. A partir das dicas, descubra, para cada um, o acessório típico, o doce preferido e a barraca.",
+  "categorias": [
+    { "id": "voluntario", "nome": "Voluntário(a)", "itens": ["Henrique", "Lívia", "Raquel", "Vanessa"] },
+    { "id": "traje", "nome": "Acessório", "itens": ["Bigode pintado", "Chapéu de palha", "Lenço vermelho", "Trança postiça"] },
+    { "id": "doce", "nome": "Doce preferido", "itens": ["Bolo de milho", "Canjica", "Paçoca", "Pinhão"] },
+    { "id": "barraca", "nome": "Barraca", "itens": ["Argola", "Boca do palhaço", "Correio elegante", "Quentão"] }
+  ],
+  "dicas": [
+    { "texto": "Quem ficou no correio elegante usou um bigode pintado ou era Vanessa, mas não as duas coisas.", "regras": [["ou", "Correio elegante", "Bigode pintado", "Vanessa"]] },
+    { "texto": "Quem adora paçoca, quem usou o chapéu de palha e quem usou o lenço vermelho são três pessoas diferentes.", "regras": [["distintos", "Paçoca", "Chapéu de palha", "Lenço vermelho"]] },
+    { "texto": "Vanessa não ficou na barraca de quentão.", "regras": [["!=", "Vanessa", "Quentão"]] },
+    { "texto": "Quem adora canjica usou uma trança postiça.", "regras": [["=", "Canjica", "Trança postiça"]] },
+    { "texto": "Lívia, Vanessa e quem usou o chapéu de palha são três pessoas diferentes.", "regras": [["distintos", "Lívia", "Vanessa", "Chapéu de palha"]] },
+    { "texto": "Entre quem adora canjica e quem adora pinhão, um é Lívia e o outro, Raquel.", "regras": [["par", ["Canjica", "Pinhão"], ["Lívia", "Raquel"]]] },
+    { "texto": "Entre Raquel e Vanessa, uma ficou na barraca de argola e a outra, na barraca de quentão.", "regras": [["par", ["Raquel", "Vanessa"], ["Argola", "Quentão"]]] }
+  ],
+  "solucao": [
+    ["Henrique", "Bigode pintado", "Paçoca", "Correio elegante"],
+    ["Lívia", "Trança postiça", "Canjica", "Boca do palhaço"],
+    ["Raquel", "Chapéu de palha", "Pinhão", "Quentão"],
+    ["Vanessa", "Lenço vermelho", "Bolo de milho", "Argola"]
+  ]
+}

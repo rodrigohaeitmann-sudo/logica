@@ -1,0 +1,34 @@
+{
+  "id": "aniversariantes-do-ano",
+  "versao": 1,
+  "titulo": "Aniversariantes do ano",
+  "nivel": "medio",
+  "tipo": "associacao",
+  "introducao": "Quatro colegas da mesma turma da escola sempre convidam a sala inteira para suas festas de aniversário. Cada um escolheu um sabor de bolo diferente, comemorou em um lugar diferente, escolheu um tema de festa diferente e ganhou um presente diferente. A partir das dicas, descubra, para cada um, o sabor do bolo, onde comemorou, o tema da festa e o presente.",
+  "categorias": [
+    { "id": "aniversariante", "nome": "Aniversariante", "itens": ["Estela", "Priscila", "Renato", "Ursula"] },
+    { "id": "bolo", "nome": "Bolo", "itens": ["Abacaxi", "Chocolate", "Doce de leite", "Prestígio"] },
+    { "id": "local", "nome": "Local", "itens": ["Boliche", "Parque", "Pizzaria", "Salão"] },
+    { "id": "tema", "nome": "Tema", "itens": ["Dinossauros", "Espaço", "Fundo do mar", "Safári"] },
+    { "id": "presente", "nome": "Presente", "itens": ["Fone", "Livro", "Relógio", "Violão"] }
+  ],
+  "dicas": [
+    { "texto": "Entre Priscila e quem comemorou no parque, um ganhou um fone de ouvido e o outro, um livro.", "regras": [["par", ["Priscila", "Parque"], ["Fone", "Livro"]]] },
+    { "texto": "Quem ganhou o relógio escolheu o tema fundo do mar.", "regras": [["=", "Fundo do mar", "Relógio"]] },
+    { "texto": "Ursula não escolheu bolo de chocolate.", "regras": [["!=", "Chocolate", "Ursula"]] },
+    { "texto": "Quem comemorou num salão de festas escolheu bolo de abacaxi ou bolo de doce de leite.", "regras": [["ou", "Salão", "Doce de leite", "Abacaxi"]] },
+    { "texto": "Priscila não escolheu o tema dinossauros.", "regras": [["!=", "Dinossauros", "Priscila"]] },
+    { "texto": "Quem escolheu bolo de abacaxi não escolheu o tema safári.", "regras": [["!=", "Abacaxi", "Safári"]] },
+    { "texto": "Ursula escolheu bolo de abacaxi ou comemorou numa pizzaria, mas não as duas coisas.", "regras": [["ou", "Ursula", "Pizzaria", "Abacaxi"]] },
+    { "texto": "Quem escolheu o tema dinossauros é Estela ou Priscila.", "regras": [["ou", "Dinossauros", "Estela", "Priscila"]] },
+    { "texto": "Quem comemorou num salão de festas ganhou um violão.", "regras": [["=", "Salão", "Violão"]] },
+    { "texto": "Entre quem escolheu bolo de doce de leite e quem ganhou o livro, um escolheu o tema safári e o outro, dinossauros.", "regras": [["par", ["Doce de leite", "Livro"], ["Safári", "Dinossauros"]]] },
+    { "texto": "Entre quem escolheu bolo de doce de leite e quem escolheu bolo de abacaxi, um escolheu o tema safári e o outro, dinossauros.", "regras": [["par", ["Doce de leite", "Abacaxi"], ["Safári", "Dinossauros"]]] }
+  ],
+  "solucao": [
+    ["Estela", "Abacaxi", "Parque", "Dinossauros", "Livro"],
+    ["Priscila", "Chocolate", "Boliche", "Espaço", "Fone"],
+    ["Renato", "Doce de leite", "Salão", "Safári", "Violão"],
+    ["Ursula", "Prestígio", "Pizzaria", "Fundo do mar", "Relógio"]
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "corrida-noturna",
+  "versao": 1,
+  "titulo": "Corrida noturna",
+  "nivel": "dificil",
+  "tipo": "calculo",
+  "introducao": "Cinco amigos que treinam juntos no parque se inscreveram numa corrida de rua no último domingo. Cada um correu com uma camiseta de cor diferente, veio de uma cidade diferente e tem uma idade diferente. A partir das dicas, descubra, para cada um, a cor da camiseta, a cidade de origem e a idade.",
+  "categorias": [
+    { "id": "corredor", "nome": "Corredor(a)", "itens": ["Beatriz", "Elias", "Mateus", "Renata", "Teodoro"] },
+    { "id": "camiseta", "nome": "Camiseta", "itens": ["Branca", "Cinza", "Laranja", "Verde", "Vermelha"] },
+    { "id": "cidade", "nome": "Cidade", "itens": ["Bauru", "Franca", "Limeira", "Piracicaba", "Sorocaba"] },
+    { "id": "idade", "nome": "Idade", "itens": ["31 anos", "33 anos", "35 anos", "37 anos", "39 anos"], "valores": [31, 33, 35, 37, 39], "relacao": {"menor":"mais novo(a) que","maior":"mais velho(a) que","menorK":"{k} mais novo(a) que","maiorK":"{k} mais velho(a) que","unidade":["ano","anos"],"menorCurto":"mais novo(a)","maiorCurto":"mais velho(a)"} }
+  ],
+  "dicas": [
+    { "texto": "Quem correu de laranja é dois anos mais velho que Mateus.", "regras": [["dif", "idade", "Laranja", "Mateus", 2]] },
+    { "texto": "Renata é dois anos mais velha que quem correu de cinza.", "regras": [["dif", "idade", "Renata", "Cinza", 2]] },
+    { "texto": "Elias e quem veio de Sorocaba têm dois anos de diferença de idade.", "regras": [["dist", "idade", "Sorocaba", "Elias", 2]] },
+    { "texto": "Quem veio de Limeira é mais velho que quem correu de branco.", "regras": [[">", "idade", "Limeira", "Branca"]] },
+    { "texto": "Elias é dois anos mais velho que quem veio de Bauru.", "regras": [["dif", "idade", "Elias", "Bauru", 2]] },
+    { "texto": "Quem veio de Limeira é dois anos mais novo que quem correu de verde.", "regras": [["dif", "idade", "Verde", "Limeira", 2]] },
+    { "texto": "Teodoro é quatro anos mais velho que quem veio de Limeira.", "regras": [["dif", "idade", "Teodoro", "Limeira", 4]] },
+    { "texto": "Elias é quatro anos mais velho que quem correu de cinza.", "regras": [["dif", "idade", "Elias", "Cinza", 4]] },
+    { "texto": "Renata é mais velha que quem veio de Piracicaba.", "regras": [[">", "idade", "Renata", "Piracicaba"]] }
+  ],
+  "solucao": [
+    ["Beatriz", "Cinza", "Piracicaba", "31 anos"],
+    ["Elias", "Vermelha", "Limeira", "35 anos"],
+    ["Mateus", "Verde", "Sorocaba", "37 anos"],
+    ["Renata", "Branca", "Bauru", "33 anos"],
+    ["Teodoro", "Laranja", "Franca", "39 anos"]
+  ]
+}

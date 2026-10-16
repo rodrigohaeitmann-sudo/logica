@@ -1,0 +1,28 @@
+{
+  "id": "hora-da-xepa",
+  "versao": 1,
+  "titulo": "Hora da xepa",
+  "nivel": "medio",
+  "tipo": "misto",
+  "introducao": "Na feira livre de sábado, quatro feirantes vizinhos de barraca disputam a freguesia. Cada um dá um brinde diferente aos fregueses, usa um avental diferente e cobra um preço diferente pelo quilo. A partir das dicas, descubra, para cada um, o brinde, o avental e o preço do quilo.",
+  "categorias": [
+    { "id": "feirante", "nome": "Feirante", "itens": ["Daniela", "Fernanda", "Isabela", "Tiago"] },
+    { "id": "brinde", "nome": "Brinde", "itens": ["Alho", "Bala", "Limão", "Pimenta"] },
+    { "id": "avental", "nome": "Avental", "itens": ["Amarelo", "Listrado", "Verde", "Xadrez"] },
+    { "id": "preco", "nome": "Preço do quilo", "itens": ["R$ 3,00", "R$ 3,50", "R$ 4,00", "R$ 4,50"], "valores": [3, 3.5, 4, 4.5], "relacao": {"menor":"mais barato que","maior":"mais caro que","menorK":"{k} mais barato que","maiorK":"{k} mais caro que","prefixo":"R$ ","menorCurto":"mais barato","maiorCurto":"mais caro"} }
+  ],
+  "dicas": [
+    { "texto": "Isabela usa um avental amarelo.", "regras": [["=", "Amarelo", "Isabela"]] },
+    { "texto": "Quem usa um avental listrado cobra R$ 1,50 a menos que quem dá uma bala de brinde.", "regras": [["dif", "preco", "Bala", "Listrado", 1.5]] },
+    { "texto": "Daniela usa um avental verde ou cobra R$ 4,00 pelo quilo, mas não as duas coisas.", "regras": [["ou", "Daniela", "Verde", "R$ 4,00"]] },
+    { "texto": "Quem usa um avental xadrez cobra R$ 3,50 pelo quilo.", "regras": [["=", "R$ 3,50", "Xadrez"]] },
+    { "texto": "Daniela cobra 50 centavos a mais que quem dá um limão de brinde.", "regras": [["dif", "preco", "Daniela", "Limão", 0.5]] },
+    { "texto": "Tiago cobra mais caro que quem dá uma pimenta de brinde.", "regras": [[">", "preco", "Tiago", "Pimenta"]] }
+  ],
+  "solucao": [
+    ["Daniela", "Bala", "Verde", "R$ 4,50"],
+    ["Fernanda", "Pimenta", "Listrado", "R$ 3,00"],
+    ["Isabela", "Limão", "Amarelo", "R$ 4,00"],
+    ["Tiago", "Alho", "Xadrez", "R$ 3,50"]
+  ]
+}

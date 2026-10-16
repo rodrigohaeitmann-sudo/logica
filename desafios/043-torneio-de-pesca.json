@@ -1,0 +1,33 @@
+{
+  "id": "torneio-de-pesca",
+  "versao": 1,
+  "titulo": "Torneio de pesca",
+  "nivel": "dificil",
+  "tipo": "associacao",
+  "introducao": "Cinco amigos passaram o domingo num pesqueiro e, no fim do dia, cada um voltou com um único peixe. Cada um pescou um peixe de espécie diferente, pescou em um ponto diferente e usou uma isca diferente. A partir das dicas, descubra, para cada um, o peixe, o ponto de pesca e a isca.",
+  "categorias": [
+    { "id": "pescador", "nome": "Pescador(a)", "itens": ["Clara", "Enzo", "Natália", "Samuel", "Wagner"] },
+    { "id": "peixe", "nome": "Peixe", "itens": ["Dourado", "Pacu", "Piau", "Pintado", "Traíra"] },
+    { "id": "local", "nome": "Ponto", "itens": ["Barco", "Deque", "Margem", "Ponte", "Prainha"] },
+    { "id": "isca", "nome": "Isca", "itens": ["Camarão", "Milho", "Queijo", "Ração", "Salsicha"] }
+  ],
+  "dicas": [
+    { "texto": "Quem usou queijo como isca, quem pescou o pintado e quem ficou na prainha são três pessoas diferentes.", "regras": [["distintos", "Queijo", "Pintado", "Prainha"]] },
+    { "texto": "Entre Wagner e Clara, um pescou um piau e o outro, um pintado.", "regras": [["par", ["Wagner", "Clara"], ["Piau", "Pintado"]]] },
+    { "texto": "Entre quem pescou o pintado e quem ficou no barco, um usou camarão como isca e o outro, salsicha.", "regras": [["par", ["Pintado", "Barco"], ["Camarão", "Salsicha"]]] },
+    { "texto": "Samuel, quem ficou no deque e quem ficou no barco são três pessoas diferentes.", "regras": [["distintos", "Deque", "Barco", "Samuel"]] },
+    { "texto": "Enzo usou milho como isca ou ficou no deque, mas não as duas coisas.", "regras": [["ou", "Enzo", "Deque", "Milho"]] },
+    { "texto": "Quem usou queijo como isca, quem usou ração como isca e quem ficou na prainha são três pessoas diferentes.", "regras": [["distintos", "Queijo", "Ração", "Prainha"]] },
+    { "texto": "Quem usou salsicha como isca pescou uma traíra ou um dourado.", "regras": [["ou", "Salsicha", "Traíra", "Dourado"]] },
+    { "texto": "Quem ficou na ponte pescou uma traíra ou um piau.", "regras": [["ou", "Ponte", "Piau", "Traíra"]] },
+    { "texto": "Entre Clara e quem ficou no deque, um pescou um dourado e o outro, um piau.", "regras": [["par", ["Deque", "Clara"], ["Dourado", "Piau"]]] },
+    { "texto": "Quem usou ração como isca, quem pescou a traíra, quem usou camarão como isca e quem pescou o piau são quatro pessoas diferentes.", "regras": [["distintos", "Ração", "Traíra", "Camarão", "Piau"]] }
+  ],
+  "solucao": [
+    ["Clara", "Piau", "Ponte", "Queijo"],
+    ["Enzo", "Dourado", "Deque", "Ração"],
+    ["Natália", "Traíra", "Barco", "Salsicha"],
+    ["Samuel", "Pacu", "Prainha", "Milho"],
+    ["Wagner", "Pintado", "Margem", "Camarão"]
+  ]
+}

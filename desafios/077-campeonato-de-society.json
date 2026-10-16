@@ -1,0 +1,31 @@
+{
+  "id": "campeonato-de-society",
+  "versao": 1,
+  "titulo": "Campeonato de society",
+  "nivel": "dificil",
+  "tipo": "misto",
+  "introducao": "A tradicional copa de várzea da cidade teve quatro times inscritos este ano. Cada time tinha um capitão diferente, representa um bairro diferente, terminou em uma posição diferente e marcou um número diferente de gols. A partir das dicas, descubra, para cada time, quem comandou o time em campo, o bairro que representa, a colocação e quantos gols marcou.",
+  "categorias": [
+    { "id": "time", "nome": "Time", "itens": ["Juventude", "Primavera", "Santa Cruz", "União"] },
+    { "id": "capitao", "nome": "Capitão(ã)", "itens": ["Alice", "Clara", "João", "Yasmin"] },
+    { "id": "bairro", "nome": "Bairro", "itens": ["Butantã", "Lapa", "Mooca", "Tatuapé"] },
+    { "id": "colocacao", "nome": "Colocação", "itens": ["1º", "2º", "3º", "4º"], "valores": [1, 2, 3, 4], "formato": "{} lugar", "relacao": {"menor":"à frente de","maior":"atrás de","menorK":"{k} à frente de","maiorK":"{k} atrás de","unidade":["posição","posições"],"menorCurto":"à frente","maiorCurto":"atrás"} },
+    { "id": "gols", "nome": "Gols", "itens": ["5 gols", "7 gols", "9 gols", "10 gols"], "valores": [5, 7, 9, 10], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["gol","gols"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "O time de Alice e o time da Lapa terminaram em posições seguidas.", "regras": [["dist", "colocacao", "Lapa", "Alice", 1]] },
+    { "texto": "A diferença entre os gols do Santa Cruz e os do time do Tatuapé foi de dois.", "regras": [["dist", "gols", "Tatuapé", "Santa Cruz", 2]] },
+    { "texto": "O time de João marcou dois gols a mais que o time que terminou em 1º lugar.", "regras": [["dif", "gols", "João", "1º", 2]] },
+    { "texto": "Entre o time do Tatuapé e o time da Lapa, um foi comandado em campo por João e o outro, por Yasmin.", "regras": [["par", ["Tatuapé", "Lapa"], ["João", "Yasmin"]]] },
+    { "texto": "Entre o time do Tatuapé e o time que marcou 5 gols, um foi comandado em campo por Alice e o outro, por Yasmin.", "regras": [["par", ["Tatuapé", "5 gols"], ["Alice", "Yasmin"]]] },
+    { "texto": "O time que marcou 9 gols terminou duas posições atrás do União.", "regras": [["dif", "colocacao", "9 gols", "União", 2]] },
+    { "texto": "O Juventude marcou 9 gols ou 5 gols.", "regras": [["ou", "Juventude", "9 gols", "5 gols"]] },
+    { "texto": "Entre o time da Mooca e o time da Lapa, um marcou 10 gols e o outro, 7 gols.", "regras": [["par", ["Mooca", "Lapa"], ["10 gols", "7 gols"]]] }
+  ],
+  "solucao": [
+    ["Juventude", "Yasmin", "Tatuapé", "3º", "9 gols"],
+    ["Primavera", "Clara", "Mooca", "4º", "10 gols"],
+    ["Santa Cruz", "João", "Lapa", "2º", "7 gols"],
+    ["União", "Alice", "Butantã", "1º", "5 gols"]
+  ]
+}

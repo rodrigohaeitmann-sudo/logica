@@ -1,0 +1,37 @@
+{
+  "id": "pe-na-trilha",
+  "versao": 1,
+  "titulo": "Pé na trilha",
+  "nivel": "dificil",
+  "tipo": "calculo",
+  "introducao": "No encontro anual do clube de montanhismo, cinco sócios contaram como foi a última aventura de cada um. Cada um fez a travessia com uma companhia diferente, levou um item especial diferente na mochila, fez uma trilha diferente e caminhou uma distância diferente. A partir das dicas, descubra, para cada um, a companhia, o item especial, a trilha e a distância percorrida.",
+  "categorias": [
+    { "id": "trilheiro", "nome": "Trilheiro(a)", "itens": ["Eduardo", "Gabriela", "João", "Nicolas", "Silvio"] },
+    { "id": "companhia", "nome": "Companhia", "itens": ["Cachorro", "Colegas", "Guia", "Irmão", "Sozinho(a)"] },
+    { "id": "item", "nome": "Item especial", "itens": ["Binóculo", "Bússola", "Canivete", "Cantil", "Lanterna"] },
+    { "id": "trilha", "nome": "Trilha", "itens": ["Gruta Clara", "Lagoa Funda", "Pedra Azul", "Pico da Névoa", "Serra Fria"] },
+    { "id": "distancia", "nome": "Distância", "itens": ["12 km", "14 km", "16 km", "18 km", "20 km"], "valores": [12, 14, 16, 18, 20], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["km","km"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "Eduardo caminhou 8 km a mais que Nicolas.", "regras": [["dif", "distancia", "Eduardo", "Nicolas", 8]] },
+    { "texto": "Quem fez a travessia com colegas de trabalho caminhou menos que Gabriela.", "regras": [[">", "distancia", "Gabriela", "Colegas"]] },
+    { "texto": "Quem fez a trilha da Serra Fria e quem fez a trilha da Pedra Azul caminharam distâncias com 4 km de diferença.", "regras": [["dist", "distancia", "Serra Fria", "Pedra Azul", 4]] },
+    { "texto": "João caminhou 2 km a mais que quem fez a travessia sozinho.", "regras": [["dif", "distancia", "João", "Sozinho(a)", 2]] },
+    { "texto": "Silvio e quem fez a trilha da Serra Fria caminharam distâncias com 6 km de diferença.", "regras": [["dist", "distancia", "Serra Fria", "Silvio", 6]] },
+    { "texto": "Quem fez a travessia sozinho fez a trilha do Pico da Névoa ou levou um cantil, mas não as duas coisas.", "regras": [["ou", "Sozinho(a)", "Pico da Névoa", "Cantil"]] },
+    { "texto": "Quem levou o cantil caminhou 4 km a menos que quem levou a lanterna.", "regras": [["dif", "distancia", "Lanterna", "Cantil", 4]] },
+    { "texto": "Quem levou o canivete caminhou 6 km a menos que quem levou a bússola.", "regras": [["dif", "distancia", "Bússola", "Canivete", 6]] },
+    { "texto": "Quem fez a travessia com colegas de trabalho não foi quem caminhou mais nem quem caminhou menos.", "regras": [["meio", "distancia", "Colegas"]] },
+    { "texto": "Quem fez a trilha da Gruta Clara caminhou 6 km a mais que Nicolas.", "regras": [["dif", "distancia", "Gruta Clara", "Nicolas", 6]] },
+    { "texto": "Quem levou a bússola caminhou 16 km ou 20 km.", "regras": [["ou", "Bússola", "20 km", "16 km"]] },
+    { "texto": "Silvio e quem fez a travessia com o cachorro caminharam distâncias com 2 km de diferença.", "regras": [["dist", "distancia", "Silvio", "Cachorro", 2]] },
+    { "texto": "Quem fez a trilha da Serra Fria caminhou mais que quem fez a travessia com um guia.", "regras": [[">", "distancia", "Serra Fria", "Guia"]] }
+  ],
+  "solucao": [
+    ["Eduardo", "Irmão", "Bússola", "Serra Fria", "20 km"],
+    ["Gabriela", "Guia", "Binóculo", "Gruta Clara", "18 km"],
+    ["João", "Colegas", "Lanterna", "Pedra Azul", "16 km"],
+    ["Nicolas", "Cachorro", "Cantil", "Lagoa Funda", "12 km"],
+    ["Silvio", "Sozinho(a)", "Canivete", "Pico da Névoa", "14 km"]
+  ]
+}

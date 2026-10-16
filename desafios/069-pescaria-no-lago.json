@@ -1,0 +1,32 @@
+{
+  "id": "pescaria-no-lago",
+  "versao": 1,
+  "titulo": "Pescaria no lago",
+  "nivel": "dificil",
+  "tipo": "misto",
+  "introducao": "No torneio de pesca do clube, cinco participantes fisgaram um peixe cada. Cada um usou uma isca diferente, pescou um peixe de espécie diferente e chegou ao pesqueiro em um horário diferente. A partir das dicas, descubra, para cada um, a isca, o peixe e o horário de chegada.",
+  "categorias": [
+    { "id": "pescador", "nome": "Pescador(a)", "itens": ["Glória", "Natan", "Pedro", "Ricardo", "Vera"] },
+    { "id": "isca", "nome": "Isca", "itens": ["Camarão", "Massa", "Milho", "Minhoca", "Queijo"] },
+    { "id": "peixe", "nome": "Peixe", "itens": ["Carpa", "Dourado", "Piau", "Tilápia", "Tucunaré"] },
+    { "id": "horario", "nome": "Horário", "itens": ["7h", "8h", "9h", "10h", "11h"], "valores": [7, 8, 9, 10, 11], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["hora","horas"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Quem chegou por último ao pesqueiro era Vera ou usou queijo como isca, mas não as duas coisas.", "regras": [["ou", "11h", "Vera", "Queijo"]] },
+    { "texto": "Entre Natan e Ricardo, um chegou ao pesqueiro às 8h e o outro, às 10h.", "regras": [["par", ["Natan", "Ricardo"], ["8h", "10h"]]] },
+    { "texto": "Quem usou camarão como isca chegou ao pesqueiro duas horas antes de quem pescou a tilápia.", "regras": [["dif", "horario", "Tilápia", "Camarão", 2]] },
+    { "texto": "Quem pescou o piau chegou ao pesqueiro três horas depois de quem pescou a carpa.", "regras": [["dif", "horario", "Piau", "Carpa", 3]] },
+    { "texto": "Quem usou minhoca como isca era Pedro ou pescou um dourado, mas não as duas coisas.", "regras": [["ou", "Minhoca", "Dourado", "Pedro"]] },
+    { "texto": "Entre Pedro e Natan, um usou camarão como isca e o outro, massa.", "regras": [["par", ["Pedro", "Natan"], ["Camarão", "Massa"]]] },
+    { "texto": "Glória pescou uma tilápia ou um dourado.", "regras": [["ou", "Glória", "Tilápia", "Dourado"]] },
+    { "texto": "Quem pescou o piau e quem usou milho como isca chegaram ao pesqueiro com uma hora de diferença.", "regras": [["dist", "horario", "Milho", "Piau", 1]] },
+    { "texto": "Quem pescou o dourado, quem chegou primeiro ao pesqueiro e quem chegou ao pesqueiro às 11h são três pessoas diferentes.", "regras": [["distintos", "Dourado", "7h", "11h"]] }
+  ],
+  "solucao": [
+    ["Glória", "Queijo", "Tilápia", "9h"],
+    ["Natan", "Massa", "Piau", "10h"],
+    ["Pedro", "Camarão", "Carpa", "7h"],
+    ["Ricardo", "Minhoca", "Dourado", "8h"],
+    ["Vera", "Milho", "Tucunaré", "11h"]
+  ]
+}

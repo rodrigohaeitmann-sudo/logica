@@ -1,0 +1,32 @@
+{
+  "id": "mochileiros",
+  "versao": 1,
+  "titulo": "Mochileiros",
+  "nivel": "medio",
+  "tipo": "calculo",
+  "introducao": "Na volta das férias, cinco amigos de faculdade se reuniram para trocar fotos das viagens. Cada um viajou para um destino diferente, usou um meio de transporte diferente e passou um número diferente de dias fora. A partir das dicas, descubra, para cada um, o destino, o meio de transporte e quantos dias passou fora.",
+  "categorias": [
+    { "id": "viajante", "nome": "Viajante", "itens": ["Diego", "Heloísa", "Laura", "Tânia", "Valter"] },
+    { "id": "destino", "nome": "Destino", "itens": ["Lençóis", "Maragogi", "Olinda", "Ouro Preto", "Pirenópolis"] },
+    { "id": "transporte", "nome": "Transporte", "itens": ["Avião", "Carro", "Moto", "Ônibus", "Trem"] },
+    { "id": "dias", "nome": "Duração", "itens": ["6 dias", "9 dias", "12 dias", "15 dias", "18 dias"], "valores": [6, 9, 12, 15, 18], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["dia","dias"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "As viagens de quem viajou para Olinda e de quem foi de trem tiveram seis dias de diferença.", "regras": [["dist", "dias", "Trem", "Olinda", 6]] },
+    { "texto": "Quem foi de carro foi quem passou mais dias fora ou quem passou menos dias fora.", "regras": [["extremo", "dias", "Carro"]] },
+    { "texto": "Tânia viajou para Pirenópolis.", "regras": [["=", "Pirenópolis", "Tânia"]] },
+    { "texto": "Quem foi de ônibus passou menos dias fora que quem foi de avião.", "regras": [[">", "dias", "Avião", "Ônibus"]] },
+    { "texto": "Valter foi de carro.", "regras": [["=", "Valter", "Carro"]] },
+    { "texto": "Heloísa passou seis dias a mais fora que quem viajou para Lençóis.", "regras": [["dif", "dias", "Heloísa", "Lençóis", 6]] },
+    { "texto": "Heloísa, que viajou para Maragogi, passou menos dias fora que Laura.", "regras": [["=", "Heloísa", "Maragogi"], [">", "dias", "Laura", "Heloísa"]] },
+    { "texto": "As viagens de Laura e de quem foi de ônibus tiveram três dias de diferença.", "regras": [["dist", "dias", "Laura", "Ônibus", 3]] },
+    { "texto": "Quem viajou para Olinda foi de carro.", "regras": [["=", "Olinda", "Carro"]] }
+  ],
+  "solucao": [
+    ["Diego", "Lençóis", "Moto", "9 dias"],
+    ["Heloísa", "Maragogi", "Ônibus", "15 dias"],
+    ["Laura", "Ouro Preto", "Avião", "18 dias"],
+    ["Tânia", "Pirenópolis", "Trem", "12 dias"],
+    ["Valter", "Olinda", "Carro", "6 dias"]
+  ]
+}

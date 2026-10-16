@@ -1,0 +1,36 @@
+{
+  "id": "ferias-de-verao",
+  "versao": 1,
+  "titulo": "Férias de verão",
+  "nivel": "medio",
+  "tipo": "associacao",
+  "introducao": "Quatro colegas de trabalho voltaram das férias cheios de histórias para contar. Cada um viajou para um destino diferente, viajou com uma companhia diferente, usou um meio de transporte diferente e ficou em um tipo de hospedagem diferente. A partir das dicas, descubra, para cada um, o destino, a companhia, o meio de transporte e a hospedagem.",
+  "categorias": [
+    { "id": "viajante", "nome": "Viajante", "itens": ["Flávia", "Renata", "Silvio", "Teodoro"] },
+    { "id": "destino", "nome": "Destino", "itens": ["Gramado", "Jericoacoara", "Maragogi", "Pirenópolis"] },
+    { "id": "companhia", "nome": "Companhia", "itens": ["Cachorro", "Irmã", "Pais", "Primos"] },
+    { "id": "transporte", "nome": "Transporte", "itens": ["Moto", "Ônibus", "Trem", "Van"] },
+    { "id": "hospedagem", "nome": "Hospedagem", "itens": ["Camping", "Casa alugada", "Casa de amigos", "Hostel"] }
+  ],
+  "dicas": [
+    { "texto": "Teodoro não levou a irmã.", "regras": [["!=", "Teodoro", "Irmã"]] },
+    { "texto": "Entre Silvio e quem viajou para Gramado, um ficou na casa de amigos e o outro, num hostel.", "regras": [["par", ["Silvio", "Gramado"], ["Casa de amigos", "Hostel"]]] },
+    { "texto": "Entre quem ficou numa casa alugada e quem ficou na casa de amigos, um viajou para Maragogi e o outro, para Jericoacoara.", "regras": [["par", ["Casa alugada", "Casa de amigos"], ["Maragogi", "Jericoacoara"]]] },
+    { "texto": "Quem ficou num hostel não levou o cachorro.", "regras": [["!=", "Cachorro", "Hostel"]] },
+    { "texto": "Quem ficou numa casa alugada não levou o cachorro.", "regras": [["!=", "Casa alugada", "Cachorro"]] },
+    { "texto": "Quem foi de trem não ficou num camping.", "regras": [["!=", "Trem", "Camping"]] },
+    { "texto": "Flávia, Silvio e quem ficou num hostel são três pessoas diferentes.", "regras": [["distintos", "Hostel", "Flávia", "Silvio"]] },
+    { "texto": "Quem foi de trem não levou a irmã.", "regras": [["!=", "Irmã", "Trem"]] },
+    { "texto": "Teodoro foi de van.", "regras": [["=", "Teodoro", "Van"]] },
+    { "texto": "Quem levou os pais, quem foi de ônibus e quem levou os primos são três pessoas diferentes.", "regras": [["distintos", "Pais", "Ônibus", "Primos"]] },
+    { "texto": "Quem viajou para Jericoacoara levou a irmã.", "regras": [["=", "Jericoacoara", "Irmã"]] },
+    { "texto": "Quem levou os pais não viajou para Maragogi.", "regras": [["!=", "Pais", "Maragogi"]] },
+    { "texto": "Flávia levou os pais.", "regras": [["=", "Flávia", "Pais"]] }
+  ],
+  "solucao": [
+    ["Flávia", "Pirenópolis", "Pais", "Moto", "Camping"],
+    ["Renata", "Jericoacoara", "Irmã", "Ônibus", "Casa alugada"],
+    ["Silvio", "Maragogi", "Cachorro", "Trem", "Casa de amigos"],
+    ["Teodoro", "Gramado", "Primos", "Van", "Hostel"]
+  ]
+}

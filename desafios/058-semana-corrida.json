@@ -1,0 +1,31 @@
+{
+  "id": "semana-corrida",
+  "versao": 1,
+  "titulo": "Semana corrida",
+  "nivel": "dificil",
+  "tipo": "ordem",
+  "introducao": "Daniel anotou na agenda um compromisso para cada dia útil da semana. Cada compromisso aconteceu em um lugar diferente, começou em um horário diferente e teve uma duração diferente. A partir das dicas, descubra, para cada dia, o local, o compromisso, o horário e a duração.",
+  "categorias": [
+    { "id": "dia", "nome": "Dia", "itens": ["Segunda", "Terça", "Quarta", "Quinta"], "valores": [1, 2, 3, 4], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["dia","dias"],"menorCurto":"antes","maiorCurto":"depois"} },
+    { "id": "local", "nome": "Local", "itens": ["Clube", "Escritório", "On-line", "Zona sul"] },
+    { "id": "compromisso", "nome": "Compromisso", "itens": ["Almoço", "Banco", "Dentista", "Revisão do carro"] },
+    { "id": "horario", "nome": "Horário", "itens": ["10h", "11h", "12h", "13h"], "valores": [10, 11, 12, 13], "relacao": {"menor":"mais cedo que","maior":"mais tarde que","menorK":"{k} mais cedo que","maiorK":"{k} mais tarde que","unidade":["hora","horas"],"menorCurto":"mais cedo","maiorCurto":"mais tarde"} },
+    { "id": "duracao", "nome": "Duração", "itens": ["45 min", "60 min", "75 min", "90 min"], "valores": [45, 60, 75, 90], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["minuto","minutos"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "As durações do compromisso na zona sul e do compromisso no clube tiveram 15 minutos de diferença.", "regras": [["dist", "duracao", "Clube", "Zona sul", 15]] },
+    { "texto": "O almoço com a avó e o compromisso no escritório começaram com uma hora de diferença.", "regras": [["dist", "horario", "Almoço", "Escritório", 1]] },
+    { "texto": "A revisão do carro aconteceu dois dias depois do compromisso que começou mais tarde.", "regras": [["dif", "dia", "Revisão do carro", "13h", 2]] },
+    { "texto": "As durações da revisão do carro e do almoço com a avó tiveram 45 minutos de diferença.", "regras": [["dist", "duracao", "Almoço", "Revisão do carro", 45]] },
+    { "texto": "As durações da revisão do carro e do compromisso de segunda-feira tiveram 30 minutos de diferença.", "regras": [["dist", "duracao", "Segunda", "Revisão do carro", 30]] },
+    { "texto": "O compromisso de 60 minutos aconteceu no dia seguinte ao do compromisso no clube.", "regras": [["dif", "dia", "60 min", "Clube", 1]] },
+    { "texto": "A consulta no dentista aconteceu depois do compromisso que começou às 12h.", "regras": [[">", "dia", "Dentista", "12h"]] },
+    { "texto": "O compromisso na zona sul começou três horas mais tarde que o compromisso de quinta-feira.", "regras": [["dif", "horario", "Zona sul", "Quinta", 3]] }
+  ],
+  "solucao": [
+    ["Segunda", "Clube", "Banco", "12h", "75 min"],
+    ["Terça", "Zona sul", "Dentista", "13h", "60 min"],
+    ["Quarta", "On-line", "Almoço", "11h", "90 min"],
+    ["Quinta", "Escritório", "Revisão do carro", "10h", "45 min"]
+  ]
+}

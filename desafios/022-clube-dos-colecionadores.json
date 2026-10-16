@@ -1,0 +1,36 @@
+{
+  "id": "clube-dos-colecionadores",
+  "versao": 1,
+  "titulo": "Clube dos colecionadores",
+  "nivel": "dificil",
+  "tipo": "ordem",
+  "introducao": "Na reunião mensal do clube dos colecionadores, cinco sócios trouxeram suas coleções para exibir. Cada um mora em uma cidade diferente, guarda a coleção de um jeito diferente, começou a colecionar em um ano diferente e tem uma coleção de tamanho diferente. A partir das dicas, descubra, para cada um, a cidade onde mora, onde guarda a coleção, o ano em que começou a colecionar e quantas peças tem.",
+  "categorias": [
+    { "id": "colecionador", "nome": "Colecionador(a)", "itens": ["Gabriel", "Hugo", "Lauro", "Priscila", "Tânia"] },
+    { "id": "cidade", "nome": "Cidade", "itens": ["Belém", "Cuiabá", "Maceió", "Natal", "Recife"] },
+    { "id": "guarda", "nome": "Onde guarda", "itens": ["Álbum", "Caixas", "Estante", "Parede", "Vitrine"] },
+    { "id": "ano", "nome": "Início", "itens": ["2003", "2007", "2011", "2015", "2019"], "valores": [2003, 2007, 2011, 2015, 2019], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["ano","anos"],"menorCurto":"antes","maiorCurto":"depois"} },
+    { "id": "quantidade", "nome": "Peças", "itens": ["200", "240", "280", "320", "360"], "valores": [200, 240, 280, 320, 360], "formato": "{} peças", "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["peça","peças"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "As coleções de quem mora em Recife e de quem começou a colecionar em 2015 têm 80 peças de diferença.", "regras": [["dist", "quantidade", "2015", "Recife", 80]] },
+    { "texto": "Quem mora em Cuiabá tem a maior ou a menor coleção.", "regras": [["extremo", "quantidade", "Cuiabá"]] },
+    { "texto": "Entre Gabriel e Priscila, um começou a colecionar em 2007 e o outro, em 2011.", "regras": [["par", ["Gabriel", "Priscila"], ["2007", "2011"]]] },
+    { "texto": "Hugo e quem guarda a coleção numa vitrine começaram suas coleções com dezesseis anos de diferença.", "regras": [["dist", "ano", "Hugo", "Vitrine", 16]] },
+    { "texto": "Priscila tem 40 peças a mais que quem mora em Recife.", "regras": [["dif", "quantidade", "Priscila", "Recife", 40]] },
+    { "texto": "Quem mora em Belém tem 80 peças a menos que quem guarda a coleção em álbuns.", "regras": [["dif", "quantidade", "Álbum", "Belém", 80]] },
+    { "texto": "Hugo tem a maior ou a menor coleção.", "regras": [["extremo", "quantidade", "Hugo"]] },
+    { "texto": "Quem começou a colecionar em 2011 tem 40 peças a mais que quem começou a colecionar em 2019.", "regras": [["dif", "quantidade", "2011", "2019", 40]] },
+    { "texto": "Quem guarda a coleção numa estante tem 80 peças a menos que quem mora em Maceió.", "regras": [["dif", "quantidade", "Maceió", "Estante", 80]] },
+    { "texto": "Gabriel tem 160 peças a mais que quem começou a colecionar por último.", "regras": [["dif", "quantidade", "Gabriel", "2019", 160]] },
+    { "texto": "Lauro começou a colecionar depois de quem tem a maior coleção.", "regras": [[">", "ano", "Lauro", "360"]] },
+    { "texto": "Quem guarda a coleção na parede foi o primeiro ou o último a começar a colecionar.", "regras": [["extremo", "ano", "Parede"]] }
+  ],
+  "solucao": [
+    ["Gabriel", "Cuiabá", "Álbum", "2007", "360"],
+    ["Hugo", "Recife", "Parede", "2019", "200"],
+    ["Lauro", "Belém", "Caixas", "2015", "280"],
+    ["Priscila", "Natal", "Estante", "2011", "240"],
+    ["Tânia", "Maceió", "Vitrine", "2003", "320"]
+  ]
+}

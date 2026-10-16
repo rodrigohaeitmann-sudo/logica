@@ -1,0 +1,32 @@
+{
+  "id": "xeque-mate",
+  "versao": 1,
+  "titulo": "Xeque-mate",
+  "nivel": "dificil",
+  "tipo": "calculo",
+  "introducao": "No clube de xadrez do bairro, cinco sócios jogaram um torneio entre si numa tarde de sábado. Cada um prefere uma abertura diferente, comeu um lanche diferente no intervalo e tem uma idade diferente. A partir das dicas, descubra, para cada um, a abertura preferida, o lanche do intervalo e a idade.",
+  "categorias": [
+    { "id": "enxadrista", "nome": "Enxadrista", "itens": ["Daniela", "Felipe", "Miguel", "Ursula", "Vicente"] },
+    { "id": "abertura", "nome": "Abertura", "itens": ["Caro-Kann", "Escandinava", "Espanhola", "Francesa", "Inglesa"] },
+    { "id": "lanche", "nome": "Lanche", "itens": ["Banana", "Chocolate", "Maçã", "Pão de queijo", "Sanduíche"] },
+    { "id": "idade", "nome": "Idade", "itens": ["14 anos", "17 anos", "20 anos", "23 anos", "26 anos"], "valores": [14, 17, 20, 23, 26], "relacao": {"menor":"mais novo(a) que","maior":"mais velho(a) que","menorK":"{k} mais novo(a) que","maiorK":"{k} mais velho(a) que","unidade":["ano","anos"],"menorCurto":"mais novo(a)","maiorCurto":"mais velho(a)"} }
+  ],
+  "dicas": [
+    { "texto": "Miguel e quem comeu uma maçã no intervalo têm três anos de diferença de idade.", "regras": [["dist", "idade", "Maçã", "Miguel", 3]] },
+    { "texto": "Vicente e quem comeu um sanduíche no intervalo têm nove anos de diferença de idade.", "regras": [["dist", "idade", "Sanduíche", "Vicente", 9]] },
+    { "texto": "Felipe é três anos mais novo que quem prefere a Abertura Espanhola.", "regras": [["dif", "idade", "Espanhola", "Felipe", 3]] },
+    { "texto": "Quem comeu chocolate no intervalo é nove anos mais velho que quem comeu pão de queijo no intervalo.", "regras": [["dif", "idade", "Chocolate", "Pão de queijo", 9]] },
+    { "texto": "Quem comeu um sanduíche no intervalo e quem comeu uma maçã no intervalo têm três anos de diferença de idade.", "regras": [["dist", "idade", "Sanduíche", "Maçã", 3]] },
+    { "texto": "Daniela comeu uma maçã ou pão de queijo no intervalo.", "regras": [["ou", "Daniela", "Maçã", "Pão de queijo"]] },
+    { "texto": "Vicente é seis anos mais novo que quem prefere a Defesa Francesa.", "regras": [["dif", "idade", "Francesa", "Vicente", 6]] },
+    { "texto": "Quem comeu uma maçã no intervalo é três anos mais velho que quem prefere a Abertura Inglesa.", "regras": [["dif", "idade", "Maçã", "Inglesa", 3]] },
+    { "texto": "Quem prefere a Defesa Escandinava é nove anos mais velho que Vicente.", "regras": [["dif", "idade", "Escandinava", "Vicente", 9]] }
+  ],
+  "solucao": [
+    ["Daniela", "Francesa", "Maçã", "20 anos"],
+    ["Felipe", "Escandinava", "Sanduíche", "23 anos"],
+    ["Miguel", "Inglesa", "Pão de queijo", "17 anos"],
+    ["Ursula", "Espanhola", "Chocolate", "26 anos"],
+    ["Vicente", "Caro-Kann", "Banana", "14 anos"]
+  ]
+}

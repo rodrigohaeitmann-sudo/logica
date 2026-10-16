@@ -1,0 +1,38 @@
+{
+  "id": "jantar-entre-amigos",
+  "versao": 1,
+  "titulo": "Jantar entre amigos",
+  "nivel": "dificil",
+  "tipo": "associacao",
+  "introducao": "Cinco amigos se encontraram para um almoço num restaurante do centro, e cada um fez um pedido diferente. Cada um pagou de um jeito diferente, escolheu uma sobremesa diferente, tomou uma bebida diferente e pediu um prato diferente. A partir das dicas, descubra, para cada um, a forma de pagamento, a sobremesa, a bebida e o prato.",
+  "categorias": [
+    { "id": "cliente", "nome": "Cliente", "itens": ["Bruna", "César", "Larissa", "Olívia", "Vítor"] },
+    { "id": "pagamento", "nome": "Pagamento", "itens": ["Crédito", "Débito", "Dinheiro", "Pix", "Vale-refeição"] },
+    { "id": "sobremesa", "nome": "Sobremesa", "itens": ["Brownie", "Mousse", "Petit gâteau", "Pudim", "Salada de frutas"] },
+    { "id": "bebida", "nome": "Bebida", "itens": ["Água com gás", "Água de coco", "Chá gelado", "Refrigerante", "Suco de uva"] },
+    { "id": "prato", "nome": "Prato", "itens": ["Moqueca", "Nhoque", "Parmegiana", "Risoto", "Strogonoff"] }
+  ],
+  "dicas": [
+    { "texto": "Olívia, Bruna, quem pagou no cartão de crédito e quem pediu salada de frutas de sobremesa são quatro pessoas diferentes.", "regras": [["distintos", "Crédito", "Salada de frutas", "Olívia", "Bruna"]] },
+    { "texto": "Quem pagou no cartão de crédito, quem bebeu suco de uva e quem pagou com Pix são três pessoas diferentes.", "regras": [["distintos", "Crédito", "Suco de uva", "Pix"]] },
+    { "texto": "Quem bebeu refrigerante pagou em dinheiro ou com vale-refeição.", "regras": [["ou", "Refrigerante", "Dinheiro", "Vale-refeição"]] },
+    { "texto": "Quem pediu risoto era César ou bebeu água com gás, mas não as duas coisas.", "regras": [["ou", "Risoto", "César", "Água com gás"]] },
+    { "texto": "Entre quem pagou no cartão de débito e quem pagou com vale-refeição, um era Bruna e o outro, Larissa.", "regras": [["par", ["Débito", "Vale-refeição"], ["Bruna", "Larissa"]]] },
+    { "texto": "Quem pagou no cartão de crédito, quem pagou em dinheiro e quem bebeu chá gelado são três pessoas diferentes.", "regras": [["distintos", "Crédito", "Dinheiro", "Chá gelado"]] },
+    { "texto": "Quem pediu salada de frutas de sobremesa pagou com Pix ou com vale-refeição.", "regras": [["ou", "Salada de frutas", "Vale-refeição", "Pix"]] },
+    { "texto": "Quem pediu moqueca era Vítor ou pagou com Pix, mas não as duas coisas.", "regras": [["ou", "Moqueca", "Vítor", "Pix"]] },
+    { "texto": "Quem pagou no cartão de débito bebeu água com gás ou pediu risoto, mas não as duas coisas.", "regras": [["ou", "Débito", "Água com gás", "Risoto"]] },
+    { "texto": "Vítor, quem pediu parmegiana, quem pagou com vale-refeição e quem pediu brownie de sobremesa são quatro pessoas diferentes.", "regras": [["distintos", "Parmegiana", "Vale-refeição", "Vítor", "Brownie"]] },
+    { "texto": "Entre quem bebeu refrigerante e quem pagou no cartão de crédito, um pediu petit gâteau de sobremesa e o outro, brownie.", "regras": [["par", ["Refrigerante", "Crédito"], ["Petit gâteau", "Brownie"]]] },
+    { "texto": "Quem pediu brownie de sobremesa pagou no cartão de débito ou no cartão de crédito.", "regras": [["ou", "Brownie", "Crédito", "Débito"]] },
+    { "texto": "Quem pediu pudim de sobremesa pediu strogonoff ou moqueca.", "regras": [["ou", "Pudim", "Strogonoff", "Moqueca"]] },
+    { "texto": "Bruna pagou com Pix ou pediu pudim de sobremesa, mas não as duas coisas.", "regras": [["ou", "Bruna", "Pudim", "Pix"]] }
+  ],
+  "solucao": [
+    ["Bruna", "Débito", "Pudim", "Água com gás", "Strogonoff"],
+    ["César", "Crédito", "Brownie", "Água de coco", "Risoto"],
+    ["Larissa", "Vale-refeição", "Salada de frutas", "Suco de uva", "Nhoque"],
+    ["Olívia", "Pix", "Mousse", "Chá gelado", "Parmegiana"],
+    ["Vítor", "Dinheiro", "Petit gâteau", "Refrigerante", "Moqueca"]
+  ]
+}

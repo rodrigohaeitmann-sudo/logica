@@ -1,0 +1,32 @@
+{
+  "id": "noite-de-estreia",
+  "versao": 1,
+  "titulo": "Noite de estreia",
+  "nivel": "medio",
+  "tipo": "ordem",
+  "introducao": "No festival de cinema da cidade, cinco vizinhos foram assistir a filmes no mesmo dia. Cada um comprou um lanche diferente, sentou em uma fila diferente e foi a uma sessão diferente. A partir das dicas, descubra, para cada um, o lanche, a fila em que sentou e o horário da sessão.",
+  "categorias": [
+    { "id": "espectador", "nome": "Espectador(a)", "itens": ["Helena", "Júlio", "Lorena", "Nina", "Samuel"] },
+    { "id": "lanche", "nome": "Lanche", "itens": ["Balas", "Chocolate", "Nachos", "Pipoca salgada", "Sorvete"] },
+    { "id": "fila", "nome": "Fila", "itens": ["Fila A", "Fila B", "Fila C", "Fila D", "Fila E"], "valores": [1, 2, 3, 4, 5], "relacao": {"menor":"à frente de","maior":"atrás de","menorK":"{k} à frente de","maiorK":"{k} atrás de","unidade":["fila","filas"],"menorCurto":"à frente","maiorCurto":"atrás"} },
+    { "id": "sessao", "nome": "Sessão", "itens": ["14h", "16h", "18h", "20h", "22h"], "valores": [14, 16, 18, 20, 22], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["hora","horas"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Helena foi a uma sessão seis horas depois da de quem comprou nachos.", "regras": [["dif", "sessao", "Helena", "Nachos", 6]] },
+    { "texto": "Helena foi à sessão seguinte à de quem comprou sorvete.", "regras": [["dif", "sessao", "Helena", "Sorvete", 2]] },
+    { "texto": "Samuel e quem comprou chocolate foram a sessões seguidas.", "regras": [["dist", "sessao", "Chocolate", "Samuel", 2]] },
+    { "texto": "Quem comprou pipoca salgada foi a uma sessão oito horas depois da de quem sentou na última fila.", "regras": [["dif", "sessao", "Pipoca salgada", "Fila E", 8]] },
+    { "texto": "Quem comprou balas não sentou nem na primeira nem na última fila.", "regras": [["meio", "fila", "Balas"]] },
+    { "texto": "Samuel e quem sentou na fila B foram a sessões com quatro horas de diferença.", "regras": [["dist", "sessao", "Fila B", "Samuel", 4]] },
+    { "texto": "Lorena sentou três filas atrás de Nina.", "regras": [["dif", "fila", "Lorena", "Nina", 3]] },
+    { "texto": "Quem sentou na primeira fila foi à primeira ou à última sessão.", "regras": [["extremo", "sessao", "Fila A"]] },
+    { "texto": "Samuel sentou mais atrás que quem foi à sessão das 16h.", "regras": [[">", "fila", "Samuel", "16h"]] }
+  ],
+  "solucao": [
+    ["Helena", "Balas", "Fila C", "20h"],
+    ["Júlio", "Sorvete", "Fila B", "18h"],
+    ["Lorena", "Chocolate", "Fila D", "16h"],
+    ["Nina", "Pipoca salgada", "Fila A", "22h"],
+    ["Samuel", "Nachos", "Fila E", "14h"]
+  ]
+}

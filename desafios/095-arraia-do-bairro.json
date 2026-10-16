@@ -1,0 +1,27 @@
+{
+  "id": "arraia-do-bairro",
+  "versao": 1,
+  "titulo": "Arraiá do bairro",
+  "nivel": "medio",
+  "tipo": "calculo",
+  "introducao": "No arraial da escola, quatro voluntários se revezaram para ajudar na festa. Cada um usou um acessório típico diferente, ficou em uma barraca diferente e arrecadou um valor diferente. A partir das dicas, descubra, para cada um, o acessório típico, a barraca e quanto arrecadou.",
+  "categorias": [
+    { "id": "voluntario", "nome": "Voluntário(a)", "itens": ["Flávia", "Orlando", "Renata", "Tatiana"] },
+    { "id": "traje", "nome": "Acessório", "itens": ["Bigode pintado", "Macacão", "Trança postiça", "Vestido de chita"] },
+    { "id": "barraca", "nome": "Barraca", "itens": ["Argola", "Correio elegante", "Pescaria", "Quentão"] },
+    { "id": "arrecadacao", "nome": "Arrecadação", "itens": ["R$ 150", "R$ 165", "R$ 180", "R$ 195"], "valores": [150, 165, 180, 195], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":[],"menorCurto":"menos","maiorCurto":"mais","prefixo":"R$ "} }
+  ],
+  "dicas": [
+    { "texto": "Quem ficou na barraca de quentão arrecadou menos que quem usou o vestido de chita.", "regras": [[">", "arrecadacao", "Vestido de chita", "Quentão"]] },
+    { "texto": "Tatiana, que ficou na barraca de argola, arrecadou R$ 45 a mais que quem ficou na barraca de pescaria.", "regras": [["=", "Argola", "Tatiana"], ["dif", "arrecadacao", "Tatiana", "Pescaria", 45]] },
+    { "texto": "Orlando arrecadou menos que quem usou a trança postiça.", "regras": [[">", "arrecadacao", "Trança postiça", "Orlando"]] },
+    { "texto": "Renata arrecadou R$ 15 a mais que quem ficou na barraca de pescaria.", "regras": [["dif", "arrecadacao", "Renata", "Pescaria", 15]] },
+    { "texto": "Quem usou o macacão remendado ficou na barraca de argola.", "regras": [["=", "Argola", "Macacão"]] }
+  ],
+  "solucao": [
+    ["Flávia", "Vestido de chita", "Correio elegante", "R$ 180"],
+    ["Orlando", "Bigode pintado", "Pescaria", "R$ 150"],
+    ["Renata", "Trança postiça", "Quentão", "R$ 165"],
+    ["Tatiana", "Macacão", "Argola", "R$ 195"]
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "embarque-imediato",
+  "versao": 1,
+  "titulo": "Embarque imediato",
+  "nivel": "medio",
+  "tipo": "misto",
+  "introducao": "Numa sexta-feira de manhã, quatro passageiros que se conheceram na fila do café embarcaram em voos diferentes. Cada um despachou uma mala de cor diferente, viajou por um motivo diferente, embarcou por um portão diferente e partiu em um horário diferente. A partir das dicas, descubra, para cada um, a cor da mala, o motivo da viagem, o portão de embarque e o horário do voo.",
+  "categorias": [
+    { "id": "passageiro", "nome": "Passageiro(a)", "itens": ["Daniel", "Nádia", "Rita", "Simone"] },
+    { "id": "mala", "nome": "Mala", "itens": ["Azul", "Laranja", "Prata", "Preta"] },
+    { "id": "motivo", "nome": "Motivo", "itens": ["Congresso", "Família", "Passeio", "Show"] },
+    { "id": "portao", "nome": "Portão", "itens": ["Portão 2", "Portão 3", "Portão 8", "Portão 21"], "valores": [2, 3, 8, 21], "relacao": {"menor":"menor que","maior":"maior que","menorCurto":"menor","maiorCurto":"maior","exata":false} },
+    { "id": "horario", "nome": "Horário", "itens": ["6h", "7h", "8h", "9h"], "valores": [6, 7, 8, 9], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["hora","horas"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Rita despachou uma mala prata.", "regras": [["=", "Prata", "Rita"]] },
+    { "texto": "Quem partiu primeiro embarcou por um portão de número maior que o de Daniel.", "regras": [[">", "portao", "6h", "Daniel"]] },
+    { "texto": "Quem despachou a mala azul partiu depois de quem despachou a mala prata.", "regras": [[">", "horario", "Azul", "Prata"]] },
+    { "texto": "Quem despachou a mala azul viajou a passeio.", "regras": [["=", "Azul", "Passeio"]] },
+    { "texto": "Quem partiu primeiro era Rita ou Simone.", "regras": [["ou", "6h", "Simone", "Rita"]] },
+    { "texto": "Daniel, que não despachou uma mala laranja, partiu uma hora depois de quem despachou a mala preta.", "regras": [["!=", "Daniel", "Laranja"], ["dif", "horario", "Daniel", "Preta", 1]] },
+    { "texto": "Entre quem viajou para ver um show e quem viajou para um congresso, um embarcou pelo portão 2 e o outro, pelo portão 8.", "regras": [["par", ["Show", "Congresso"], ["Portão 2", "Portão 8"]]] },
+    { "texto": "Quem viajou a passeio embarcou por um portão de número maior que o de quem despachou a mala prata.", "regras": [[">", "portao", "Passeio", "Prata"]] },
+    { "texto": "Quem despachou a mala preta embarcou pelo portão 3 ou pelo portão 21.", "regras": [["ou", "Preta", "Portão 21", "Portão 3"]] },
+    { "texto": "Quem viajou para ver um show embarcou por um portão de número maior que o de quem partiu às 7h.", "regras": [[">", "portao", "Show", "7h"]] }
+  ],
+  "solucao": [
+    ["Daniel", "Azul", "Passeio", "Portão 3", "9h"],
+    ["Nádia", "Preta", "Família", "Portão 21", "8h"],
+    ["Rita", "Prata", "Congresso", "Portão 2", "7h"],
+    ["Simone", "Laranja", "Show", "Portão 8", "6h"]
+  ]
+}

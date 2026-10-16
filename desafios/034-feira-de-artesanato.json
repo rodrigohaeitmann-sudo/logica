@@ -1,0 +1,31 @@
+{
+  "id": "feira-de-artesanato",
+  "versao": 1,
+  "titulo": "Feira de artesanato",
+  "nivel": "medio",
+  "tipo": "ordem",
+  "introducao": "Quatro artesãos de cidades diferentes foram convidados para a feira de inverno do centro cultural. Cada um vende um tipo de peça diferente, veio de uma cidade diferente, trabalha com um material diferente e ficou em uma banca diferente. A partir das dicas, descubra, para cada um, o que vende, a cidade de origem, o material e a banca.",
+  "categorias": [
+    { "id": "artesao", "nome": "Artesão(ã)", "itens": ["Beatriz", "Júlio", "Renato", "Wagner"] },
+    { "id": "peca", "nome": "Peças", "itens": ["Bolsas", "Cestos", "Quadros", "Tapetes"] },
+    { "id": "cidade", "nome": "Cidade", "itens": ["Bichinho", "Caruaru", "Cunha", "Tiradentes"] },
+    { "id": "material", "nome": "Material", "itens": ["Cerâmica", "Madeira", "Metal", "Papel"] },
+    { "id": "banca", "nome": "Banca", "itens": ["Banca 1", "Banca 2", "Banca 3", "Banca 4"], "valores": [1, 2, 3, 4], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["banca","bancas"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Quem veio de Cunha ficou duas bancas antes de quem vende bolsas.", "regras": [["dif", "banca", "Bolsas", "Cunha", 2]] },
+    { "texto": "Quem vende tapetes ficou três bancas antes de quem trabalha com madeira.", "regras": [["dif", "banca", "Madeira", "Tapetes", 3]] },
+    { "texto": "Quem veio de Cunha ficou duas bancas antes de quem veio de Caruaru.", "regras": [["dif", "banca", "Caruaru", "Cunha", 2]] },
+    { "texto": "Quem vende cestos ficou mais longe da entrada que quem veio de Bichinho.", "regras": [[">", "banca", "Cestos", "Bichinho"]] },
+    { "texto": "Beatriz ficou mais perto da entrada que quem trabalha com cerâmica.", "regras": [[">", "banca", "Cerâmica", "Beatriz"]] },
+    { "texto": "Wagner ficou na banca logo antes da de quem trabalha com papel reciclado.", "regras": [["dif", "banca", "Papel", "Wagner", 1]] },
+    { "texto": "Renato ficou duas bancas depois de Beatriz.", "regras": [["dif", "banca", "Renato", "Beatriz", 2]] },
+    { "texto": "Entre as bancas de Wagner e de quem veio de Tiradentes havia duas outras bancas.", "regras": [["dist", "banca", "Tiradentes", "Wagner", 3]] }
+  ],
+  "solucao": [
+    ["Beatriz", "Quadros", "Bichinho", "Papel", "Banca 2"],
+    ["Júlio", "Bolsas", "Caruaru", "Cerâmica", "Banca 3"],
+    ["Renato", "Cestos", "Tiradentes", "Madeira", "Banca 4"],
+    ["Wagner", "Tapetes", "Cunha", "Metal", "Banca 1"]
+  ]
+}

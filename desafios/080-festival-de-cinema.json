@@ -1,0 +1,31 @@
+{
+  "id": "festival-de-cinema",
+  "versao": 1,
+  "titulo": "Festival de cinema",
+  "nivel": "medio",
+  "tipo": "calculo",
+  "introducao": "No festival de cinema da cidade, quatro vizinhos foram assistir a filmes no mesmo dia. Cada um comprou um lanche diferente, viu um filme de gênero diferente e deu uma nota diferente ao filme que viu. A partir das dicas, descubra, para cada um, o lanche, o gênero do filme e a nota que deu ao filme.",
+  "categorias": [
+    { "id": "espectador", "nome": "Espectador(a)", "itens": ["Elisa", "Leonardo", "Olívia", "Priscila"] },
+    { "id": "lanche", "nome": "Lanche", "itens": ["Balas", "Cachorro-quente", "Nachos", "Pipoca salgada"] },
+    { "id": "filme", "nome": "Gênero", "itens": ["Aventura", "Comédia", "Documentário", "Musical"] },
+    { "id": "nota", "nome": "Nota", "itens": ["5", "6", "7", "8"], "valores": [5, 6, 7, 8], "formato": "nota {}", "relacao": {"menor":"nota menor que","maior":"nota maior que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["ponto","pontos"],"menorCurto":"menor","maiorCurto":"maior"} }
+  ],
+  "dicas": [
+    { "texto": "Quem comprou balas deu a menor nota.", "regras": [["=", "Balas", "5"]] },
+    { "texto": "Quem comprou nachos não deu nota 7 ao filme.", "regras": [["!=", "Nachos", "7"]] },
+    { "texto": "As notas de quem comprou pipoca salgada e de quem viu o documentário tiveram um ponto de diferença.", "regras": [["dist", "nota", "Documentário", "Pipoca salgada", 1]] },
+    { "texto": "As notas de Olívia e de quem comprou cachorro-quente tiveram um ponto de diferença.", "regras": [["dist", "nota", "Cachorro-quente", "Olívia", 1]] },
+    { "texto": "Leonardo não comprou nachos.", "regras": [["!=", "Leonardo", "Nachos"]] },
+    { "texto": "Priscila deu ao filme um ponto a menos que Elisa.", "regras": [["dif", "nota", "Elisa", "Priscila", 1]] },
+    { "texto": "Olívia deu ao filme uma nota maior que quem viu o musical.", "regras": [[">", "nota", "Olívia", "Musical"]] },
+    { "texto": "Quem comprou balas deu ao filme dois pontos a menos que Olívia.", "regras": [["dif", "nota", "Olívia", "Balas", 2]] },
+    { "texto": "Quem viu o filme de aventura deu ao filme dois pontos a menos que quem comprou pipoca salgada.", "regras": [["dif", "nota", "Pipoca salgada", "Aventura", 2]] }
+  ],
+  "solucao": [
+    ["Elisa", "Nachos", "Musical", "6"],
+    ["Leonardo", "Cachorro-quente", "Documentário", "8"],
+    ["Olívia", "Pipoca salgada", "Comédia", "7"],
+    ["Priscila", "Balas", "Aventura", "5"]
+  ]
+}

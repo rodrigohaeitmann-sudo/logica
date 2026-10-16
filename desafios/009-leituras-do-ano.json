@@ -1,0 +1,31 @@
+{
+  "id": "leituras-do-ano",
+  "versao": 1,
+  "titulo": "Leituras do ano",
+  "nivel": "medio",
+  "tipo": "misto",
+  "introducao": "Cinco amigos que adoram ler resolveram indicar um livro cada um para o grupo. Cada um leu uma edição de tipo diferente, indicou um livro com um número diferente de páginas e escolheu a leitura de um mês diferente. A partir das dicas, descubra, para cada um, o tipo de edição, o número de páginas do livro e o mês da indicação.",
+  "categorias": [
+    { "id": "leitor", "nome": "Leitor(a)", "itens": ["Arthur", "Carolina", "Mônica", "Sara", "Ursula"] },
+    { "id": "edicao", "nome": "Edição", "itens": ["Capa dura", "De bolso", "Digital", "Ilustrada", "Usada"] },
+    { "id": "paginas", "nome": "Páginas", "itens": ["120", "200", "280", "360", "440"], "valores": [120, 200, 280, 360, 440], "formato": "{} páginas", "relacao": {"menor":"menos páginas que","maior":"mais páginas que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["página","páginas"],"menorCurto":"menos","maiorCurto":"mais"} },
+    { "id": "mes", "nome": "Mês", "itens": ["Abril", "Maio", "Junho", "Julho", "Agosto"], "valores": [4, 5, 6, 7, 8], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["mês","meses"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Carolina indicou um livro com 80 páginas a menos que o de Mônica.", "regras": [["dif", "paginas", "Mônica", "Carolina", 80]] },
+    { "texto": "Sara indicou um livro de 120 páginas ou leu uma edição de capa dura, mas não as duas coisas.", "regras": [["ou", "Sara", "Capa dura", "120"]] },
+    { "texto": "Entre quem leu uma edição de bolso e quem fez a primeira indicação, um era Ursula e o outro, Arthur.", "regras": [["par", ["Abril", "De bolso"], ["Ursula", "Arthur"]]] },
+    { "texto": "Carolina indicou um livro com 80 páginas a mais que o de quem fez a indicação de junho.", "regras": [["dif", "paginas", "Carolina", "Junho", 80]] },
+    { "texto": "Quem leu uma edição digital foi o último a fazer a indicação.", "regras": [["=", "Agosto", "Digital"]] },
+    { "texto": "Sara fez sua indicação no mês seguinte ao de quem leu uma edição ilustrada.", "regras": [["dif", "mes", "Sara", "Ilustrada", 1]] },
+    { "texto": "Entre Arthur e Mônica, um fez a indicação de maio e o outro, de julho.", "regras": [["par", ["Arthur", "Mônica"], ["Maio", "Julho"]]] },
+    { "texto": "Arthur indicou um livro de 200 páginas.", "regras": [["=", "200", "Arthur"]] }
+  ],
+  "solucao": [
+    ["Arthur", "De bolso", "200", "Julho"],
+    ["Carolina", "Digital", "360", "Agosto"],
+    ["Mônica", "Ilustrada", "440", "Maio"],
+    ["Sara", "Capa dura", "280", "Junho"],
+    ["Ursula", "Usada", "120", "Abril"]
+  ]
+}

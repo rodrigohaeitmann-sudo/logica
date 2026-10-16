@@ -1,0 +1,31 @@
+{
+  "id": "conservatorio",
+  "versao": 1,
+  "titulo": "Conservatório",
+  "nivel": "dificil",
+  "tipo": "calculo",
+  "introducao": "Quatro alunos da escola de música vão se apresentar no recital de fim de ano. Cada um vai tocar a peça de um compositor diferente, toca um instrumento diferente, tem aulas com um professor diferente e estuda música há um tempo diferente. A partir das dicas, descubra, para cada um, o compositor da peça, o instrumento, quem é o professor e há quanto tempo estuda música.",
+  "categorias": [
+    { "id": "musico", "nome": "Aluno(a)", "itens": ["Nelson", "Rafael", "Vítor", "Yasmin"] },
+    { "id": "compositor", "nome": "Compositor(a)", "itens": ["Bach", "Beethoven", "Chopin", "Debussy"] },
+    { "id": "instrumento", "nome": "Instrumento", "itens": ["Harpa", "Viola", "Violino", "Violoncelo"] },
+    { "id": "professor", "nome": "Professor(a)", "itens": ["Diego", "Eduarda", "Priscila", "Simone"] },
+    { "id": "estudo", "nome": "Tempo de estudo", "itens": ["3 anos", "4 anos", "5 anos", "6 anos"], "valores": [3, 4, 5, 6], "relacao": {"menor":"há menos tempo que","maior":"há mais tempo que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["ano","anos"],"menorCurto":"menos tempo","maiorCurto":"mais tempo"} }
+  ],
+  "dicas": [
+    { "texto": "Nelson estuda música há um ano a menos que quem toca harpa.", "regras": [["dif", "estudo", "Harpa", "Nelson", 1]] },
+    { "texto": "Vítor estuda música há mais tempo que quem toca violino.", "regras": [[">", "estudo", "Vítor", "Violino"]] },
+    { "texto": "Quem vai tocar uma peça de Chopin estuda música há dois anos a mais que quem toca viola.", "regras": [["dif", "estudo", "Chopin", "Viola", 2]] },
+    { "texto": "Yasmin e quem vai tocar uma peça de Beethoven começaram a estudar música com um ano de diferença.", "regras": [["dist", "estudo", "Yasmin", "Beethoven", 1]] },
+    { "texto": "Quem tem aulas com Eduarda estuda música há dois anos a menos que quem tem aulas com Priscila.", "regras": [["dif", "estudo", "Priscila", "Eduarda", 2]] },
+    { "texto": "Quem tem aulas com Eduarda estuda música há dois anos a menos que quem vai tocar uma peça de Bach.", "regras": [["dif", "estudo", "Bach", "Eduarda", 2]] },
+    { "texto": "Nelson estuda música há menos tempo que quem tem aulas com Simone.", "regras": [[">", "estudo", "Simone", "Nelson"]] },
+    { "texto": "Entre quem toca violoncelo e quem toca harpa, um vai tocar uma peça de Chopin e o outro, de Beethoven.", "regras": [["par", ["Violoncelo", "Harpa"], ["Chopin", "Beethoven"]]] }
+  ],
+  "solucao": [
+    ["Nelson", "Bach", "Violino", "Priscila", "5 anos"],
+    ["Rafael", "Beethoven", "Violoncelo", "Eduarda", "3 anos"],
+    ["Vítor", "Chopin", "Harpa", "Simone", "6 anos"],
+    ["Yasmin", "Debussy", "Viola", "Diego", "4 anos"]
+  ]
+}

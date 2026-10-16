@@ -1,0 +1,29 @@
+{
+  "id": "rodada-final",
+  "versao": 1,
+  "titulo": "Rodada final",
+  "nivel": "dificil",
+  "tipo": "calculo",
+  "introducao": "Quatro enxadristas disputaram o torneio relâmpago do clube no fim de semana. Cada um comeu um lanche diferente no intervalo, fez uma pontuação diferente e tem uma idade diferente. A partir das dicas, descubra, para cada um, o lanche do intervalo, a pontuação e a idade.",
+  "categorias": [
+    { "id": "enxadrista", "nome": "Enxadrista", "itens": ["Bruno", "Daniela", "Nicolas", "Ulisses"] },
+    { "id": "lanche", "nome": "Lanche", "itens": ["Barra de cereal", "Maçã", "Pão de queijo", "Sanduíche"] },
+    { "id": "pontos", "nome": "Pontos", "itens": ["2", "3", "4", "5"], "valores": [2, 3, 4, 5], "formato": "{} pontos", "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["ponto","pontos"],"menorCurto":"menos","maiorCurto":"mais"} },
+    { "id": "idade", "nome": "Idade", "itens": ["26 anos", "29 anos", "32 anos", "35 anos"], "valores": [26, 29, 32, 35], "relacao": {"menor":"mais novo(a) que","maior":"mais velho(a) que","menorK":"{k} mais novo(a) que","maiorK":"{k} mais velho(a) que","unidade":["ano","anos"],"menorCurto":"mais novo(a)","maiorCurto":"mais velho(a)"} }
+  ],
+  "dicas": [
+    { "texto": "Quem comeu pão de queijo no intervalo e quem tem 26 anos terminaram com um ponto de diferença.", "regras": [["dist", "pontos", "26 anos", "Pão de queijo", 1]] },
+    { "texto": "Nicolas e quem fez 3 pontos têm três anos de diferença de idade.", "regras": [["dist", "idade", "3", "Nicolas", 3]] },
+    { "texto": "Quem comeu uma barra de cereal no intervalo tem 35 anos.", "regras": [["=", "35 anos", "Barra de cereal"]] },
+    { "texto": "Ulisses é seis anos mais velho que quem fez 4 pontos.", "regras": [["dif", "idade", "Ulisses", "4", 6]] },
+    { "texto": "Daniela não tem 29 anos.", "regras": [["!=", "Daniela", "29 anos"]] },
+    { "texto": "Quem comeu uma maçã no intervalo fez três pontos a menos que quem comeu uma barra de cereal no intervalo.", "regras": [["dif", "pontos", "Barra de cereal", "Maçã", 3]] },
+    { "texto": "Quem comeu uma barra de cereal no intervalo fez um ponto a mais que Bruno.", "regras": [["dif", "pontos", "Barra de cereal", "Bruno", 1]] }
+  ],
+  "solucao": [
+    ["Bruno", "Sanduíche", "4", "26 anos"],
+    ["Daniela", "Barra de cereal", "5", "35 anos"],
+    ["Nicolas", "Maçã", "2", "29 anos"],
+    ["Ulisses", "Pão de queijo", "3", "32 anos"]
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "residencia-medica",
+  "versao": 1,
+  "titulo": "Residência médica",
+  "nivel": "medio",
+  "tipo": "ordem",
+  "introducao": "Cinco residentes do mesmo hospital costumam se encontrar na copa entre um atendimento e outro. Cada um toma uma bebida diferente no intervalo, tem um passatempo diferente nas folgas e dá plantão em um dia diferente. A partir das dicas, descubra, para cada um, a bebida do intervalo, o passatempo e o dia do plantão.",
+  "categorias": [
+    { "id": "residente", "nome": "Residente", "itens": ["Caio", "Fernando", "Nelson", "Sofia", "Valter"] },
+    { "id": "bebida", "nome": "Bebida", "itens": ["Água de coco", "Café", "Cappuccino", "Chá", "Mate"] },
+    { "id": "hobby", "nome": "Passatempo", "itens": ["Cozinhar", "Dançar", "Pedalar", "Pintar", "Plantas"] },
+    { "id": "dia", "nome": "Dia", "itens": ["Terça", "Quarta", "Quinta", "Sexta", "Sábado"], "valores": [2, 3, 4, 5, 6], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["dia","dias"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Quem toma chá no intervalo dá plantão depois de quem gosta de dançar nas folgas.", "regras": [[">", "dia", "Chá", "Dançar"]] },
+    { "texto": "Quem toma água de coco no intervalo dá plantão três dias depois de quem toma café no intervalo.", "regras": [["dif", "dia", "Água de coco", "Café", 3]] },
+    { "texto": "Valter gosta de dançar nas folgas.", "regras": [["=", "Dançar", "Valter"]] },
+    { "texto": "Sofia não gosta de pintar nas folgas.", "regras": [["!=", "Pintar", "Sofia"]] },
+    { "texto": "Entre quem gosta de pintar nas folgas e quem gosta de dançar nas folgas, um dá plantão na terça-feira e o outro, na quinta-feira.", "regras": [["par", ["Pintar", "Dançar"], ["Terça", "Quinta"]]] },
+    { "texto": "Entre quem gosta de pedalar nas folgas e quem gosta de dançar nas folgas, um dá plantão na quinta-feira e o outro, no sábado.", "regras": [["par", ["Pedalar", "Dançar"], ["Quinta", "Sábado"]]] },
+    { "texto": "Entre Fernando e quem gosta de cuidar das plantas nas folgas, um dá plantão na sexta-feira e o outro, na quarta-feira.", "regras": [["par", ["Plantas", "Fernando"], ["Sexta", "Quarta"]]] },
+    { "texto": "Quem toma água de coco no intervalo dá plantão no dia seguinte ao de quem toma mate no intervalo.", "regras": [["dif", "dia", "Água de coco", "Mate", 1]] },
+    { "texto": "Nelson e quem toma café no intervalo dão plantão em dias seguidos.", "regras": [["dist", "dia", "Nelson", "Café", 1]] }
+  ],
+  "solucao": [
+    ["Caio", "Café", "Pintar", "Terça"],
+    ["Fernando", "Água de coco", "Cozinhar", "Sexta"],
+    ["Nelson", "Cappuccino", "Plantas", "Quarta"],
+    ["Sofia", "Chá", "Pedalar", "Sábado"],
+    ["Valter", "Mate", "Dançar", "Quinta"]
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "show-de-talentos",
+  "versao": 1,
+  "titulo": "Show de talentos",
+  "nivel": "dificil",
+  "tipo": "ordem",
+  "introducao": "No show de talentos do clube, cinco participantes se apresentaram para uma plateia lotada. Cada um levou alguém diferente para torcer, usou um figurino de cor diferente, apresentou um talento diferente e se apresentou em um momento diferente. A partir das dicas, descubra, para cada um, quem levou para torcer, a cor do figurino, o talento e a ordem de apresentação.",
+  "categorias": [
+    { "id": "artista", "nome": "Artista", "itens": ["Daniela", "Hugo", "Larissa", "Patrícia", "Vítor"] },
+    { "id": "torcida", "nome": "Torcida", "itens": ["Amigos", "Avô", "Padrinho", "Tia", "Vizinha"] },
+    { "id": "figurino", "nome": "Figurino", "itens": ["Branco", "Dourado", "Preto", "Roxo", "Vermelho"] },
+    { "id": "talento", "nome": "Talento", "itens": ["Acrobacias", "Beatbox", "Imitações", "Sapateado", "Stand-up"] },
+    { "id": "ordem", "nome": "Ordem", "itens": ["1º", "2º", "3º", "4º", "5º"], "valores": [1, 2, 3, 4, 5], "formato": "{} a se apresentar", "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["posição","posições"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Quem fez beatbox era Patrícia ou Hugo.", "regras": [["ou", "Beatbox", "Hugo", "Patrícia"]] },
+    { "texto": "Hugo não abriu nem encerrou o show.", "regras": [["meio", "ordem", "Hugo"]] },
+    { "texto": "Larissa se apresentou antes de quem usou um figurino branco.", "regras": [[">", "ordem", "Branco", "Larissa"]] },
+    { "texto": "Entre as apresentações de quem usou um figurino branco e de quem usou um figurino dourado houve duas outras apresentações.", "regras": [["dist", "ordem", "Dourado", "Branco", 3]] },
+    { "texto": "Quem levou a tia para torcer e quem usou um figurino branco se apresentaram em sequência.", "regras": [["dist", "ordem", "Tia", "Branco", 1]] },
+    { "texto": "Entre as apresentações de quem levou os amigos para torcer e de quem fez sapateado houve uma outra apresentação.", "regras": [["dist", "ordem", "Sapateado", "Amigos", 2]] },
+    { "texto": "Quem fez sapateado se apresentou depois de quem fez stand-up.", "regras": [[">", "ordem", "Sapateado", "Stand-up"]] },
+    { "texto": "Quem usou um figurino roxo se apresentou logo depois de quem fez acrobacias.", "regras": [["dif", "ordem", "Roxo", "Acrobacias", 1]] },
+    { "texto": "Entre quem usou um figurino branco e quem foi o 4º a se apresentar, um era Vítor e o outro, Patrícia.", "regras": [["par", ["4º", "Branco"], ["Vítor", "Patrícia"]]] },
+    { "texto": "Patrícia se apresentou três posições depois de quem levou o padrinho para torcer.", "regras": [["dif", "ordem", "Patrícia", "Padrinho", 3]] },
+    { "texto": "Quem usou um figurino branco se apresentou duas posições antes de quem levou o avô para torcer.", "regras": [["dif", "ordem", "Avô", "Branco", 2]] },
+    { "texto": "Entre quem levou a vizinha para torcer e quem levou o avô para torcer, um usou um figurino vermelho e o outro, dourado.", "regras": [["par", ["Vizinha", "Avô"], ["Vermelho", "Dourado"]]] }
+  ],
+  "solucao": [
+    ["Daniela", "Vizinha", "Dourado", "Imitações", "5º"],
+    ["Hugo", "Tia", "Roxo", "Beatbox", "3º"],
+    ["Larissa", "Padrinho", "Preto", "Stand-up", "1º"],
+    ["Patrícia", "Avô", "Vermelho", "Sapateado", "4º"],
+    ["Vítor", "Amigos", "Branco", "Acrobacias", "2º"]
+  ]
+}

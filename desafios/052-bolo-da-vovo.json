@@ -1,0 +1,28 @@
+{
+  "id": "bolo-da-vovo",
+  "versao": 1,
+  "titulo": "Bolo da vovó",
+  "nivel": "dificil",
+  "tipo": "calculo",
+  "introducao": "No festival de confeitaria da cidade, quatro participantes chegaram à final. Cada um mora em um bairro diferente, usou uma cobertura diferente e deixou o bolo no forno por um tempo diferente. A partir das dicas, descubra, para cada um, o bairro, a cobertura e o tempo de forno.",
+  "categorias": [
+    { "id": "confeiteiro", "nome": "Confeiteiro(a)", "itens": ["Cecília", "Eduarda", "Paulo", "Teodoro"] },
+    { "id": "bairro", "nome": "Bairro", "itens": ["Mooca", "Penha", "Saúde", "Tatuapé"] },
+    { "id": "cobertura", "nome": "Cobertura", "itens": ["Brigadeiro", "Chantilly", "Frutas vermelhas", "Ganache"] },
+    { "id": "forno", "nome": "Tempo de forno", "itens": ["25 min", "30 min", "35 min", "40 min"], "valores": [25, 30, 35, 40], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["minuto","minutos"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "Paulo e quem mora na Saúde deixaram seus bolos no forno com 15 minutos de diferença.", "regras": [["dist", "forno", "Saúde", "Paulo", 15]] },
+    { "texto": "Quem mora no Tatuapé deixou o bolo 5 minutos a menos no forno que Teodoro.", "regras": [["dif", "forno", "Teodoro", "Tatuapé", 5]] },
+    { "texto": "Entre quem usou cobertura de chantilly e quem usou cobertura de frutas vermelhas, um mora no Tatuapé e o outro, na Saúde.", "regras": [["par", ["Chantilly", "Frutas vermelhas"], ["Tatuapé", "Saúde"]]] },
+    { "texto": "Cecília deixou o bolo 5 minutos a menos no forno que quem usou cobertura de frutas vermelhas.", "regras": [["dif", "forno", "Frutas vermelhas", "Cecília", 5]] },
+    { "texto": "Eduarda mora na Mooca.", "regras": [["=", "Eduarda", "Mooca"]] },
+    { "texto": "Quem mora no Tatuapé e quem usou cobertura de brigadeiro deixaram seus bolos no forno com 10 minutos de diferença.", "regras": [["dist", "forno", "Tatuapé", "Brigadeiro", 10]] }
+  ],
+  "solucao": [
+    ["Cecília", "Tatuapé", "Chantilly", "35 min"],
+    ["Eduarda", "Mooca", "Ganache", "30 min"],
+    ["Paulo", "Penha", "Brigadeiro", "25 min"],
+    ["Teodoro", "Saúde", "Frutas vermelhas", "40 min"]
+  ]
+}

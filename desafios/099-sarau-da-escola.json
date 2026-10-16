@@ -1,0 +1,32 @@
+{
+  "id": "sarau-da-escola",
+  "versao": 1,
+  "titulo": "Sarau da escola",
+  "nivel": "medio",
+  "tipo": "misto",
+  "introducao": "No show de talentos do clube, quatro participantes se apresentaram para uma plateia lotada. Cada um usou um figurino de cor diferente, levou alguém diferente para torcer, apresentou um talento diferente e recebeu um número diferente de votos do público. A partir das dicas, descubra, para cada um, a cor do figurino, quem levou para torcer, o talento e quantos votos recebeu.",
+  "categorias": [
+    { "id": "artista", "nome": "Artista", "itens": ["Diana", "Glória", "Igor", "Valéria"] },
+    { "id": "figurino", "nome": "Figurino", "itens": ["Azul", "Prateado", "Preto", "Roxo"] },
+    { "id": "torcida", "nome": "Torcida", "itens": ["Avô", "Padrinho", "Tia", "Vizinha"] },
+    { "id": "talento", "nome": "Talento", "itens": ["Acrobacias", "Beatbox", "Mágica", "Stand-up"] },
+    { "id": "votos", "nome": "Votos", "itens": ["60 votos", "78 votos", "96 votos", "114 votos"], "valores": [60, 78, 96, 114], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["voto","votos"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "Igor e quem levou a tia para torcer tiveram 18 votos de diferença.", "regras": [["dist", "votos", "Igor", "Tia", 18]] },
+    { "texto": "Glória recebeu 36 votos a mais que quem levou a tia para torcer.", "regras": [["dif", "votos", "Glória", "Tia", 36]] },
+    { "texto": "Quem usou um figurino azul não recebeu 78 votos do público.", "regras": [["!=", "Azul", "78 votos"]] },
+    { "texto": "Quem usou um figurino prateado recebeu mais votos que quem usou um figurino roxo.", "regras": [[">", "votos", "Prateado", "Roxo"]] },
+    { "texto": "Quem fez mágica usou um figurino azul.", "regras": [["=", "Mágica", "Azul"]] },
+    { "texto": "Glória recebeu 18 votos a menos que quem fez stand-up.", "regras": [["dif", "votos", "Stand-up", "Glória", 18]] },
+    { "texto": "Quem fez beatbox foi o mais votado ou o menos votado.", "regras": [["extremo", "votos", "Beatbox"]] },
+    { "texto": "Diana recebeu 36 votos a mais que quem levou o padrinho para torcer.", "regras": [["dif", "votos", "Diana", "Padrinho", 36]] },
+    { "texto": "Quem usou um figurino preto levou a vizinha para torcer.", "regras": [["=", "Vizinha", "Preto"]] }
+  ],
+  "solucao": [
+    ["Diana", "Preto", "Vizinha", "Stand-up", "114 votos"],
+    ["Glória", "Azul", "Avô", "Mágica", "96 votos"],
+    ["Igor", "Prateado", "Padrinho", "Acrobacias", "78 votos"],
+    ["Valéria", "Roxo", "Tia", "Beatbox", "60 votos"]
+  ]
+}

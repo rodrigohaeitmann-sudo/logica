@@ -1,0 +1,35 @@
+{
+  "id": "clube-de-xadrez",
+  "versao": 1,
+  "titulo": "Clube de xadrez",
+  "nivel": "medio",
+  "tipo": "calculo",
+  "introducao": "Cinco enxadristas disputaram o torneio relâmpago do clube no fim de semana. Cada um tem uma peça preferida diferente, prefere uma abertura diferente, tem uma idade diferente e fez uma pontuação diferente. A partir das dicas, descubra, para cada um, a peça preferida, a abertura preferida, a idade e a pontuação.",
+  "categorias": [
+    { "id": "enxadrista", "nome": "Enxadrista", "itens": ["Caio", "Enzo", "Joana", "Otávio", "Pedro"] },
+    { "id": "peca", "nome": "Peça preferida", "itens": ["Bispo", "Cavalo", "Dama", "Peão", "Torre"] },
+    { "id": "abertura", "nome": "Abertura", "itens": ["Francesa", "Gambito da Dama", "Inglesa", "Italiana", "Siciliana"] },
+    { "id": "idade", "nome": "Idade", "itens": ["30 anos", "35 anos", "40 anos", "45 anos", "50 anos"], "valores": [30, 35, 40, 45, 50], "relacao": {"menor":"mais novo(a) que","maior":"mais velho(a) que","menorK":"{k} mais novo(a) que","maiorK":"{k} mais velho(a) que","unidade":["ano","anos"],"menorCurto":"mais novo(a)","maiorCurto":"mais velho(a)"} },
+    { "id": "pontos", "nome": "Pontos", "itens": ["1,5", "2,5", "3,5", "4,5", "5,5"], "valores": [1.5, 2.5, 3.5, 4.5, 5.5], "formato": "{} pontos", "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["ponto","pontos"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "Quem tem o bispo como peça preferida fez três pontos a mais que quem tem a dama como peça preferida.", "regras": [["dif", "pontos", "Bispo", "Dama", 3]] },
+    { "texto": "Quem tem o bispo como peça preferida fez dois pontos a mais que quem tem 35 anos.", "regras": [["dif", "pontos", "Bispo", "35 anos", 2]] },
+    { "texto": "Quem tem a torre como peça preferida fez quatro pontos a mais que quem prefere a Defesa Siciliana.", "regras": [["dif", "pontos", "Torre", "Siciliana", 4]] },
+    { "texto": "Quem prefere a Abertura Italiana é quinze anos mais novo que quem venceu o torneio.", "regras": [["dif", "idade", "5,5", "Italiana", 15]] },
+    { "texto": "Enzo é dez anos mais velho que quem fez menos pontos.", "regras": [["dif", "idade", "Enzo", "1,5", 10]] },
+    { "texto": "Quem prefere a Defesa Siciliana fez dois pontos a menos que quem prefere a Abertura Inglesa.", "regras": [["dif", "pontos", "Inglesa", "Siciliana", 2]] },
+    { "texto": "Otávio fez mais pontos que quem tem a dama como peça preferida.", "regras": [[">", "pontos", "Otávio", "Dama"]] },
+    { "texto": "Quem tem o cavalo como peça preferida e quem prefere a Defesa Siciliana têm cinco anos de diferença de idade.", "regras": [["dist", "idade", "Siciliana", "Cavalo", 5]] },
+    { "texto": "Caio fez mais pontos que quem prefere o Gambito da Dama.", "regras": [[">", "pontos", "Caio", "Gambito da Dama"]] },
+    { "texto": "Quem prefere a Abertura Inglesa fez mais pontos que quem tem 40 anos.", "regras": [[">", "pontos", "Inglesa", "40 anos"]] },
+    { "texto": "Joana é cinco anos mais nova que Enzo.", "regras": [["dif", "idade", "Enzo", "Joana", 5]] }
+  ],
+  "solucao": [
+    ["Caio", "Bispo", "Italiana", "30 anos", "4,5"],
+    ["Enzo", "Peão", "Inglesa", "50 anos", "3,5"],
+    ["Joana", "Torre", "Francesa", "45 anos", "5,5"],
+    ["Otávio", "Cavalo", "Gambito da Dama", "35 anos", "2,5"],
+    ["Pedro", "Dama", "Siciliana", "40 anos", "1,5"]
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "paixao-por-colecoes",
+  "versao": 1,
+  "titulo": "Paixão por coleções",
+  "nivel": "medio",
+  "tipo": "misto",
+  "introducao": "Na reunião mensal do clube dos colecionadores, quatro sócios trouxeram suas coleções para exibir. Cada um guarda a coleção de um jeito diferente, mora em uma cidade diferente, começou a colecionar em um ano diferente e tem uma coleção de tamanho diferente. A partir das dicas, descubra, para cada um, onde guarda a coleção, a cidade onde mora, o ano em que começou a colecionar e quantas peças tem.",
+  "categorias": [
+    { "id": "colecionador", "nome": "Colecionador(a)", "itens": ["Alice", "Caio", "Rafael", "Samuel"] },
+    { "id": "guarda", "nome": "Onde guarda", "itens": ["Armário", "Caixas", "Estante", "Vitrine"] },
+    { "id": "cidade", "nome": "Cidade", "itens": ["Cuiabá", "Maceió", "Natal", "Vitória"] },
+    { "id": "ano", "nome": "Início", "itens": ["1998", "2002", "2006", "2010"], "valores": [1998, 2002, 2006, 2010], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["ano","anos"],"menorCurto":"antes","maiorCurto":"depois"} },
+    { "id": "quantidade", "nome": "Peças", "itens": ["150", "210", "270", "330"], "valores": [150, 210, 270, 330], "formato": "{} peças", "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["peça","peças"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "Alice, que não guarda a coleção numa estante, começou a colecionar depois de Caio.", "regras": [["!=", "Estante", "Alice"], [">", "ano", "Alice", "Caio"]] },
+    { "texto": "Quem guarda a coleção em caixas tem a maior ou a menor coleção.", "regras": [["extremo", "quantidade", "Caixas"]] },
+    { "texto": "Samuel, quem mora em Maceió e quem começou a colecionar em 2010 são três pessoas diferentes.", "regras": [["distintos", "Samuel", "2010", "Maceió"]] },
+    { "texto": "Entre quem guarda a coleção numa vitrine e quem guarda a coleção num armário, um mora em Cuiabá e o outro, em Vitória.", "regras": [["par", ["Vitrine", "Armário"], ["Cuiabá", "Vitória"]]] },
+    { "texto": "Quem começou a colecionar em 2006 tem 60 peças a menos que quem começou a colecionar em 2002.", "regras": [["dif", "quantidade", "2002", "2006", 60]] },
+    { "texto": "Quem guarda a coleção num armário tem 120 peças a menos que Samuel.", "regras": [["dif", "quantidade", "Samuel", "Armário", 120]] },
+    { "texto": "Quem começou a colecionar por último tem 210 peças na coleção.", "regras": [["=", "2010", "210"]] },
+    { "texto": "Quem começou a colecionar em 2006 tem menos peças que Caio.", "regras": [[">", "quantidade", "Caio", "2006"]] },
+    { "texto": "Quem mora em Vitória não tem a menor coleção.", "regras": [["!=", "150", "Vitória"]] }
+  ],
+  "solucao": [
+    ["Alice", "Vitrine", "Vitória", "2010", "210"],
+    ["Caio", "Caixas", "Maceió", "2002", "330"],
+    ["Rafael", "Armário", "Cuiabá", "1998", "150"],
+    ["Samuel", "Estante", "Natal", "2006", "270"]
+  ]
+}

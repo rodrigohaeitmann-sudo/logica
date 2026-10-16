@@ -1,0 +1,32 @@
+{
+  "id": "novos-enderecos",
+  "versao": 1,
+  "titulo": "Novos endereços",
+  "nivel": "medio",
+  "tipo": "calculo",
+  "introducao": "Nos últimos anos, cinco famílias que moravam na mesma rua se mudaram para outras cidades. Cada família fez a viagem da mudança de um jeito diferente, levou um animal de estimação diferente na mudança e tem um número diferente de filhos. A partir das dicas, descubra, para cada família, como fez a viagem, o animal de estimação e quantos filhos tem.",
+  "categorias": [
+    { "id": "familia", "nome": "Família", "itens": ["Bastos", "Gomes", "Leme", "Macedo", "Nogueira"] },
+    { "id": "transporte", "nome": "Viagem", "itens": ["Avião", "Caminhão", "Carro", "Ônibus", "Trem"] },
+    { "id": "pet", "nome": "Animal", "itens": ["Aquário", "Cachorro", "Calopsita", "Papagaio", "Tartaruga"] },
+    { "id": "filhos", "nome": "Filhos", "itens": ["1 filho", "2 filhos", "3 filhos", "4 filhos", "5 filhos"], "valores": [1, 2, 3, 4, 5], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["filho","filhos"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "A família Macedo tem dois filhos a mais que a família que fez a viagem de trem.", "regras": [["dif", "filhos", "Macedo", "Trem", 2]] },
+    { "texto": "A família que fez a viagem de avião é a família com mais filhos ou a com menos filhos.", "regras": [["extremo", "filhos", "Avião"]] },
+    { "texto": "Entre a família que levou o papagaio e a família que levou a tartaruga, uma era a família Leme e a outra, a família Bastos.", "regras": [["par", ["Papagaio", "Tartaruga"], ["Leme", "Bastos"]]] },
+    { "texto": "A família Nogueira tem três filhos a mais que a família Leme.", "regras": [["dif", "filhos", "Nogueira", "Leme", 3]] },
+    { "texto": "A família que levou o aquário tem menos filhos que a família Nogueira.", "regras": [[">", "filhos", "Nogueira", "Aquário"]] },
+    { "texto": "A família que fez a viagem no próprio caminhão de mudança tem cinco filhos.", "regras": [["=", "5 filhos", "Caminhão"]] },
+    { "texto": "A família que levou a tartaruga tem menos filhos que a família que levou o papagaio.", "regras": [[">", "filhos", "Papagaio", "Tartaruga"]] },
+    { "texto": "A família que fez a viagem de ônibus tem três filhos.", "regras": [["=", "Ônibus", "3 filhos"]] },
+    { "texto": "A família que levou o cachorro tem um filho a mais que a família Gomes.", "regras": [["dif", "filhos", "Cachorro", "Gomes", 1]] }
+  ],
+  "solucao": [
+    ["Bastos", "Avião", "Tartaruga", "1 filho"],
+    ["Gomes", "Ônibus", "Aquário", "3 filhos"],
+    ["Leme", "Trem", "Papagaio", "2 filhos"],
+    ["Macedo", "Carro", "Cachorro", "4 filhos"],
+    ["Nogueira", "Caminhão", "Calopsita", "5 filhos"]
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "hora-da-refeicao",
+  "versao": 1,
+  "titulo": "Hora da refeição",
+  "nivel": "medio",
+  "tipo": "associacao",
+  "introducao": "No zoológico da cidade, cinco tratadores são responsáveis cada um por um animal diferente. Cada um trabalha com um ajudante diferente, deu um apelido diferente ao seu animal e cuida de um animal diferente. A partir das dicas, descubra, para cada um, o ajudante, o apelido do animal e o animal.",
+  "categorias": [
+    { "id": "tratador", "nome": "Tratador(a)", "itens": ["Júlio", "Lorena", "Nádia", "Renata", "Ursula"] },
+    { "id": "ajudante", "nome": "Ajudante", "itens": ["Cecília", "Diana", "Gabriela", "Mariana", "Sérgio"] },
+    { "id": "apelido", "nome": "Apelido", "itens": ["Biscoito", "Bolinha", "Faísca", "Pingo", "Pipoca"] },
+    { "id": "animal", "nome": "Animal", "itens": ["Elefante", "Leão", "Onça-pintada", "Tigre", "Zebra"] }
+  ],
+  "dicas": [
+    { "texto": "Quem cuida da onça-pintada tem Sérgio como ajudante.", "regras": [["=", "Onça-pintada", "Sérgio"]] },
+    { "texto": "Quem tem Cecília como ajudante deu ao animal o apelido de Bolinha.", "regras": [["=", "Bolinha", "Cecília"]] },
+    { "texto": "Quem tem Mariana como ajudante é Ursula ou Lorena.", "regras": [["ou", "Mariana", "Ursula", "Lorena"]] },
+    { "texto": "Entre quem cuida da zebra e quem cuida do elefante, um é Nádia e o outro, Lorena.", "regras": [["par", ["Zebra", "Elefante"], ["Nádia", "Lorena"]]] },
+    { "texto": "Júlio tem Sérgio como ajudante.", "regras": [["=", "Sérgio", "Júlio"]] },
+    { "texto": "Quem deu ao animal o apelido de Pipoca tem Gabriela ou Cecília como ajudante.", "regras": [["ou", "Pipoca", "Gabriela", "Cecília"]] },
+    { "texto": "Quem tem Sérgio como ajudante não deu ao animal o apelido de Faísca.", "regras": [["!=", "Faísca", "Sérgio"]] },
+    { "texto": "Entre quem deu ao animal o apelido de Biscoito e quem deu ao animal o apelido de Pipoca, um cuida do elefante e o outro, do leão.", "regras": [["par", ["Biscoito", "Pipoca"], ["Elefante", "Leão"]]] },
+    { "texto": "Quem tem Cecília como ajudante cuida do elefante ou é Lorena, mas não as duas coisas.", "regras": [["ou", "Cecília", "Lorena", "Elefante"]] },
+    { "texto": "Entre Lorena e quem tem Diana como ajudante, um cuida do leão e o outro, da zebra.", "regras": [["par", ["Diana", "Lorena"], ["Leão", "Zebra"]]] }
+  ],
+  "solucao": [
+    ["Júlio", "Sérgio", "Pingo", "Onça-pintada"],
+    ["Lorena", "Cecília", "Bolinha", "Zebra"],
+    ["Nádia", "Gabriela", "Pipoca", "Elefante"],
+    ["Renata", "Diana", "Biscoito", "Leão"],
+    ["Ursula", "Mariana", "Faísca", "Tigre"]
+  ]
+}

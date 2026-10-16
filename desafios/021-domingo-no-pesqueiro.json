@@ -1,0 +1,29 @@
+{
+  "id": "domingo-no-pesqueiro",
+  "versao": 1,
+  "titulo": "Domingo no pesqueiro",
+  "nivel": "medio",
+  "tipo": "misto",
+  "introducao": "Quatro amigos passaram o domingo num pesqueiro e, no fim do dia, cada um voltou com um único peixe. Cada um usou uma isca diferente, chegou ao pesqueiro em um horário diferente e fisgou um peixe de peso diferente. A partir das dicas, descubra, para cada um, a isca, o horário de chegada e o peso do peixe.",
+  "categorias": [
+    { "id": "pescador", "nome": "Pescador(a)", "itens": ["Ana", "Joana", "Tiago", "Vanessa"] },
+    { "id": "isca", "nome": "Isca", "itens": ["Milho", "Minhoca", "Ração", "Salsicha"] },
+    { "id": "horario", "nome": "Horário", "itens": ["7h", "8h", "9h", "10h"], "valores": [7, 8, 9, 10], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["hora","horas"],"menorCurto":"antes","maiorCurto":"depois"} },
+    { "id": "peso", "nome": "Peso", "itens": ["1 kg", "1,4 kg", "1,8 kg", "2,2 kg"], "valores": [1, 1.4, 1.8, 2.2], "relacao": {"menor":"mais leve que","maior":"mais pesado que","menorK":"{k} mais leve que","maiorK":"{k} mais pesado que","unidade":["kg","kg"],"menorCurto":"mais leve","maiorCurto":"mais pesado"} }
+  ],
+  "dicas": [
+    { "texto": "Quem usou minhoca como isca chegou ao pesqueiro às 8h.", "regras": [["=", "8h", "Minhoca"]] },
+    { "texto": "Entre quem fisgou um peixe de 1,8 kg e quem fisgou um peixe de 1,4 kg, um era Ana e o outro, Tiago.", "regras": [["par", ["1,8 kg", "1,4 kg"], ["Ana", "Tiago"]]] },
+    { "texto": "Quem fisgou um peixe de 1,8 kg foi o primeiro ou o último a chegar ao pesqueiro.", "regras": [["extremo", "horario", "1,8 kg"]] },
+    { "texto": "Entre Ana e Joana, uma usou ração como isca e a outra, minhoca.", "regras": [["par", ["Ana", "Joana"], ["Ração", "Minhoca"]]] },
+    { "texto": "Vanessa usou milho como isca.", "regras": [["=", "Vanessa", "Milho"]] },
+    { "texto": "Quem fisgou o peixe mais pesado chegou ao pesqueiro antes de Vanessa.", "regras": [[">", "horario", "Vanessa", "2,2 kg"]] },
+    { "texto": "Quem usou salsicha como isca chegou ao pesqueiro uma hora depois de quem usou minhoca como isca.", "regras": [["dif", "horario", "Salsicha", "Minhoca", 1]] }
+  ],
+  "solucao": [
+    ["Ana", "Ração", "7h", "1,8 kg"],
+    ["Joana", "Minhoca", "8h", "2,2 kg"],
+    ["Tiago", "Salsicha", "9h", "1,4 kg"],
+    ["Vanessa", "Milho", "10h", "1 kg"]
+  ]
+}

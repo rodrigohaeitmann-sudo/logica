@@ -1,0 +1,34 @@
+{
+  "id": "vizinhos-de-porta",
+  "versao": 1,
+  "titulo": "Vizinhos de porta",
+  "nivel": "dificil",
+  "tipo": "associacao",
+  "introducao": "Quatro vizinhos do mesmo prédio organizaram juntos a festa de fim de ano do condomínio. Cada um toca um instrumento diferente, tem um carro de cor diferente, tem uma profissão diferente e tem um animal de estimação diferente. A partir das dicas, descubra, para cada um, o instrumento que toca, a cor do carro, a profissão e o animal de estimação.",
+  "categorias": [
+    { "id": "morador", "nome": "Morador(a)", "itens": ["Breno", "Fernando", "Orlando", "Sofia"] },
+    { "id": "instrumento", "nome": "Instrumento", "itens": ["Bateria", "Piano", "Saxofone", "Violino"] },
+    { "id": "carro", "nome": "Carro", "itens": ["Cinza", "Prata", "Verde", "Vermelho"] },
+    { "id": "profissao", "nome": "Profissão", "itens": ["Dentista", "Economista", "Jornalista", "Nutricionista"] },
+    { "id": "pet", "nome": "Animal", "itens": ["Calopsita", "Coelho", "Hamster", "Tartaruga"] }
+  ],
+  "dicas": [
+    { "texto": "Quem toca violino tem um hamster ou uma calopsita.", "regras": [["ou", "Violino", "Calopsita", "Hamster"]] },
+    { "texto": "Quem tem o carro verde é nutricionista ou tem um hamster, mas não as duas coisas.", "regras": [["ou", "Verde", "Hamster", "Nutricionista"]] },
+    { "texto": "Quem tem o carro prata é Sofia ou Breno.", "regras": [["ou", "Prata", "Breno", "Sofia"]] },
+    { "texto": "Quem é dentista tem um hamster ou uma calopsita.", "regras": [["ou", "Dentista", "Calopsita", "Hamster"]] },
+    { "texto": "Quem toca bateria, quem toca piano e quem tem o carro vermelho são três pessoas diferentes.", "regras": [["distintos", "Bateria", "Piano", "Vermelho"]] },
+    { "texto": "Quem tem o carro cinza, quem é nutricionista e quem toca piano são três pessoas diferentes.", "regras": [["distintos", "Cinza", "Nutricionista", "Piano"]] },
+    { "texto": "Quem tem o coelho não é jornalista.", "regras": [["!=", "Coelho", "Jornalista"]] },
+    { "texto": "Quem tem o carro prata toca bateria ou violino.", "regras": [["ou", "Prata", "Bateria", "Violino"]] },
+    { "texto": "Entre Sofia e quem é jornalista, um tem um carro prata e o outro, um carro verde.", "regras": [["par", ["Sofia", "Jornalista"], ["Prata", "Verde"]]] },
+    { "texto": "Quem tem o carro verde é economista ou nutricionista.", "regras": [["ou", "Verde", "Economista", "Nutricionista"]] },
+    { "texto": "Quem toca saxofone é dentista ou é Fernando, mas não as duas coisas.", "regras": [["ou", "Saxofone", "Fernando", "Dentista"]] }
+  ],
+  "solucao": [
+    ["Breno", "Bateria", "Prata", "Jornalista", "Tartaruga"],
+    ["Fernando", "Saxofone", "Vermelho", "Nutricionista", "Coelho"],
+    ["Orlando", "Violino", "Cinza", "Dentista", "Calopsita"],
+    ["Sofia", "Piano", "Verde", "Economista", "Hamster"]
+  ]
+}

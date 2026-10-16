@@ -1,0 +1,31 @@
+{
+  "id": "colheita-de-outono",
+  "versao": 1,
+  "titulo": "Colheita de outono",
+  "nivel": "medio",
+  "tipo": "ordem",
+  "introducao": "Na horta comunitária da vila, quatro vizinhos cuidam cada um de um canteiro. Cada um usa um adubo diferente, plantou uma espécie diferente, protege a cabeça do sol de um jeito diferente e rega a horta em um dia diferente da semana. A partir das dicas, descubra, para cada um, o adubo, o que plantou, o que usa na cabeça e o dia da rega.",
+  "categorias": [
+    { "id": "horticultor", "nome": "Horticultor(a)", "itens": ["Marina", "Natália", "Ursula", "Wagner"] },
+    { "id": "adubo", "nome": "Adubo", "itens": ["Casca de ovo", "Composto", "Esterco", "Húmus"] },
+    { "id": "planta", "nome": "Planta", "itens": ["Abobrinha", "Cenoura", "Couve", "Morango"] },
+    { "id": "chapeu", "nome": "Proteção", "itens": ["Bandana", "Chapéu de palha", "Chapéu de pescador", "Lenço"] },
+    { "id": "dia", "nome": "Dia", "itens": ["Terça", "Quarta", "Quinta", "Sexta"], "valores": [2, 3, 4, 5], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["dia","dias"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Quem usa a bandana aduba a terra com composto caseiro.", "regras": [["=", "Bandana", "Composto"]] },
+    { "texto": "Wagner, que aduba a terra com esterco, usa um chapéu de palha.", "regras": [["=", "Wagner", "Esterco"], ["=", "Wagner", "Chapéu de palha"]] },
+    { "texto": "Ursula rega a horta depois de quem usa a bandana.", "regras": [[">", "dia", "Ursula", "Bandana"]] },
+    { "texto": "Natália rega a horta dois dias antes de Wagner.", "regras": [["dif", "dia", "Wagner", "Natália", 2]] },
+    { "texto": "Natália não plantou abobrinha.", "regras": [["!=", "Natália", "Abobrinha"]] },
+    { "texto": "Marina rega a horta depois de quem usa o lenço, mas antes de quem plantou cenoura.", "regras": [[">", "dia", "Marina", "Lenço"], [">", "dia", "Cenoura", "Marina"]] },
+    { "texto": "Entre quem aduba a terra com esterco e quem aduba a terra com húmus de minhoca, um é Wagner e o outro, Natália.", "regras": [["par", ["Esterco", "Húmus"], ["Wagner", "Natália"]]] },
+    { "texto": "Quem plantou abobrinha rega a horta na véspera do dia de quem plantou morango.", "regras": [["dif", "dia", "Morango", "Abobrinha", 1]] }
+  ],
+  "solucao": [
+    ["Marina", "Composto", "Abobrinha", "Bandana", "Quarta"],
+    ["Natália", "Húmus", "Couve", "Lenço", "Terça"],
+    ["Ursula", "Casca de ovo", "Cenoura", "Chapéu de pescador", "Sexta"],
+    ["Wagner", "Esterco", "Morango", "Chapéu de palha", "Quinta"]
+  ]
+}

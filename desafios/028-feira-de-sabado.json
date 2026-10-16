@@ -1,0 +1,32 @@
+{
+  "id": "feira-de-sabado",
+  "versao": 1,
+  "titulo": "Feira de sábado",
+  "nivel": "medio",
+  "tipo": "calculo",
+  "introducao": "Na feira livre de sábado, cinco feirantes vizinhos de barraca disputam a freguesia. Cada um dá um brinde diferente aos fregueses, cobra um preço diferente pelo quilo e trabalha em uma barraca diferente. A partir das dicas, descubra, para cada um, o brinde, o preço do quilo e a barraca.",
+  "categorias": [
+    { "id": "feirante", "nome": "Feirante", "itens": ["Beatriz", "Eduarda", "Glória", "Nelson", "Tânia"] },
+    { "id": "brinde", "nome": "Brinde", "itens": ["Alho", "Bala", "Cheiro-verde", "Hortelã", "Limão"] },
+    { "id": "preco", "nome": "Preço do quilo", "itens": ["R$ 5,00", "R$ 6,00", "R$ 7,00", "R$ 8,00", "R$ 9,00"], "valores": [5, 6, 7, 8, 9], "relacao": {"menor":"mais barato que","maior":"mais caro que","menorK":"{k} mais barato que","maiorK":"{k} mais caro que","prefixo":"R$ ","menorCurto":"mais barato","maiorCurto":"mais caro"} },
+    { "id": "barraca", "nome": "Barraca", "itens": ["Barraca 1", "Barraca 2", "Barraca 3", "Barraca 4", "Barraca 5"], "valores": [1, 2, 3, 4, 5], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["barraca","barracas"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Quem dá um limão de brinde trabalha na barraca logo antes da de quem dá um raminho de hortelã de brinde.", "regras": [["dif", "barraca", "Hortelã", "Limão", 1]] },
+    { "texto": "Os preços de Glória e de quem dá cheiro-verde de brinde têm R$ 1 de diferença.", "regras": [["dist", "preco", "Glória", "Cheiro-verde", 1]] },
+    { "texto": "Quem trabalha na barraca 2 cobra R$ 1 a menos que quem trabalha na barraca 4.", "regras": [["dif", "preco", "Barraca 4", "Barraca 2", 1]] },
+    { "texto": "Beatriz cobra R$ 3 a menos que quem trabalha na barraca 4.", "regras": [["dif", "preco", "Barraca 4", "Beatriz", 3]] },
+    { "texto": "Quem trabalha na última barraca cobra R$ 9,00 pelo quilo.", "regras": [["=", "Barraca 5", "R$ 9,00"]] },
+    { "texto": "Nelson trabalha na barraca logo antes da de quem dá uma bala de brinde.", "regras": [["dif", "barraca", "Bala", "Nelson", 1]] },
+    { "texto": "Quem dá cheiro-verde de brinde cobra R$ 8,00 ou R$ 6,00 pelo quilo.", "regras": [["ou", "Cheiro-verde", "R$ 8,00", "R$ 6,00"]] },
+    { "texto": "Quem dá uma cabeça de alho de brinde cobra R$ 1 a mais que quem dá um raminho de hortelã de brinde.", "regras": [["dif", "preco", "Alho", "Hortelã", 1]] },
+    { "texto": "Tânia trabalha três barracas antes de quem cobra o preço mais alto.", "regras": [["dif", "barraca", "R$ 9,00", "Tânia", 3]] }
+  ],
+  "solucao": [
+    ["Beatriz", "Hortelã", "R$ 5,00", "Barraca 3"],
+    ["Eduarda", "Alho", "R$ 6,00", "Barraca 1"],
+    ["Glória", "Bala", "R$ 9,00", "Barraca 5"],
+    ["Nelson", "Cheiro-verde", "R$ 8,00", "Barraca 4"],
+    ["Tânia", "Limão", "R$ 7,00", "Barraca 2"]
+  ]
+}

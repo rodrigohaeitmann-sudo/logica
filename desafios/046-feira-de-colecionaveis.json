@@ -1,0 +1,32 @@
+{
+  "id": "feira-de-colecionaveis",
+  "versao": 1,
+  "titulo": "Feira de colecionáveis",
+  "nivel": "dificil",
+  "tipo": "ordem",
+  "introducao": "Na reunião mensal do clube dos colecionadores, cinco sócios trouxeram suas coleções para exibir. Cada um coleciona um tipo de objeto diferente, guarda a coleção de um jeito diferente e começou a colecionar em um ano diferente. A partir das dicas, descubra, para cada um, o que coleciona, onde guarda a coleção e o ano em que começou a colecionar.",
+  "categorias": [
+    { "id": "colecionador", "nome": "Colecionador(a)", "itens": ["Elisa", "Heitor", "Larissa", "Marina", "Yasmin"] },
+    { "id": "objeto", "nome": "Coleção", "itens": ["Canecas", "Discos", "Figurinhas", "Ímãs", "Miniaturas"] },
+    { "id": "guarda", "nome": "Onde guarda", "itens": ["Álbum", "Armário", "Caixas", "Estante", "Parede"] },
+    { "id": "ano", "nome": "Início", "itens": ["1998", "2001", "2004", "2007", "2010"], "valores": [1998, 2001, 2004, 2007, 2010], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["ano","anos"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Quem guarda a coleção em álbuns foi o primeiro ou o último a começar a colecionar.", "regras": [["extremo", "ano", "Álbum"]] },
+    { "texto": "Quem coleciona ímãs de geladeira e quem guarda a coleção num armário começaram suas coleções com seis anos de diferença.", "regras": [["dist", "ano", "Armário", "Ímãs", 6]] },
+    { "texto": "Quem coleciona figurinhas e quem coleciona carrinhos em miniatura começaram suas coleções com nove anos de diferença.", "regras": [["dist", "ano", "Figurinhas", "Miniaturas", 9]] },
+    { "texto": "Quem coleciona carrinhos em miniatura começou a colecionar antes de Marina.", "regras": [[">", "ano", "Marina", "Miniaturas"]] },
+    { "texto": "Yasmin começou a colecionar depois de quem coleciona discos de vinil.", "regras": [[">", "ano", "Yasmin", "Discos"]] },
+    { "texto": "Quem guarda a coleção num armário começou a colecionar três anos depois de quem guarda a coleção em caixas.", "regras": [["dif", "ano", "Armário", "Caixas", 3]] },
+    { "texto": "Quem coleciona canecas começou a colecionar três anos depois de quem coleciona figurinhas.", "regras": [["dif", "ano", "Canecas", "Figurinhas", 3]] },
+    { "texto": "Quem guarda a coleção numa estante começou a colecionar seis anos depois de Elisa.", "regras": [["dif", "ano", "Estante", "Elisa", 6]] },
+    { "texto": "Larissa começou a colecionar depois de quem guarda a coleção num armário.", "regras": [[">", "ano", "Larissa", "Armário"]] }
+  ],
+  "solucao": [
+    ["Elisa", "Discos", "Caixas", "2004"],
+    ["Heitor", "Miniaturas", "Álbum", "1998"],
+    ["Larissa", "Canecas", "Estante", "2010"],
+    ["Marina", "Ímãs", "Parede", "2001"],
+    ["Yasmin", "Figurinhas", "Armário", "2007"]
+  ]
+}

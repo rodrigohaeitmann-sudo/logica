@@ -1,0 +1,31 @@
+{
+  "id": "vida-nova",
+  "versao": 1,
+  "titulo": "Vida nova",
+  "nivel": "dificil",
+  "tipo": "misto",
+  "introducao": "Nos últimos anos, quatro famílias que moravam na mesma rua se mudaram para outras cidades. Cada família fez a viagem da mudança de um jeito diferente, se mudou para uma cidade diferente, tem um número diferente de filhos e se mudou em um ano diferente. A partir das dicas, descubra, para cada família, como fez a viagem, a nova cidade, quantos filhos tem e o ano da mudança.",
+  "categorias": [
+    { "id": "familia", "nome": "Família", "itens": ["Freitas", "Gomes", "Novaes", "Peixoto"] },
+    { "id": "transporte", "nome": "Viagem", "itens": ["Avião", "Caminhão", "Ônibus", "Trem"] },
+    { "id": "cidade", "nome": "Cidade", "itens": ["Curitiba", "Joinville", "Uberlândia", "Vitória"] },
+    { "id": "filhos", "nome": "Filhos", "itens": ["1 filho", "2 filhos", "3 filhos", "4 filhos"], "valores": [1, 2, 3, 4], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["filho","filhos"],"menorCurto":"menos","maiorCurto":"mais"} },
+    { "id": "ano", "nome": "Ano", "itens": ["2018", "2019", "2020", "2021"], "valores": [2018, 2019, 2020, 2021], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["ano","anos"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "A família Peixoto e a família Novaes se mudaram com um ano de diferença.", "regras": [["dist", "ano", "Peixoto", "Novaes", 1]] },
+    { "texto": "Entre a família que se mudou para Vitória e a família que se mudou primeiro, uma tem dois filhos e a outra, quatro filhos.", "regras": [["par", ["Vitória", "2018"], ["2 filhos", "4 filhos"]]] },
+    { "texto": "A família Freitas, a família que fez a viagem no próprio caminhão de mudança e a família que tem três filhos são três famílias diferentes.", "regras": [["distintos", "Freitas", "Caminhão", "3 filhos"]] },
+    { "texto": "A família Freitas, a família que fez a viagem de avião e a família que tem quatro filhos são três famílias diferentes.", "regras": [["distintos", "Avião", "4 filhos", "Freitas"]] },
+    { "texto": "A família Peixoto se mudou um ano antes da família que tem dois filhos.", "regras": [["dif", "ano", "2 filhos", "Peixoto", 1]] },
+    { "texto": "Entre a família Gomes e a família que se mudou para Uberlândia, uma fez a viagem de avião e a outra, no próprio caminhão de mudança.", "regras": [["par", ["Uberlândia", "Gomes"], ["Avião", "Caminhão"]]] },
+    { "texto": "Entre a família que se mudou para Vitória e a família que se mudou em 2019, uma fez a viagem de ônibus e a outra, no próprio caminhão de mudança.", "regras": [["par", ["Vitória", "2019"], ["Ônibus", "Caminhão"]]] },
+    { "texto": "A família que se mudou para Curitiba é a família com mais filhos ou a com menos filhos.", "regras": [["extremo", "filhos", "Curitiba"]] }
+  ],
+  "solucao": [
+    ["Freitas", "Ônibus", "Vitória", "2 filhos", "2020"],
+    ["Gomes", "Avião", "Joinville", "3 filhos", "2021"],
+    ["Novaes", "Trem", "Curitiba", "4 filhos", "2018"],
+    ["Peixoto", "Caminhão", "Uberlândia", "1 filho", "2019"]
+  ]
+}

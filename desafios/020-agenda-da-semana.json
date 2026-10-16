@@ -1,0 +1,31 @@
+{
+  "id": "agenda-da-semana",
+  "versao": 1,
+  "titulo": "Agenda da semana",
+  "nivel": "dificil",
+  "tipo": "calculo",
+  "introducao": "Vanessa anotou na agenda um compromisso para cada dia útil da semana. Cada compromisso aconteceu em um lugar diferente e teve uma duração diferente. A partir das dicas, descubra, para cada dia, o local, o compromisso e a duração.",
+  "categorias": [
+    { "id": "dia", "nome": "Dia", "itens": ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"], "valores": [1, 2, 3, 4, 5], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["dia","dias"],"menorCurto":"antes","maiorCurto":"depois"} },
+    { "id": "local", "nome": "Local", "itens": ["Centro", "Clube", "Escritório", "On-line", "Shopping"] },
+    { "id": "compromisso", "nome": "Compromisso", "itens": ["Banco", "Cabeleireiro", "Cinema", "Inglês", "Vôlei"] },
+    { "id": "duracao", "nome": "Duração", "itens": ["30 min", "45 min", "60 min", "75 min", "90 min"], "valores": [30, 45, 60, 75, 90], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["minuto","minutos"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "O compromisso de quinta-feira durou 15 minutos a mais que a aula de inglês.", "regras": [["dif", "duracao", "Quinta", "Inglês", 15]] },
+    { "texto": "O compromisso no clube aconteceu no dia seguinte ao do compromisso de 60 minutos.", "regras": [["dif", "dia", "Clube", "60 min", 1]] },
+    { "texto": "O compromisso de 30 minutos aconteceu quatro dias depois do compromisso no shopping.", "regras": [["dif", "dia", "30 min", "Shopping", 4]] },
+    { "texto": "O treino de vôlei aconteceu no dia seguinte ao do compromisso no clube.", "regras": [["dif", "dia", "Vôlei", "Clube", 1]] },
+    { "texto": "Entre o compromisso no clube e o compromisso no centro se passaram dois dias.", "regras": [["dist", "dia", "Centro", "Clube", 2]] },
+    { "texto": "O compromisso no clube aconteceu depois do compromisso on-line, mas antes da ida ao cabeleireiro.", "regras": [[">", "dia", "Clube", "On-line"], [">", "dia", "Cabeleireiro", "Clube"]] },
+    { "texto": "O compromisso de terça-feira durou menos que o compromisso de quarta-feira.", "regras": [[">", "duracao", "Quarta", "Terça"]] },
+    { "texto": "As durações da visita ao banco e do compromisso de quarta-feira tiveram 15 minutos de diferença.", "regras": [["dist", "duracao", "Quarta", "Banco", 15]] }
+  ],
+  "solucao": [
+    ["Segunda", "Shopping", "Cinema", "45 min"],
+    ["Terça", "On-line", "Banco", "60 min"],
+    ["Quarta", "Clube", "Inglês", "75 min"],
+    ["Quinta", "Escritório", "Vôlei", "90 min"],
+    ["Sexta", "Centro", "Cabeleireiro", "30 min"]
+  ]
+}

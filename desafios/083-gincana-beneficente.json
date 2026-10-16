@@ -1,0 +1,32 @@
+{
+  "id": "gincana-beneficente",
+  "versao": 1,
+  "titulo": "Gincana beneficente",
+  "nivel": "dificil",
+  "tipo": "associacao",
+  "introducao": "A gincana anual do colégio reuniu cinco equipes, cada uma batizada com o nome de um animal brasileiro. Cada equipe venceu uma prova diferente, teve um líder diferente e usou camisetas de uma cor diferente. A partir das dicas, descubra, para cada equipe, a prova que venceu, quem liderou a equipe e a cor das camisetas.",
+  "categorias": [
+    { "id": "equipe", "nome": "Equipe", "itens": ["Boto", "Capivara", "Coruja", "Onça", "Tatu"] },
+    { "id": "prova", "nome": "Prova vencida", "itens": ["Arrecadação", "Caça ao tesouro", "Paródia", "Quiz", "Revezamento"] },
+    { "id": "lider", "nome": "Líder", "itens": ["Hugo", "Pedro", "Raquel", "Sérgio", "Valéria"] },
+    { "id": "cor", "nome": "Camiseta", "itens": ["Amarela", "Branca", "Roxa", "Verde", "Vermelha"] }
+  ],
+  "dicas": [
+    { "texto": "Entre a equipe que usou camisetas brancas e a equipe que usou camisetas amarelas, uma foi liderada por Valéria e a outra, por Raquel.", "regras": [["par", ["Branca", "Amarela"], ["Valéria", "Raquel"]]] },
+    { "texto": "A equipe de Raquel, a equipe Capivara e a equipe que venceu o quiz de conhecimentos são três equipes diferentes.", "regras": [["distintos", "Raquel", "Capivara", "Quiz"]] },
+    { "texto": "Entre a equipe de Valéria e a equipe que usou camisetas verdes, uma venceu o revezamento e a outra, a prova de paródia.", "regras": [["par", ["Valéria", "Verde"], ["Revezamento", "Paródia"]]] },
+    { "texto": "A equipe Coruja venceu o revezamento ou a caça ao tesouro.", "regras": [["ou", "Coruja", "Caça ao tesouro", "Revezamento"]] },
+    { "texto": "A equipe de Valéria, a equipe Capivara e a equipe Boto são três equipes diferentes.", "regras": [["distintos", "Valéria", "Capivara", "Boto"]] },
+    { "texto": "A equipe que venceu o revezamento era a equipe Tatu ou foi liderada por Hugo, mas não as duas coisas.", "regras": [["ou", "Revezamento", "Hugo", "Tatu"]] },
+    { "texto": "Entre a equipe de Pedro e a equipe que usou camisetas brancas, uma venceu o quiz de conhecimentos e a outra, a prova de paródia.", "regras": [["par", ["Branca", "Pedro"], ["Quiz", "Paródia"]]] },
+    { "texto": "A equipe que usou camisetas vermelhas era a equipe Coruja ou a equipe Onça.", "regras": [["ou", "Vermelha", "Coruja", "Onça"]] },
+    { "texto": "A equipe Tatu, a equipe que usou camisetas roxas e a equipe que usou camisetas brancas são três equipes diferentes.", "regras": [["distintos", "Tatu", "Roxa", "Branca"]] }
+  ],
+  "solucao": [
+    ["Boto", "Quiz", "Pedro", "Roxa"],
+    ["Capivara", "Revezamento", "Hugo", "Verde"],
+    ["Coruja", "Caça ao tesouro", "Sérgio", "Vermelha"],
+    ["Onça", "Paródia", "Valéria", "Branca"],
+    ["Tatu", "Arrecadação", "Raquel", "Amarela"]
+  ]
+}

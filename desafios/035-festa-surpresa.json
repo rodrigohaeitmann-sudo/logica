@@ -1,0 +1,38 @@
+{
+  "id": "festa-surpresa",
+  "versao": 1,
+  "titulo": "Festa surpresa",
+  "nivel": "dificil",
+  "tipo": "associacao",
+  "introducao": "Cinco colegas da mesma turma da escola sempre convidam a sala inteira para suas festas de aniversário. Cada um comemorou em um lugar diferente, escolheu um sabor de bolo diferente, escolheu um tema de festa diferente e ganhou um presente diferente. A partir das dicas, descubra, para cada um, onde comemorou, o sabor do bolo, o tema da festa e o presente.",
+  "categorias": [
+    { "id": "aniversariante", "nome": "Aniversariante", "itens": ["Débora", "Flávia", "Larissa", "Tatiana", "Valter"] },
+    { "id": "local", "nome": "Local", "itens": ["Boliche", "Casa", "Pizzaria", "Praia", "Salão"] },
+    { "id": "bolo", "nome": "Bolo", "itens": ["Chocolate", "Doce de leite", "Floresta negra", "Limão", "Morango"] },
+    { "id": "tema", "nome": "Tema", "itens": ["Circo", "Dinossauros", "Espaço", "Fundo do mar", "Super-heróis"] },
+    { "id": "presente", "nome": "Presente", "itens": ["Bicicleta", "Fone", "Livro", "Patins", "Relógio"] }
+  ],
+  "dicas": [
+    { "texto": "Quem escolheu bolo floresta negra ganhou uma bicicleta.", "regras": [["=", "Floresta negra", "Bicicleta"]] },
+    { "texto": "Valter escolheu o tema dinossauros ou espaço sideral.", "regras": [["ou", "Valter", "Dinossauros", "Espaço"]] },
+    { "texto": "Quem comemorou no boliche, quem escolheu o tema espaço sideral e quem escolheu o tema fundo do mar são três pessoas diferentes.", "regras": [["distintos", "Boliche", "Espaço", "Fundo do mar"]] },
+    { "texto": "Entre quem escolheu o tema fundo do mar e quem escolheu o tema circo, um comemorou numa pizzaria e o outro, na praia.", "regras": [["par", ["Fundo do mar", "Circo"], ["Pizzaria", "Praia"]]] },
+    { "texto": "Quem comemorou em casa escolheu bolo de limão ou bolo de chocolate.", "regras": [["ou", "Casa", "Limão", "Chocolate"]] },
+    { "texto": "Quem ganhou a bicicleta, quem escolheu o tema fundo do mar, quem comemorou na praia e quem escolheu o tema dinossauros são quatro pessoas diferentes.", "regras": [["distintos", "Bicicleta", "Fundo do mar", "Praia", "Dinossauros"]] },
+    { "texto": "Flávia comemorou na praia ou numa pizzaria.", "regras": [["ou", "Flávia", "Praia", "Pizzaria"]] },
+    { "texto": "Quem escolheu o tema super-heróis ganhou um par de patins ou comemorou em casa, mas não as duas coisas.", "regras": [["ou", "Super-heróis", "Casa", "Patins"]] },
+    { "texto": "Entre Larissa e quem comemorou no boliche, um escolheu o tema dinossauros e o outro, espaço sideral.", "regras": [["par", ["Boliche", "Larissa"], ["Dinossauros", "Espaço"]]] },
+    { "texto": "Quem ganhou o livro, quem escolheu bolo de morango e quem escolheu bolo de limão são três pessoas diferentes.", "regras": [["distintos", "Livro", "Morango", "Limão"]] },
+    { "texto": "Quem ganhou os patins é Tatiana ou Larissa.", "regras": [["ou", "Patins", "Tatiana", "Larissa"]] },
+    { "texto": "Quem escolheu bolo de morango, quem escolheu o tema dinossauros e quem ganhou o fone de ouvido são três pessoas diferentes.", "regras": [["distintos", "Morango", "Dinossauros", "Fone"]] },
+    { "texto": "Débora, quem ganhou a bicicleta e quem ganhou o fone de ouvido são três pessoas diferentes.", "regras": [["distintos", "Débora", "Bicicleta", "Fone"]] },
+    { "texto": "Quem escolheu o tema circo escolheu bolo de chocolate ou comemorou em casa, mas não as duas coisas.", "regras": [["ou", "Circo", "Chocolate", "Casa"]] }
+  ],
+  "solucao": [
+    ["Débora", "Casa", "Limão", "Super-heróis", "Relógio"],
+    ["Flávia", "Praia", "Chocolate", "Circo", "Fone"],
+    ["Larissa", "Salão", "Floresta negra", "Espaço", "Bicicleta"],
+    ["Tatiana", "Pizzaria", "Morango", "Fundo do mar", "Patins"],
+    ["Valter", "Boliche", "Doce de leite", "Dinossauros", "Livro"]
+  ]
+}

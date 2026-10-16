@@ -1,0 +1,33 @@
+{
+  "id": "torneio-de-xadrez",
+  "versao": 1,
+  "titulo": "Torneio de xadrez",
+  "nivel": "medio",
+  "tipo": "misto",
+  "introducao": "Cinco enxadristas disputaram o torneio relâmpago do clube no fim de semana. Cada um comeu um lanche diferente no intervalo, tem uma peça preferida diferente e tem uma idade diferente. A partir das dicas, descubra, para cada um, o lanche do intervalo, a peça preferida e a idade.",
+  "categorias": [
+    { "id": "enxadrista", "nome": "Enxadrista", "itens": ["Davi", "Gabriel", "Paula", "Vítor", "Yasmin"] },
+    { "id": "lanche", "nome": "Lanche", "itens": ["Banana", "Castanhas", "Maçã", "Pão de queijo", "Sanduíche"] },
+    { "id": "peca", "nome": "Peça preferida", "itens": ["Bispo", "Cavalo", "Peão", "Rei", "Torre"] },
+    { "id": "idade", "nome": "Idade", "itens": ["14 anos", "19 anos", "24 anos", "29 anos", "34 anos"], "valores": [14, 19, 24, 29, 34], "relacao": {"menor":"mais novo(a) que","maior":"mais velho(a) que","menorK":"{k} mais novo(a) que","maiorK":"{k} mais velho(a) que","unidade":["ano","anos"],"menorCurto":"mais novo(a)","maiorCurto":"mais velho(a)"} }
+  ],
+  "dicas": [
+    { "texto": "Gabriel é dez anos mais velho que quem comeu castanhas no intervalo.", "regras": [["dif", "idade", "Gabriel", "Castanhas", 10]] },
+    { "texto": "Vítor é vinte anos mais velho que Yasmin.", "regras": [["dif", "idade", "Vítor", "Yasmin", 20]] },
+    { "texto": "Quem tem o rei como peça preferida é cinco anos mais velho que quem comeu uma banana no intervalo.", "regras": [["dif", "idade", "Rei", "Banana", 5]] },
+    { "texto": "Quem tem o rei como peça preferida, quem comeu uma banana no intervalo, quem tem 24 anos e quem tem 29 anos são quatro pessoas diferentes.", "regras": [["distintos", "Rei", "Banana", "24 anos", "29 anos"]] },
+    { "texto": "Quem é o mais velho do grupo comeu um sanduíche no intervalo ou é Gabriel, mas não as duas coisas.", "regras": [["ou", "34 anos", "Sanduíche", "Gabriel"]] },
+    { "texto": "Gabriel é cinco anos mais velho que quem tem a torre como peça preferida.", "regras": [["dif", "idade", "Gabriel", "Torre", 5]] },
+    { "texto": "Quem comeu castanhas no intervalo e quem tem o bispo como peça preferida têm cinco anos de diferença de idade.", "regras": [["dist", "idade", "Castanhas", "Bispo", 5]] },
+    { "texto": "Gabriel não comeu uma maçã no intervalo.", "regras": [["!=", "Gabriel", "Maçã"]] },
+    { "texto": "Paula é mais velha que Davi.", "regras": [[">", "idade", "Paula", "Davi"]] },
+    { "texto": "Quem tem o cavalo como peça preferida é mais velho que quem tem o peão como peça preferida.", "regras": [[">", "idade", "Cavalo", "Peão"]] }
+  ],
+  "solucao": [
+    ["Davi", "Castanhas", "Rei", "19 anos"],
+    ["Gabriel", "Pão de queijo", "Peão", "29 anos"],
+    ["Paula", "Maçã", "Torre", "24 anos"],
+    ["Vítor", "Sanduíche", "Cavalo", "34 anos"],
+    ["Yasmin", "Banana", "Bispo", "14 anos"]
+  ]
+}

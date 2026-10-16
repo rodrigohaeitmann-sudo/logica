@@ -1,0 +1,34 @@
+{
+  "id": "concurso-de-fotografia",
+  "versao": 1,
+  "titulo": "Concurso de fotografia",
+  "nivel": "medio",
+  "tipo": "associacao",
+  "introducao": "No concurso de fotografia da biblioteca municipal, cinco participantes chegaram à final. Cada um fotografou um tema diferente, usou um equipamento diferente e mora em uma cidade diferente. A partir das dicas, descubra, para cada um, o tema das fotos, o equipamento e a cidade onde mora.",
+  "categorias": [
+    { "id": "fotografo", "nome": "Fotógrafo(a)", "itens": ["André", "César", "Raquel", "Sérgio", "Valéria"] },
+    { "id": "tema", "nome": "Tema", "itens": ["Animais", "Esportes", "Paisagens", "Retratos", "Vida nas ruas"] },
+    { "id": "camera", "nome": "Equipamento", "itens": ["Analógica", "Celular", "Drone", "Instantânea", "Profissional"] },
+    { "id": "cidade", "nome": "Cidade", "itens": ["Caxias do Sul", "Feira de Santana", "Maringá", "Niterói", "Ribeirão Preto"] }
+  ],
+  "dicas": [
+    { "texto": "Sérgio mora em Caxias do Sul.", "regras": [["=", "Sérgio", "Caxias do Sul"]] },
+    { "texto": "Quem usou a câmera profissional fotografou animais.", "regras": [["=", "Profissional", "Animais"]] },
+    { "texto": "Quem mora em Maringá, quem mora em Ribeirão Preto e quem usou a câmera profissional são três pessoas diferentes.", "regras": [["distintos", "Maringá", "Ribeirão Preto", "Profissional"]] },
+    { "texto": "Entre quem fotografou esportes e quem mora em Niterói, um é André e o outro, Raquel.", "regras": [["par", ["Esportes", "Niterói"], ["André", "Raquel"]]] },
+    { "texto": "Valéria, quem mora em Niterói e quem usou a câmera profissional são três pessoas diferentes.", "regras": [["distintos", "Niterói", "Valéria", "Profissional"]] },
+    { "texto": "Raquel fotografou esportes ou animais.", "regras": [["ou", "Raquel", "Esportes", "Animais"]] },
+    { "texto": "Sérgio usou um drone.", "regras": [["=", "Sérgio", "Drone"]] },
+    { "texto": "Entre quem usou o celular e quem usou a câmera instantânea, um mora em Niterói e o outro, em Maringá.", "regras": [["par", ["Celular", "Instantânea"], ["Niterói", "Maringá"]]] },
+    { "texto": "Valéria usou uma câmera profissional ou uma câmera analógica.", "regras": [["ou", "Valéria", "Analógica", "Profissional"]] },
+    { "texto": "Quem fotografou retratos usou o celular.", "regras": [["=", "Celular", "Retratos"]] },
+    { "texto": "Entre quem usou o drone e quem mora em Niterói, um fotografou paisagens e o outro, retratos.", "regras": [["par", ["Drone", "Niterói"], ["Paisagens", "Retratos"]]] }
+  ],
+  "solucao": [
+    ["André", "Retratos", "Celular", "Niterói"],
+    ["César", "Animais", "Profissional", "Feira de Santana"],
+    ["Raquel", "Esportes", "Instantânea", "Maringá"],
+    ["Sérgio", "Paisagens", "Drone", "Caxias do Sul"],
+    ["Valéria", "Vida nas ruas", "Analógica", "Ribeirão Preto"]
+  ]
+}

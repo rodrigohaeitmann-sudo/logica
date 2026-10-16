@@ -1,0 +1,31 @@
+{
+  "id": "recepcao-do-hotel",
+  "versao": 1,
+  "titulo": "Recepção do hotel",
+  "nivel": "dificil",
+  "tipo": "misto",
+  "introducao": "Numa pousada da serra, cinco hóspedes viraram amigos durante o café da manhã. Cada um tem um pedido preferido diferente no café da manhã, ficou em um andar diferente e passou um número diferente de noites no hotel. A partir das dicas, descubra, para cada um, o pedido do café da manhã, o andar e quantas noites passou no hotel.",
+  "categorias": [
+    { "id": "hospede", "nome": "Hóspede", "itens": ["Isabela", "Patrícia", "Sara", "Teresa", "Ulisses"] },
+    { "id": "cafe", "nome": "Café da manhã", "itens": ["Cuscuz", "Omelete", "Panqueca", "Salada de frutas", "Tapioca"] },
+    { "id": "andar", "nome": "Andar", "itens": ["1º andar", "2º andar", "3º andar", "4º andar", "5º andar"], "valores": [1, 2, 3, 4, 5], "relacao": {"menor":"abaixo de","maior":"acima de","menorK":"{k} abaixo de","maiorK":"{k} acima de","unidade":["andar","andares"],"menorCurto":"abaixo","maiorCurto":"acima"} },
+    { "id": "noites", "nome": "Noites", "itens": ["1 noite", "2 noites", "3 noites", "4 noites", "5 noites"], "valores": [1, 2, 3, 4, 5], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["noite","noites"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "Quem pede omelete no café da manhã e quem passou menos noites no hotel ficaram a três andares de distância.", "regras": [["dist", "andar", "1 noite", "Omelete", 3]] },
+    { "texto": "Isabela passou cinco noites no hotel.", "regras": [["=", "5 noites", "Isabela"]] },
+    { "texto": "Quem ficou no 2º andar passou mais noites no hotel que Ulisses.", "regras": [[">", "noites", "2º andar", "Ulisses"]] },
+    { "texto": "Quem pede tapioca no café da manhã e quem passou duas noites no hotel ficaram a dois andares de distância.", "regras": [["dist", "andar", "Tapioca", "2 noites", 2]] },
+    { "texto": "Entre quem passou menos noites no hotel e quem passou três noites no hotel, um pede salada de frutas no café da manhã e o outro, tapioca.", "regras": [["par", ["1 noite", "3 noites"], ["Salada de frutas", "Tapioca"]]] },
+    { "texto": "Entre quem ficou no 3º andar e quem ficou no 4º andar, um pede cuscuz no café da manhã e o outro, tapioca.", "regras": [["par", ["3º andar", "4º andar"], ["Cuscuz", "Tapioca"]]] },
+    { "texto": "Patrícia pede tapioca no café da manhã.", "regras": [["=", "Patrícia", "Tapioca"]] },
+    { "texto": "Ulisses ficou no andar logo acima do de Sara.", "regras": [["dif", "andar", "Ulisses", "Sara", 1]] }
+  ],
+  "solucao": [
+    ["Isabela", "Omelete", "2º andar", "5 noites"],
+    ["Patrícia", "Tapioca", "3º andar", "3 noites"],
+    ["Sara", "Cuscuz", "4º andar", "4 noites"],
+    ["Teresa", "Panqueca", "1º andar", "2 noites"],
+    ["Ulisses", "Salada de frutas", "5º andar", "1 noite"]
+  ]
+}

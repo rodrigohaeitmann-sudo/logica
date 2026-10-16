@@ -1,0 +1,29 @@
+{
+  "id": "saguao-do-aeroporto",
+  "versao": 1,
+  "titulo": "Saguão do aeroporto",
+  "nivel": "medio",
+  "tipo": "ordem",
+  "introducao": "Numa sexta-feira de manhã, quatro passageiros que se conheceram na fila do café embarcaram em voos diferentes. Cada um embarcou para um destino diferente, viajou por um motivo diferente e partiu em um horário diferente. A partir das dicas, descubra, para cada um, o destino, o motivo da viagem e o horário do voo.",
+  "categorias": [
+    { "id": "passageiro", "nome": "Passageiro(a)", "itens": ["Mateus", "Raquel", "Tânia", "Yasmin"] },
+    { "id": "destino", "nome": "Destino", "itens": ["Cancún", "Lisboa", "Roma", "Santiago"] },
+    { "id": "motivo", "nome": "Motivo", "itens": ["Casamento", "Congresso", "Estudos", "Passeio"] },
+    { "id": "horario", "nome": "Horário", "itens": ["6h", "7h", "8h", "9h"], "valores": [6, 7, 8, 9], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["hora","horas"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Yasmin não viajou a passeio nem para estudar.", "regras": [["!=", "Passeio", "Yasmin"], ["!=", "Yasmin", "Estudos"]] },
+    { "texto": "Quem embarcou para Lisboa viajou para um congresso ou a passeio.", "regras": [["ou", "Lisboa", "Passeio", "Congresso"]] },
+    { "texto": "Tânia partiu duas horas depois de quem embarcou para Cancún.", "regras": [["dif", "horario", "Tânia", "Cancún", 2]] },
+    { "texto": "Quem embarcou para Santiago viajou para um casamento.", "regras": [["=", "Casamento", "Santiago"]] },
+    { "texto": "Quem viajou para estudar partiu antes de quem viajou para um congresso.", "regras": [[">", "horario", "Congresso", "Estudos"]] },
+    { "texto": "Quem viajou para um casamento partiu três horas depois de Mateus.", "regras": [["dif", "horario", "Casamento", "Mateus", 3]] },
+    { "texto": "Raquel partiu às 8h.", "regras": [["=", "Raquel", "8h"]] }
+  ],
+  "solucao": [
+    ["Mateus", "Roma", "Estudos", "6h"],
+    ["Raquel", "Lisboa", "Passeio", "8h"],
+    ["Tânia", "Santiago", "Casamento", "9h"],
+    ["Yasmin", "Cancún", "Congresso", "7h"]
+  ]
+}

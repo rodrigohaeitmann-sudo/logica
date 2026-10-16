@@ -1,0 +1,29 @@
+{
+  "id": "gincana-da-escola",
+  "versao": 1,
+  "titulo": "Gincana da escola",
+  "nivel": "medio",
+  "tipo": "calculo",
+  "introducao": "Quatro equipes de alunos disputaram as provas da gincana beneficente do bairro. Cada equipe teve um líder diferente, usou camisetas de uma cor diferente e somou uma pontuação diferente. A partir das dicas, descubra, para cada equipe, quem liderou a equipe, a cor das camisetas e a pontuação final.",
+  "categorias": [
+    { "id": "equipe", "nome": "Equipe", "itens": ["Boto", "Capivara", "Sabiá", "Tucano"] },
+    { "id": "lider", "nome": "Líder", "itens": ["Breno", "Eduardo", "Flávia", "Silvio"] },
+    { "id": "cor", "nome": "Camiseta", "itens": ["Amarela", "Laranja", "Preta", "Vermelha"] },
+    { "id": "pontos", "nome": "Pontos", "itens": ["120 pts", "145 pts", "170 pts", "195 pts"], "valores": [120, 145, 170, 195], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["ponto","pontos"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "A equipe Tucano usou camisetas amarelas.", "regras": [["=", "Amarela", "Tucano"]] },
+    { "texto": "A equipe de Silvio não usou camisetas amarelas.", "regras": [["!=", "Silvio", "Amarela"]] },
+    { "texto": "A diferença entre a equipe Tucano e a equipe Sabiá foi de 50 pontos.", "regras": [["dist", "pontos", "Tucano", "Sabiá", 50]] },
+    { "texto": "A equipe de Flávia, que era a equipe Sabiá, somou menos pontos que a equipe Boto.", "regras": [["=", "Sabiá", "Flávia"], [">", "pontos", "Boto", "Flávia"]] },
+    { "texto": "A equipe que usou camisetas vermelhas foi a equipe que mais ou que menos pontuou.", "regras": [["extremo", "pontos", "Vermelha"]] },
+    { "texto": "A equipe Capivara somou 50 pontos a menos que a equipe que usou camisetas pretas.", "regras": [["dif", "pontos", "Preta", "Capivara", 50]] },
+    { "texto": "A equipe de Breno somou mais pontos que a equipe que usou camisetas amarelas.", "regras": [[">", "pontos", "Breno", "Amarela"]] }
+  ],
+  "solucao": [
+    ["Boto", "Breno", "Preta", "195 pts"],
+    ["Capivara", "Silvio", "Laranja", "145 pts"],
+    ["Sabiá", "Flávia", "Vermelha", "120 pts"],
+    ["Tucano", "Eduardo", "Amarela", "170 pts"]
+  ]
+}

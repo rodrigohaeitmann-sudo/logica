@@ -1,0 +1,32 @@
+{
+  "id": "caminhao-de-mudanca",
+  "versao": 1,
+  "titulo": "Caminhão de mudança",
+  "nivel": "dificil",
+  "tipo": "ordem",
+  "introducao": "Quatro famílias que eram vizinhas de porta acabaram, uma a uma, deixando o antigo bairro. Cada família se mudou para uma cidade diferente, fez a viagem da mudança de um jeito diferente, se mudou em um ano diferente e tem um número diferente de filhos. A partir das dicas, descubra, para cada família, a nova cidade, como fez a viagem, o ano da mudança e quantos filhos tem.",
+  "categorias": [
+    { "id": "familia", "nome": "Família", "itens": ["Almeida", "Pacheco", "Rezende", "Vieira"] },
+    { "id": "cidade", "nome": "Cidade", "itens": ["Curitiba", "Goiânia", "Londrina", "Vitória"] },
+    { "id": "transporte", "nome": "Viagem", "itens": ["Avião", "Caminhão", "Carro", "Trem"] },
+    { "id": "ano", "nome": "Ano", "itens": ["2018", "2019", "2020", "2021"], "valores": [2018, 2019, 2020, 2021], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["ano","anos"],"menorCurto":"antes","maiorCurto":"depois"} },
+    { "id": "filhos", "nome": "Filhos", "itens": ["1 filho", "2 filhos", "3 filhos", "4 filhos"], "valores": [1, 2, 3, 4], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["filho","filhos"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "Entre a família que se mudou para Goiânia e a família que se mudou para Curitiba, uma era a família Rezende e a outra, a família Vieira.", "regras": [["par", ["Goiânia", "Curitiba"], ["Rezende", "Vieira"]]] },
+    { "texto": "A família Vieira é a família com menos filhos.", "regras": [["=", "Vieira", "1 filho"]] },
+    { "texto": "A família que se mudou para Vitória não é nem a família com mais filhos nem a com menos filhos.", "regras": [["meio", "filhos", "Vitória"]] },
+    { "texto": "A família que fez a viagem de avião e a família que fez a viagem de carro se mudaram com um ano de diferença.", "regras": [["dist", "ano", "Avião", "Carro", 1]] },
+    { "texto": "A família que fez a viagem de carro tem mais filhos que a família que se mudou em 2020.", "regras": [[">", "filhos", "Carro", "2020"]] },
+    { "texto": "A família que se mudou para Goiânia se mudou um ano depois da família que fez a viagem de avião.", "regras": [["dif", "ano", "Goiânia", "Avião", 1]] },
+    { "texto": "A família que se mudou para Londrina se mudou dois anos antes da família que se mudou para Vitória.", "regras": [["dif", "ano", "Vitória", "Londrina", 2]] },
+    { "texto": "A família Pacheco e a família que tem três filhos se mudaram com três anos de diferença.", "regras": [["dist", "ano", "Pacheco", "3 filhos", 3]] },
+    { "texto": "A família que se mudou por último era a família Pacheco ou fez a viagem de trem, mas não as duas coisas.", "regras": [["ou", "2021", "Pacheco", "Trem"]] }
+  ],
+  "solucao": [
+    ["Almeida", "Londrina", "Avião", "2019", "4 filhos"],
+    ["Pacheco", "Vitória", "Caminhão", "2021", "2 filhos"],
+    ["Rezende", "Curitiba", "Carro", "2018", "3 filhos"],
+    ["Vieira", "Goiânia", "Trem", "2020", "1 filho"]
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "restaurante-da-esquina",
+  "versao": 1,
+  "titulo": "Restaurante da esquina",
+  "nivel": "dificil",
+  "tipo": "associacao",
+  "introducao": "Cinco amigos se encontraram para um almoço num restaurante do centro, e cada um fez um pedido diferente. Cada um pagou de um jeito diferente, tomou uma bebida diferente, pediu um prato diferente e escolheu uma sobremesa diferente. A partir das dicas, descubra, para cada um, a forma de pagamento, a bebida, o prato e a sobremesa.",
+  "categorias": [
+    { "id": "cliente", "nome": "Cliente", "itens": ["Diana", "Lauro", "Paulo", "Sara", "Vanessa"] },
+    { "id": "pagamento", "nome": "Pagamento", "itens": ["Crédito", "Débito", "Dinheiro", "Pix", "Vale-refeição"] },
+    { "id": "bebida", "nome": "Bebida", "itens": ["Água com gás", "Água de coco", "Chá gelado", "Limonada", "Suco de uva"] },
+    { "id": "prato", "nome": "Prato", "itens": ["Escondidinho", "Parmegiana", "Picanha", "Risoto", "Salmão"] },
+    { "id": "sobremesa", "nome": "Sobremesa", "itens": ["Brownie", "Pudim", "Quindim", "Sorvete", "Torta de limão"] }
+  ],
+  "dicas": [
+    { "texto": "Entre Diana e Sara, uma pagou no cartão de débito e a outra, no cartão de crédito.", "regras": [["par", ["Diana", "Sara"], ["Débito", "Crédito"]]] },
+    { "texto": "Quem pediu risoto pagou no cartão de débito ou com Pix.", "regras": [["ou", "Risoto", "Pix", "Débito"]] },
+    { "texto": "Lauro pagou no cartão de crédito ou bebeu água com gás, mas não as duas coisas.", "regras": [["ou", "Lauro", "Água com gás", "Crédito"]] },
+    { "texto": "Sara, quem pediu quindim de sobremesa e quem pediu parmegiana são três pessoas diferentes.", "regras": [["distintos", "Sara", "Quindim", "Parmegiana"]] },
+    { "texto": "Entre quem pediu torta de limão de sobremesa e quem pediu pudim de sobremesa, um bebeu limonada e o outro, água com gás.", "regras": [["par", ["Torta de limão", "Pudim"], ["Limonada", "Água com gás"]]] },
+    { "texto": "Quem bebeu limonada pediu escondidinho ou era Vanessa, mas não as duas coisas.", "regras": [["ou", "Limonada", "Escondidinho", "Vanessa"]] },
+    { "texto": "Entre Paulo e quem pediu picanha, um bebeu limonada e o outro, água com gás.", "regras": [["par", ["Paulo", "Picanha"], ["Limonada", "Água com gás"]]] },
+    { "texto": "Quem pagou no cartão de crédito pediu sorvete ou quindim de sobremesa.", "regras": [["ou", "Crédito", "Sorvete", "Quindim"]] },
+    { "texto": "Quem bebeu suco de uva pediu quindim de sobremesa ou era Diana, mas não as duas coisas.", "regras": [["ou", "Suco de uva", "Quindim", "Diana"]] },
+    { "texto": "Quem pediu sorvete de sobremesa não pediu parmegiana.", "regras": [["!=", "Parmegiana", "Sorvete"]] },
+    { "texto": "Entre Diana e quem pagou em dinheiro, um bebeu limonada e o outro, água de coco.", "regras": [["par", ["Dinheiro", "Diana"], ["Limonada", "Água de coco"]]] },
+    { "texto": "Lauro, Diana, quem bebeu suco de uva e quem pediu torta de limão de sobremesa são quatro pessoas diferentes.", "regras": [["distintos", "Suco de uva", "Lauro", "Torta de limão", "Diana"]] }
+  ],
+  "solucao": [
+    ["Diana", "Débito", "Água de coco", "Parmegiana", "Brownie"],
+    ["Lauro", "Vale-refeição", "Água com gás", "Picanha", "Pudim"],
+    ["Paulo", "Dinheiro", "Limonada", "Escondidinho", "Torta de limão"],
+    ["Sara", "Crédito", "Chá gelado", "Salmão", "Sorvete"],
+    ["Vanessa", "Pix", "Suco de uva", "Risoto", "Quindim"]
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "palco-aberto",
+  "versao": 1,
+  "titulo": "Palco aberto",
+  "nivel": "dificil",
+  "tipo": "ordem",
+  "introducao": "No show de talentos do clube, cinco participantes se apresentaram para uma plateia lotada. Cada um apresentou um talento diferente, levou alguém diferente para torcer e se apresentou em um momento diferente. A partir das dicas, descubra, para cada um, o talento, quem levou para torcer e a ordem de apresentação.",
+  "categorias": [
+    { "id": "artista", "nome": "Artista", "itens": ["Aline", "Daniel", "Priscila", "Silvio", "Zélia"] },
+    { "id": "talento", "nome": "Talento", "itens": ["Acrobacias", "Beatbox", "Mágica", "Sapateado", "Stand-up"] },
+    { "id": "torcida", "nome": "Torcida", "itens": ["Avô", "Irmão", "Mãe", "Tia", "Vizinha"] },
+    { "id": "ordem", "nome": "Ordem", "itens": ["1º", "2º", "3º", "4º", "5º"], "valores": [1, 2, 3, 4, 5], "formato": "{} a se apresentar", "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["posição","posições"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Zélia fez beatbox.", "regras": [["=", "Beatbox", "Zélia"]] },
+    { "texto": "Quem fez mágica era Daniel ou Silvio.", "regras": [["ou", "Mágica", "Daniel", "Silvio"]] },
+    { "texto": "Aline se apresentou três posições antes de quem levou a mãe para torcer.", "regras": [["dif", "ordem", "Mãe", "Aline", 3]] },
+    { "texto": "Quem levou o avô para torcer fez beatbox ou era Aline, mas não as duas coisas.", "regras": [["ou", "Avô", "Aline", "Beatbox"]] },
+    { "texto": "Entre Priscila e Daniel, um levou a mãe para torcer e o outro, a vizinha.", "regras": [["par", ["Priscila", "Daniel"], ["Mãe", "Vizinha"]]] },
+    { "texto": "Entre quem levou a tia para torcer e quem levou a vizinha para torcer, um fez stand-up e o outro, acrobacias.", "regras": [["par", ["Tia", "Vizinha"], ["Stand-up", "Acrobacias"]]] },
+    { "texto": "Priscila e quem fez beatbox se apresentaram em sequência.", "regras": [["dist", "ordem", "Priscila", "Beatbox", 1]] },
+    { "texto": "Quem levou o avô para torcer abriu ou encerrou o show.", "regras": [["extremo", "ordem", "Avô"]] },
+    { "texto": "Quem fez stand-up se apresentou duas posições depois de quem levou o avô para torcer.", "regras": [["dif", "ordem", "Stand-up", "Avô", 2]] }
+  ],
+  "solucao": [
+    ["Aline", "Sapateado", "Avô", "1º"],
+    ["Daniel", "Mágica", "Mãe", "4º"],
+    ["Priscila", "Stand-up", "Vizinha", "3º"],
+    ["Silvio", "Acrobacias", "Tia", "5º"],
+    ["Zélia", "Beatbox", "Irmão", "2º"]
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "corrida-beneficente",
+  "versao": 1,
+  "titulo": "Corrida beneficente",
+  "nivel": "medio",
+  "tipo": "associacao",
+  "introducao": "Cinco amigos que treinam juntos no parque se inscreveram numa corrida de rua no último domingo. Cada um veio de uma cidade diferente, correu com uma camiseta de cor diferente e treina com uma equipe de corrida diferente. A partir das dicas, descubra, para cada um, a cidade de origem, a cor da camiseta e a equipe de treino.",
+  "categorias": [
+    { "id": "corredor", "nome": "Corredor(a)", "itens": ["Davi", "Elias", "Mariana", "Olívia", "Ulisses"] },
+    { "id": "cidade", "nome": "Cidade", "itens": ["Franca", "Limeira", "Marília", "Piracicaba", "Sorocaba"] },
+    { "id": "camiseta", "nome": "Camiseta", "itens": ["Amarela", "Branca", "Laranja", "Preta", "Vermelha"] },
+    { "id": "equipe", "nome": "Equipe", "itens": ["Fôlego", "Largada", "Pé na Pista", "Ritmo", "Vento Sul"] }
+  ],
+  "dicas": [
+    { "texto": "Olívia correu de preto.", "regras": [["=", "Olívia", "Preta"]] },
+    { "texto": "Quem correu de preto veio de Piracicaba.", "regras": [["=", "Preta", "Piracicaba"]] },
+    { "texto": "Entre quem veio de Limeira e quem veio de Sorocaba, um treina com a equipe Fôlego e o outro, com a equipe Pé na Pista.", "regras": [["par", ["Limeira", "Sorocaba"], ["Fôlego", "Pé na Pista"]]] },
+    { "texto": "Ulisses treina com a equipe Largada.", "regras": [["=", "Ulisses", "Largada"]] },
+    { "texto": "Quem treina com a equipe Fôlego correu de laranja.", "regras": [["=", "Laranja", "Fôlego"]] },
+    { "texto": "Mariana veio de Sorocaba.", "regras": [["=", "Sorocaba", "Mariana"]] },
+    { "texto": "Quem veio de Sorocaba correu de laranja.", "regras": [["=", "Sorocaba", "Laranja"]] },
+    { "texto": "Davi, que veio de Marília, não treina com a equipe Vento Sul.", "regras": [["=", "Marília", "Davi"], ["!=", "Davi", "Vento Sul"]] },
+    { "texto": "Quem veio de Franca correu de amarelo ou de vermelho.", "regras": [["ou", "Franca", "Amarela", "Vermelha"]] },
+    { "texto": "Quem correu de vermelho era Elias ou Mariana.", "regras": [["ou", "Vermelha", "Elias", "Mariana"]] }
+  ],
+  "solucao": [
+    ["Davi", "Marília", "Branca", "Ritmo"],
+    ["Elias", "Limeira", "Vermelha", "Pé na Pista"],
+    ["Mariana", "Sorocaba", "Laranja", "Fôlego"],
+    ["Olívia", "Piracicaba", "Preta", "Vento Sul"],
+    ["Ulisses", "Franca", "Amarela", "Largada"]
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "maos-na-terra",
+  "versao": 1,
+  "titulo": "Mãos na terra",
+  "nivel": "medio",
+  "tipo": "associacao",
+  "introducao": "Quatro aposentados transformaram um terreno vazio do bairro numa horta cheia de vida. Cada um protege a cabeça do sol de um jeito diferente, usa um adubo diferente e plantou uma espécie diferente. A partir das dicas, descubra, para cada um, o que usa na cabeça, o adubo e o que plantou.",
+  "categorias": [
+    { "id": "horticultor", "nome": "Horticultor(a)", "itens": ["Iara", "Mateus", "Natan", "Rafael"] },
+    { "id": "chapeu", "nome": "Proteção", "itens": ["Boné", "Chapéu de palha", "Chapéu de pescador", "Viseira"] },
+    { "id": "adubo", "nome": "Adubo", "itens": ["Borra de café", "Casca de ovo", "Esterco", "Húmus"] },
+    { "id": "planta", "nome": "Planta", "itens": ["Abobrinha", "Cenoura", "Couve", "Morango"] }
+  ],
+  "dicas": [
+    { "texto": "Rafael usa um boné.", "regras": [["=", "Boné", "Rafael"]] },
+    { "texto": "Quem aduba a terra com borra de café plantou couve.", "regras": [["=", "Borra de café", "Couve"]] },
+    { "texto": "Entre quem plantou cenoura e quem plantou morango, um usa uma viseira e o outro, um boné.", "regras": [["par", ["Cenoura", "Morango"], ["Viseira", "Boné"]]] },
+    { "texto": "Quem plantou abobrinha é Rafael ou Mateus.", "regras": [["ou", "Abobrinha", "Mateus", "Rafael"]] },
+    { "texto": "Quem plantou abobrinha é Natan ou Mateus.", "regras": [["ou", "Abobrinha", "Mateus", "Natan"]] },
+    { "texto": "Entre quem plantou cenoura e quem plantou abobrinha, um usa um chapéu de pescador e o outro, um boné.", "regras": [["par", ["Cenoura", "Abobrinha"], ["Chapéu de pescador", "Boné"]]] },
+    { "texto": "Natan aduba a terra com húmus de minhoca.", "regras": [["=", "Natan", "Húmus"]] },
+    { "texto": "Quem aduba a terra com esterco usa uma viseira ou plantou abobrinha, mas não as duas coisas.", "regras": [["ou", "Esterco", "Abobrinha", "Viseira"]] }
+  ],
+  "solucao": [
+    ["Iara", "Chapéu de palha", "Borra de café", "Couve"],
+    ["Mateus", "Chapéu de pescador", "Esterco", "Abobrinha"],
+    ["Natan", "Viseira", "Húmus", "Morango"],
+    ["Rafael", "Boné", "Casca de ovo", "Cenoura"]
+  ]
+}

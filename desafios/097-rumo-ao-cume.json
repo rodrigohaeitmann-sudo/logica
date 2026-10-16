@@ -1,0 +1,30 @@
+{
+  "id": "rumo-ao-cume",
+  "versao": 1,
+  "titulo": "Rumo ao cume",
+  "nivel": "medio",
+  "tipo": "ordem",
+  "introducao": "Cinco amigos de um grupo de trilhas fizeram, cada um, uma travessia diferente nas férias. Cada um fez a travessia com uma companhia diferente, fez a travessia em um mês diferente e caminhou uma distância diferente. A partir das dicas, descubra, para cada um, a companhia, o mês da travessia e a distância percorrida.",
+  "categorias": [
+    { "id": "trilheiro", "nome": "Trilheiro(a)", "itens": ["Arthur", "Breno", "Fernando", "Ivan", "Tânia"] },
+    { "id": "companhia", "nome": "Companhia", "itens": ["Colegas", "Guia", "Irmão", "Primos", "Sozinho(a)"] },
+    { "id": "mes", "nome": "Mês", "itens": ["Maio", "Junho", "Julho", "Agosto", "Setembro"], "valores": [5, 6, 7, 8, 9], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["mês","meses"],"menorCurto":"antes","maiorCurto":"depois"} },
+    { "id": "distancia", "nome": "Distância", "itens": ["6 km", "8 km", "10 km", "12 km", "14 km"], "valores": [6, 8, 10, 12, 14], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["km","km"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "Entre quem caminhou 8 km e quem fez sua travessia em setembro, um era Ivan e o outro, Arthur.", "regras": [["par", ["8 km", "Setembro"], ["Ivan", "Arthur"]]] },
+    { "texto": "Entre quem fez a travessia sozinho e quem fez a travessia com o irmão, um fez sua travessia em junho e o outro, em maio.", "regras": [["par", ["Sozinho(a)", "Irmão"], ["Junho", "Maio"]]] },
+    { "texto": "As travessias de Tânia e de quem fez a travessia com os primos tiveram dois meses de diferença.", "regras": [["dist", "mes", "Primos", "Tânia", 2]] },
+    { "texto": "Breno caminhou mais que quem fez sua travessia em julho.", "regras": [[">", "distancia", "Breno", "Julho"]] },
+    { "texto": "Entre Fernando e quem caminhou menos, um fez sua travessia em maio e o outro, em setembro.", "regras": [["par", ["Fernando", "6 km"], ["Maio", "Setembro"]]] },
+    { "texto": "Quem fez a travessia sozinho caminhou menos que quem fez a travessia com um guia.", "regras": [[">", "distancia", "Guia", "Sozinho(a)"]] },
+    { "texto": "Entre quem fez sua travessia em junho e quem fez a travessia por último, um era Arthur e o outro, Breno.", "regras": [["par", ["Junho", "Setembro"], ["Arthur", "Breno"]]] }
+  ],
+  "solucao": [
+    ["Arthur", "Primos", "Setembro", "6 km"],
+    ["Breno", "Irmão", "Junho", "14 km"],
+    ["Fernando", "Sozinho(a)", "Maio", "10 km"],
+    ["Ivan", "Colegas", "Agosto", "8 km"],
+    ["Tânia", "Guia", "Julho", "12 km"]
+  ]
+}

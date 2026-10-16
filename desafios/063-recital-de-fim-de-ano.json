@@ -1,0 +1,34 @@
+{
+  "id": "recital-de-fim-de-ano",
+  "versao": 1,
+  "titulo": "Recital de fim de ano",
+  "nivel": "medio",
+  "tipo": "associacao",
+  "introducao": "Quatro alunos da escola de música vão se apresentar no recital de fim de ano. Cada um toca um instrumento diferente, nasceu em uma cidade diferente, tem aulas com um professor diferente e vai tocar a peça de um compositor diferente. A partir das dicas, descubra, para cada um, o instrumento, a cidade natal, quem é o professor e o compositor da peça.",
+  "categorias": [
+    { "id": "musico", "nome": "Aluno(a)", "itens": ["Diana", "Igor", "Pedro", "Teodoro"] },
+    { "id": "instrumento", "nome": "Instrumento", "itens": ["Clarinete", "Harpa", "Viola", "Violoncelo"] },
+    { "id": "cidade", "nome": "Cidade", "itens": ["Blumenau", "Ilhéus", "Petrópolis", "Sobral"] },
+    { "id": "professor", "nome": "Professor(a)", "itens": ["Fabiana", "Hugo", "Joana", "Simone"] },
+    { "id": "compositor", "nome": "Compositor(a)", "itens": ["Bach", "Mozart", "Villa-Lobos", "Vivaldi"] }
+  ],
+  "dicas": [
+    { "texto": "Quem tem aulas com Fabiana nasceu em Ilhéus ou toca clarinete, mas não as duas coisas.", "regras": [["ou", "Fabiana", "Clarinete", "Ilhéus"]] },
+    { "texto": "Entre Teodoro e quem tem aulas com Hugo, um nasceu em Ilhéus e o outro, em Sobral.", "regras": [["par", ["Teodoro", "Hugo"], ["Ilhéus", "Sobral"]]] },
+    { "texto": "Quem vai tocar uma peça de Villa-Lobos não tem aulas com Simone.", "regras": [["!=", "Simone", "Villa-Lobos"]] },
+    { "texto": "Pedro, quem tem aulas com Fabiana e quem nasceu em Ilhéus são três pessoas diferentes.", "regras": [["distintos", "Fabiana", "Ilhéus", "Pedro"]] },
+    { "texto": "Quem nasceu em Blumenau vai tocar uma peça de Mozart ou de Bach.", "regras": [["ou", "Blumenau", "Bach", "Mozart"]] },
+    { "texto": "Quem nasceu em Petrópolis toca clarinete.", "regras": [["=", "Petrópolis", "Clarinete"]] },
+    { "texto": "Quem toca violoncelo não nasceu em Blumenau.", "regras": [["!=", "Blumenau", "Violoncelo"]] },
+    { "texto": "Diana vai tocar uma peça de Villa-Lobos.", "regras": [["=", "Diana", "Villa-Lobos"]] },
+    { "texto": "Quem vai tocar uma peça de Bach é Diana ou tem aulas com Joana, mas não as duas coisas.", "regras": [["ou", "Bach", "Joana", "Diana"]] },
+    { "texto": "Quem vai tocar uma peça de Villa-Lobos toca viola.", "regras": [["=", "Villa-Lobos", "Viola"]] },
+    { "texto": "Quem vai tocar uma peça de Vivaldi nasceu em Blumenau ou em Sobral.", "regras": [["ou", "Vivaldi", "Sobral", "Blumenau"]] }
+  ],
+  "solucao": [
+    ["Diana", "Viola", "Ilhéus", "Hugo", "Villa-Lobos"],
+    ["Igor", "Clarinete", "Petrópolis", "Fabiana", "Mozart"],
+    ["Pedro", "Harpa", "Blumenau", "Joana", "Bach"],
+    ["Teodoro", "Violoncelo", "Sobral", "Simone", "Vivaldi"]
+  ]
+}

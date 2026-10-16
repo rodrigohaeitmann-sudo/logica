@@ -1,0 +1,36 @@
+{
+  "id": "pousada-da-serra",
+  "versao": 1,
+  "titulo": "Pousada da serra",
+  "nivel": "dificil",
+  "tipo": "ordem",
+  "introducao": "Durante o feriado, cinco hóspedes que não se conheciam ficaram no mesmo hotel. Cada um tem um pedido preferido diferente no café da manhã, veio de uma cidade diferente, ficou em um andar diferente e passou um número diferente de noites no hotel. A partir das dicas, descubra, para cada um, o pedido do café da manhã, a cidade de origem, o andar e quantas noites passou no hotel.",
+  "categorias": [
+    { "id": "hospede", "nome": "Hóspede", "itens": ["Arthur", "Clara", "Irene", "Nádia", "Valter"] },
+    { "id": "cafe", "nome": "Café da manhã", "itens": ["Cuscuz", "Omelete", "Panqueca", "Pão de queijo", "Tapioca"] },
+    { "id": "cidade", "nome": "Cidade", "itens": ["Belo Horizonte", "Brasília", "Manaus", "Porto Alegre", "Recife"] },
+    { "id": "andar", "nome": "Andar", "itens": ["6º andar", "7º andar", "8º andar", "9º andar", "10º andar"], "valores": [6, 7, 8, 9, 10], "relacao": {"menor":"abaixo de","maior":"acima de","menorK":"{k} abaixo de","maiorK":"{k} acima de","unidade":["andar","andares"],"menorCurto":"abaixo","maiorCurto":"acima"} },
+    { "id": "noites", "nome": "Noites", "itens": ["1 noite", "2 noites", "3 noites", "4 noites", "5 noites"], "valores": [1, 2, 3, 4, 5], "relacao": {"menor":"menos que","maior":"mais que","menorK":"{k} a menos que","maiorK":"{k} a mais que","unidade":["noite","noites"],"menorCurto":"menos","maiorCurto":"mais"} }
+  ],
+  "dicas": [
+    { "texto": "Quem pede cuscuz no café da manhã foi quem passou mais noites ou quem passou menos noites no hotel.", "regras": [["extremo", "noites", "Cuscuz"]] },
+    { "texto": "Quem veio de Recife passou três noites a menos no hotel que quem ficou no 10º andar.", "regras": [["dif", "noites", "10º andar", "Recife", 3]] },
+    { "texto": "Arthur e quem passou três noites no hotel ficaram a dois andares de distância.", "regras": [["dist", "andar", "3 noites", "Arthur", 2]] },
+    { "texto": "Clara veio de Porto Alegre ou de Belo Horizonte.", "regras": [["ou", "Clara", "Porto Alegre", "Belo Horizonte"]] },
+    { "texto": "Quem veio de Manaus ficou dois andares abaixo de quem veio de Brasília.", "regras": [["dif", "andar", "Brasília", "Manaus", 2]] },
+    { "texto": "Quem veio de Brasília e quem pede omelete no café da manhã ficaram a três andares de distância.", "regras": [["dist", "andar", "Brasília", "Omelete", 3]] },
+    { "texto": "Quem pede pão de queijo no café da manhã ficou no andar mais alto ou no mais baixo.", "regras": [["extremo", "andar", "Pão de queijo"]] },
+    { "texto": "Quem pede panqueca no café da manhã passou uma noite a menos no hotel que Valter.", "regras": [["dif", "noites", "Valter", "Panqueca", 1]] },
+    { "texto": "Quem passou três noites no hotel ficou no andar logo acima do de quem passou duas noites no hotel.", "regras": [["dif", "andar", "3 noites", "2 noites", 1]] },
+    { "texto": "Irene passou menos noites no hotel que quem ficou no 8º andar.", "regras": [[">", "noites", "8º andar", "Irene"]] },
+    { "texto": "Quem veio de Porto Alegre ficou três andares acima de quem passou quatro noites no hotel.", "regras": [["dif", "andar", "Porto Alegre", "4 noites", 3]] },
+    { "texto": "Quem ficou no 10º andar era Nádia ou Valter.", "regras": [["ou", "10º andar", "Valter", "Nádia"]] }
+  ],
+  "solucao": [
+    ["Arthur", "Panqueca", "Belo Horizonte", "6º andar", "4 noites"],
+    ["Clara", "Cuscuz", "Porto Alegre", "9º andar", "1 noite"],
+    ["Irene", "Omelete", "Recife", "7º andar", "2 noites"],
+    ["Nádia", "Tapioca", "Manaus", "8º andar", "3 noites"],
+    ["Valter", "Pão de queijo", "Brasília", "10º andar", "5 noites"]
+  ]
+}

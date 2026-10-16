@@ -1,0 +1,31 @@
+{
+  "id": "escala-de-plantao",
+  "versao": 1,
+  "titulo": "Escala de plantão",
+  "nivel": "dificil",
+  "tipo": "misto",
+  "introducao": "No Hospital Santa Clara, cinco residentes dividem a escala de plantões da semana. Cada um faz residência em uma especialidade diferente, tem um passatempo diferente nas folgas e dá plantão em um dia diferente. A partir das dicas, descubra, para cada um, a especialidade, o passatempo e o dia do plantão.",
+  "categorias": [
+    { "id": "residente", "nome": "Residente", "itens": ["Breno", "Nelson", "Tiago", "Ursula", "Yuri"] },
+    { "id": "especialidade", "nome": "Especialidade", "itens": ["Geriatria", "Infectologia", "Neurologia", "Oftalmologia", "Ortopedia"] },
+    { "id": "hobby", "nome": "Passatempo", "itens": ["Dançar", "Ler", "Pedalar", "Pintar", "Plantas"] },
+    { "id": "dia", "nome": "Dia", "itens": ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"], "valores": [1, 2, 3, 4, 5], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["dia","dias"],"menorCurto":"antes","maiorCurto":"depois"} }
+  ],
+  "dicas": [
+    { "texto": "Quem é residente de geriatria dá plantão dois dias antes de Yuri.", "regras": [["dif", "dia", "Yuri", "Geriatria", 2]] },
+    { "texto": "Quem gosta de pintar nas folgas dá plantão no dia seguinte ao de quem gosta de pedalar nas folgas.", "regras": [["dif", "dia", "Pintar", "Pedalar", 1]] },
+    { "texto": "Entre quem é residente de infectologia e quem é residente de neurologia, um gosta de pedalar nas folgas e o outro, de pintar.", "regras": [["par", ["Infectologia", "Neurologia"], ["Pedalar", "Pintar"]]] },
+    { "texto": "Quem gosta de ler nas folgas dá plantão na véspera do plantão de quem gosta de cuidar das plantas nas folgas.", "regras": [["dif", "dia", "Plantas", "Ler", 1]] },
+    { "texto": "Quem é residente de ortopedia dá plantão na sexta-feira ou é Ursula, mas não as duas coisas.", "regras": [["ou", "Ortopedia", "Sexta", "Ursula"]] },
+    { "texto": "Entre Ursula e Breno, um é residente de neurologia e o outro, de geriatria.", "regras": [["par", ["Ursula", "Breno"], ["Neurologia", "Geriatria"]]] },
+    { "texto": "Nelson dá plantão três dias depois de Breno.", "regras": [["dif", "dia", "Nelson", "Breno", 3]] },
+    { "texto": "Quem gosta de pintar nas folgas dá plantão três dias antes de quem gosta de cuidar das plantas nas folgas.", "regras": [["dif", "dia", "Plantas", "Pintar", 3]] }
+  ],
+  "solucao": [
+    ["Breno", "Neurologia", "Pedalar", "Segunda"],
+    ["Nelson", "Oftalmologia", "Ler", "Quinta"],
+    ["Tiago", "Infectologia", "Pintar", "Terça"],
+    ["Ursula", "Geriatria", "Dançar", "Quarta"],
+    ["Yuri", "Ortopedia", "Plantas", "Sexta"]
+  ]
+}

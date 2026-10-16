@@ -3,12 +3,13 @@
   "versao": 1,
   "titulo": "Festival de bandas",
   "nivel": "dificil",
+  "tipo": "ordem",
   "introducao": "O festival Som da Praça reuniu, numa única noite, cinco bandas vindas de cinco cidades diferentes. Cada banda tocou um estilo musical diferente, em um horário diferente, e cada uma é comandada por um(a) vocalista. A partir das dicas, descubra quem é o(a) vocalista de cada banda, o estilo, o horário da apresentação e a cidade de origem.",
   "categorias": [
     { "id": "banda", "nome": "Banda", "itens": ["Asfalto", "Brisa", "Corsário", "Dínamo", "Eclipse"] },
     { "id": "vocal", "nome": "Vocalista", "itens": ["Iara", "Kelvin", "Lorena", "Murilo", "Nara"] },
     { "id": "estilo", "nome": "Estilo", "itens": ["Forró", "Pop", "Reggae", "Rock", "Samba"] },
-    { "id": "horario", "nome": "Horário", "itens": ["19h", "20h", "21h", "22h", "23h"], "valores": [19, 20, 21, 22, 23] },
+    { "id": "horario", "nome": "Horário", "itens": ["19h", "20h", "21h", "22h", "23h"], "valores": [19, 20, 21, 22, 23], "relacao": {"menor":"antes de","maior":"depois de","menorK":"{k} antes de","maiorK":"{k} depois de","unidade":["hora","horas"],"menorCurto":"antes","maiorCurto":"depois"} },
     { "id": "cidade", "nome": "Cidade", "itens": ["Belém", "Curitiba", "Natal", "Recife", "Salvador"] }
   ],
   "dicas": [

@@ -1,0 +1,37 @@
+{
+  "id": "condominio-das-palmeiras",
+  "versao": 1,
+  "titulo": "Condomínio das Palmeiras",
+  "nivel": "dificil",
+  "tipo": "associacao",
+  "introducao": "Cinco vizinhos do mesmo prédio organizaram juntos a festa de fim de ano do condomínio. Cada um tem uma profissão diferente, tem um carro de cor diferente, toca um instrumento diferente e tem um animal de estimação diferente. A partir das dicas, descubra, para cada um, a profissão, a cor do carro, o instrumento que toca e o animal de estimação.",
+  "categorias": [
+    { "id": "morador", "nome": "Morador(a)", "itens": ["Camila", "Enzo", "Larissa", "Mônica", "Olívia"] },
+    { "id": "profissao", "nome": "Profissão", "itens": ["Dentista", "Eletricista", "Jornalista", "Motorista", "Pianista"] },
+    { "id": "carro", "nome": "Carro", "itens": ["Branco", "Cinza", "Prata", "Preto", "Verde"] },
+    { "id": "instrumento", "nome": "Instrumento", "itens": ["Bateria", "Flauta", "Saxofone", "Teclado", "Violino"] },
+    { "id": "pet", "nome": "Animal", "itens": ["Cachorro", "Coelho", "Gato", "Papagaio", "Tartaruga"] }
+  ],
+  "dicas": [
+    { "texto": "Quem tem a tartaruga, quem tem o carro prata e quem tem o carro verde são três pessoas diferentes.", "regras": [["distintos", "Tartaruga", "Prata", "Verde"]] },
+    { "texto": "Quem tem o carro branco é dentista.", "regras": [["=", "Dentista", "Branco"]] },
+    { "texto": "Entre quem é eletricista e quem é jornalista, um toca violino e o outro, flauta.", "regras": [["par", ["Eletricista", "Jornalista"], ["Violino", "Flauta"]]] },
+    { "texto": "Olívia, quem é dentista e quem toca flauta são três pessoas diferentes.", "regras": [["distintos", "Dentista", "Flauta", "Olívia"]] },
+    { "texto": "Olívia não tem um carro prata.", "regras": [["!=", "Prata", "Olívia"]] },
+    { "texto": "Quem toca flauta, quem tem o coelho e quem tem o carro preto são três pessoas diferentes.", "regras": [["distintos", "Flauta", "Coelho", "Preto"]] },
+    { "texto": "Entre Enzo e quem tem o papagaio, um toca saxofone e o outro, teclado.", "regras": [["par", ["Enzo", "Papagaio"], ["Saxofone", "Teclado"]]] },
+    { "texto": "Entre Enzo e quem tem o carro prata, um toca bateria e o outro, teclado.", "regras": [["par", ["Enzo", "Prata"], ["Bateria", "Teclado"]]] },
+    { "texto": "Quem tem o carro preto não tem um papagaio.", "regras": [["!=", "Papagaio", "Preto"]] },
+    { "texto": "Entre quem toca bateria e quem toca flauta, um tem um coelho e o outro, uma tartaruga.", "regras": [["par", ["Bateria", "Flauta"], ["Coelho", "Tartaruga"]]] },
+    { "texto": "Quem toca flauta é Olívia ou Camila.", "regras": [["ou", "Flauta", "Camila", "Olívia"]] },
+    { "texto": "Quem tem o cachorro tem um carro cinza ou é Mônica, mas não as duas coisas.", "regras": [["ou", "Cachorro", "Mônica", "Cinza"]] },
+    { "texto": "Entre quem é jornalista e quem é motorista, um toca flauta e o outro, bateria.", "regras": [["par", ["Jornalista", "Motorista"], ["Flauta", "Bateria"]]] }
+  ],
+  "solucao": [
+    ["Camila", "Jornalista", "Cinza", "Flauta", "Tartaruga"],
+    ["Enzo", "Dentista", "Branco", "Teclado", "Gato"],
+    ["Larissa", "Motorista", "Prata", "Bateria", "Coelho"],
+    ["Mônica", "Eletricista", "Preto", "Violino", "Cachorro"],
+    ["Olívia", "Pianista", "Verde", "Saxofone", "Papagaio"]
+  ]
+}
