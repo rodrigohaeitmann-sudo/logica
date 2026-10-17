@@ -252,13 +252,16 @@ function rotuloValor(P, k, j) {
 // HTML da aba
 // ---------------------------------------------------------------------------
 //
-// estado: { k, form: { a, t, v, b, d }, rels, mostrarPossiveis, grade }
+// estado: { k, form: { a, t, v, b, d }, rels, mostrarPossiveis, grade, editando }
 //   form.a / form.b: item (índice global, em texto) ou '' · form.t: tipo
 //   form.v: medida (relações exatas) · form.d: dica de origem (índice) ou ''
-// Contrato com o jogo (eventos delegados no painel):
+//   editando: id da anotação que está sendo alterada (ou null)
+// Contrato com o jogo (eventos delegados no painel e nas notas da grade):
 //   [data-rel-cat]  troca a categoria      [data-rel-nav] dica anterior/seguinte
 //   select[data-rel="a|t|v|b"] (change)    input[data-rel="possiveis"] (change)
 //   [data-acao="rel-add"] anota            [data-rel-del="id"] apaga uma anotação
+//   [data-rel-edit="id"] abre a anotação para alterar
+//   [data-acao="rel-salvar"] / [data-acao="rel-cancelar"] concluem a alteração
 //   [data-acao="rel-limpar"] apaga as anotações da categoria
 
 export function exatas(P, k) {
@@ -273,8 +276,35 @@ function vazio(x) {
   return x === '' || x == null;
 }
 
+const LAPIS = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+
+// Ligações de uma categoria em forma de cadeia (para a aba e para a grade).
+// `no(g)` desenha um item; `con(txt, rels)` desenha a ligação entre dois itens.
+function desenharCadeias(P, k, rels, no, con, classeCadeia) {
+  let h = '';
+  for (const comp of cadeias(P, k, rels)) {
+    if (comp.caminho) {
+      h += `<div class="${classeCadeia}">`;
+      comp.caminho.forEach((g, i) => {
+        if (i) {
+          const ant = comp.caminho[i - 1];
+          const rs = comp.adj.get(ant).get(g);
+          h += con(rs.map((r) => conector(P, k, r, ant).txt).join(' · '), rs);
+        }
+        h += no(g);
+      });
+      h += '</div>';
+    } else {
+      for (const r of comp.arestas) h += `<div class="${classeCadeia}">${no(r.a)}${con(conector(P, k, r, r.a).txt, [r])}${no(r.b)}</div>`;
+    }
+  }
+  return h;
+}
+
 export function html(P, estado) {
   const { k, form, rels, mostrarPossiveis, grade } = estado;
+  const editando = estado.editando ?? null;
+  const emEdicao = editando != null ? rels.find((r) => String(r.id) === String(editando)) : null;
   const ks = relacionaveis(P);
   const nomeCat = (c) => esc(P.cats[c].nome);
   const rt = rotulos(P, k);
@@ -310,7 +340,11 @@ export function html(P, estado) {
     ? '<div class="rel-fonte-txt rel-fonte-livre">Anotação livre, sem dica ligada. Use as setas para escolher a dica.</div>'
     : `<div class="rel-fonte-txt"><span class="dica-num">${dica + 1}</span>${esc(P.dicas[dica].texto)}</div>`;
   const pronto = !vazio(form.a) && !vazio(form.b) && String(form.a) !== String(form.b);
-  h += `<div class="rel-form">
+  const botoes = emEdicao
+    ? `<button class="btn-rel-sec" data-acao="rel-cancelar">Cancelar</button><button class="btn-rel-add" data-acao="rel-salvar"${pronto ? '' : ' disabled'}>Salvar</button>`
+    : `<button class="btn-rel-add" data-acao="rel-add"${pronto ? '' : ' disabled'}>Anotar</button>`;
+  h += `<div class="rel-form${emEdicao ? ' rel-form-edicao' : ''}">
+    ${emEdicao ? `<div class="rel-editando"><span>Alterando a anotação</span><b>${esc(texto(P, emEdicao))}</b></div>` : ''}
     <div class="rel-fonte">
       <button class="car-nav" data-rel-nav="-1" aria-label="Dica anterior">‹</button>
       ${fonte}
@@ -330,14 +364,14 @@ export function html(P, estado) {
       <div class="rel-previa">${pronto
         ? `<b>${esc(texto(P, { k, a: Number(form.a), b: Number(form.b), t, v: exata ? Number(form.v ?? difs[0]) : null }))}</b>`
         : !vazio(form.a) && String(form.a) === String(form.b) ? 'Escolha dois itens diferentes.' : 'Escolha os dois itens e a relação entre eles.'}</div>
-      <button class="btn-rel-add" data-acao="rel-add"${pronto ? '' : ' disabled'}>Anotar</button>
+      ${botoes}
     </div>
   </div>`;
 
   // Cadeias e lista
   const rk = rels.filter((r) => r.k === k);
   if (!rk.length) {
-    h += `<p class="rel-vazio">Transforme as dicas em anotações, como no papel: por exemplo, “Renata ${esc(rt.menor)} Marta” e depois “Marta ${esc(rt.menor)} Paulo”. O app monta a cadeia <b>Renata – Marta – Paulo</b> para você.</p>`;
+    h += `<p class="rel-vazio">Transforme as dicas em anotações, como no papel: por exemplo, “Renata ${esc(rt.menor)} Marta” e depois “Marta ${esc(rt.menor)} Paulo”. A cadeia <b>Renata – Marta – Paulo</b> aparece aqui e no espaço vazio da grade.</p>`;
   } else {
     const dom = mostrarPossiveis ? possiveis(P, k, rels, grade) : null;
     const chip = (g) => {
@@ -350,26 +384,9 @@ export function html(P, estado) {
       }
       return `<span class="rel-no"><span class="rel-nome">${esc(nome(P, g))}</span>${extra}</span>`;
     };
-    const con = (txt) => `<span class="rel-con">${esc(txt)}</span>`;
+    const con = (txt, rs) => `<button class="rel-con${rs.some((r) => String(r.id) === String(editando)) ? ' ed' : ''}" data-rel-edit="${esc(rs[0].id)}" aria-label="Alterar a anotação: ${esc(texto(P, rs[0]))}">${esc(txt)}</button>`;
     h += '<div class="rel-sec">Cadeias</div><div class="rel-cadeias">';
-    for (const comp of cadeias(P, k, rels)) {
-      if (comp.caminho) {
-        h += '<div class="rel-cadeia">';
-        comp.caminho.forEach((g, i) => {
-          if (i) {
-            const ant = comp.caminho[i - 1];
-            const rs = comp.adj.get(ant).get(g);
-            h += con(rs.map((r) => conector(P, k, r, ant).txt).join(' · '));
-          }
-          h += chip(g);
-        });
-        h += '</div>';
-      } else {
-        h += '<div class="rel-grupo">';
-        for (const r of comp.arestas) h += `<div class="rel-cadeia">${chip(r.a)}${con(conector(P, k, r, r.a).txt)}${chip(r.b)}</div>`;
-        h += '</div>';
-      }
-    }
+    h += desenharCadeias(P, k, rels, chip, con, 'rel-cadeia');
     h += '</div>';
     const semSaida = possiveis(P, k, rels, null);
     if ([...semSaida.values()].some((s) => !s.size)) {
@@ -377,14 +394,40 @@ export function html(P, estado) {
     } else if (dom && [...dom.values()].some((s) => !s.size)) {
       h += '<p class="rel-alerta">Essas anotações não fecham com as marcações da grade. Revise uma delas (ou a grade).</p>';
     }
-    h += `<div class="rel-sec">Anotações <span class="rel-cont">${rk.length}</span></div><ul class="rel-lista">`;
+    h += `<div class="rel-sec">Anotações <span class="rel-cont">${rk.length}</span><span class="rel-sec-dica">toque para alterar</span></div><ul class="rel-lista">`;
     for (const r of rk) {
-      h += `<li class="rel-item"><span class="rel-txt">${esc(texto(P, r))}${r.d != null && r.d !== '' ? ` <span class="rel-tag">dica ${Number(r.d) + 1}</span>` : ''}</span>
-        <button class="rel-del" data-rel-del="${esc(r.id)}" aria-label="Apagar anotação: ${esc(texto(P, r))}">✕</button></li>`;
+      const ed = String(r.id) === String(editando);
+      const txt = esc(texto(P, r));
+      h += `<li class="rel-item${ed ? ' editando' : ''}" data-rel-edit="${esc(r.id)}"${ed ? ' aria-current="true"' : ''}>
+        <span class="rel-txt">${txt}${r.d != null && r.d !== '' ? ` <span class="rel-tag">dica ${Number(r.d) + 1}</span>` : ''}</span>
+        <button class="rel-ed" data-rel-edit="${esc(r.id)}" aria-label="Alterar anotação: ${txt}">${LAPIS}</button>
+        <button class="rel-del" data-rel-del="${esc(r.id)}" aria-label="Apagar anotação: ${txt}">✕</button></li>`;
     }
     h += `</ul><button class="link-fechar rel-limpar" data-acao="rel-limpar">Apagar as anotações de ${nomeCat(k)}</button>`;
   }
   h += `<label class="rel-toggle"><input type="checkbox" data-rel="possiveis"${mostrarPossiveis ? ' checked' : ''}> <span>Mostrar os valores ainda possíveis de cada item (pelas anotações e pelos ✕ e S da grade)</span></label>`;
   h += '</div>';
+  return h;
+}
+
+// ---------------------------------------------------------------------------
+// Notas na grade: as cadeias ficam no espaço vazio da escada, como na margem
+// da revista. Tocar numa ligação abre a anotação para alterar; tocar no resto,
+// a aba Relação.
+// ---------------------------------------------------------------------------
+
+export function notasHtml(P, rels, editando = null) {
+  const ks = relacionaveis(P).filter((k) => rels.some((r) => r.k === k));
+  if (!ks.length) {
+    return '<div class="notas-titulo">Relações</div><div class="notas-vazio">Toque aqui para anotar as relações das dicas, como na margem da revista.</div>';
+  }
+  const no = (g) => `<span class="notas-no">${esc(nome(P, g))}</span>`;
+  const con = (txt, rs) => `<span class="notas-con${rs.some((r) => String(r.id) === String(editando)) ? ' ed' : ''}" data-rel-edit="${esc(rs[0].id)}">${esc(txt)}</span>`;
+  let h = '';
+  for (const k of ks) {
+    const contradiz = [...possiveis(P, k, rels, null).values()].some((s) => !s.size);
+    h += `<div class="notas-titulo${contradiz ? ' erro' : ''}">${esc(P.cats[k].nome)}${contradiz ? ' · não fecha' : ''}</div>`;
+    h += desenharCadeias(P, k, rels, no, con, 'notas-cadeia');
+  }
   return h;
 }

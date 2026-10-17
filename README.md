@@ -38,10 +38,12 @@ revista. O jogador escolhe um item, a relação e outro item:
 
 Cada anotação pode ficar ligada a uma dica (as setas mostram o texto dela). A
 anotação seguinte já começa no último item, e o app monta as cadeias
-(**Renata – Marta – Paulo**). Opcionalmente, mostra embaixo de cada item os
-valores que ainda cabem, cruzando as anotações com os ✕ e S da grade — sem
-consultar a resposta. As anotações ficam salvas com o progresso e somem em
-“Recomeçar”.
+(**Renata – Marta – Paulo**), que aparecem também na tela do desafio, no espaço
+vazio da escada da grade (como na margem da revista). Tocar numa anotação — na
+lista, na cadeia ou nas notas da grade — abre para alterar (Salvar/Cancelar).
+Opcionalmente, mostra embaixo de cada item os valores que ainda cabem,
+cruzando as anotações com os ✕ e S da grade — sem consultar a resposta. As
+anotações ficam salvas com o progresso e somem em “Recomeçar”.
 
 ## Desafios incluídos
 

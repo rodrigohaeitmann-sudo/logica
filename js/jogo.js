@@ -78,7 +78,7 @@ export function abrir(item, opcoes = {}) {
     painelDica: null,
     voltarComBack: !!opcoes.voltarComBack,
     lp: null,
-    rel: { k: ks.length ? ks[0] : -1, form: novoFormRel() },
+    rel: { k: ks.length ? ks[0] : -1, form: novoFormRel(), editando: null },
   };
   $('aba-relacao').classList.toggle('hidden', !ks.length);
   $('jogo-nivel').textContent = `${NIVEL[d.nivel] || d.nivel} · ${P.m} categorias × ${P.n} itens`;
@@ -151,8 +151,13 @@ function montarGrade() {
     }
   }
   h += '</tr></thead><tbody>';
+  // As relações anotadas ficam no espaço vazio da escada, no último bloco de
+  // linhas (como na margem da revista).
+  const comNotas = J.rel.k >= 0;
+  const linhas = categoriasLinha(P);
+  const blocoNotas = linhas[linhas.length - 1];
   let ri = 0;
-  for (const rc of categoriasLinha(P)) {
+  for (const rc of linhas) {
     const ncg = rc === 0 ? m - 1 : rc - 1;
     for (let i = 0; i < n; i++) {
       const gR = rc * n + i;
@@ -174,7 +179,9 @@ function montarGrade() {
         }
       }
       const resto = (m - 1 - ncg) * n;
-      if (resto > 0) h += `<td class="fora" colspan="${resto}" aria-hidden="true"></td>`;
+      if (resto > 0 && comNotas && rc === blocoNotas) {
+        if (i === 0) h += `<td class="fora notas-cel" colspan="${resto}" rowspan="${n}" style="--n:${n}"><div class="notas" id="notas-grade" role="button" tabindex="0" aria-label="Relações anotadas: toque para abrir a aba Relação"></div></td>`;
+      } else if (resto > 0) h += `<td class="fora" colspan="${resto}" aria-hidden="true"></td>`;
       h += '</tr>';
       ri++;
     }
@@ -194,6 +201,7 @@ function montarGrade() {
   J.thCol = new Map();
   J.tabela.querySelectorAll('th.th-item').forEach((th) => J.thCol.set(+th.dataset.g, th));
   aplicarTamanhos();
+  pintarNotas();
 }
 
 let canvasMedida = null;
@@ -230,6 +238,14 @@ function aplicarTamanhos() {
   s.setProperty('--w-cat', `${W_CAT}px`);
   s.setProperty('--h-cat', `${H_CAT}px`);
   J.tam = { cel, wItem, hItem };
+  if (J.rel.k >= 0) {
+    // O espaço vazio começa depois do 1º bloco de colunas; as notas ocupam a
+    // parte dele que aparece sem rolar a grade para o lado (margem de 6px).
+    const inicio = W_CAT + wItem + P.n * cel;
+    const total = (P.m - 2) * P.n * cel - 12;
+    const visivel = (area.clientWidth || 340) - inicio - 16;
+    s.setProperty('--notas-w', `${Math.round(Math.max(Math.min(total, visivel), Math.min(total, 120)))}px`);
+  }
   $('btn-menos').disabled = (ajustes.zoom || 0) <= ZOOM_MIN || cel <= 16;
   $('btn-mais').disabled = (ajustes.zoom || 0) >= ZOOM_MAX || cel >= 60;
 }
@@ -541,9 +557,11 @@ function recomecar() {
   J.painelDica = null;
   J.dicaAtual = 0;
   J.rel.form = novoFormRel();
+  J.rel.editando = null;
   salvar();
   pintar();
   renderPainel();
+  pintarNotas();
   mostrarTempo();
   atualizarBotoes();
   iniciarRelogio();
@@ -794,7 +812,51 @@ function abaRelacao() {
     rels: J.prog.relacoes,
     mostrarPossiveis: mostrar,
     grade: mostrar ? efetiva(J.ax) : null,
+    editando: J.rel.editando,
   });
+}
+
+function pintarNotas() {
+  const el = document.getElementById('notas-grade');
+  if (!el || !J) return;
+  el.innerHTML = R.notasHtml(J.P, J.prog.relacoes, J.rel.editando);
+}
+
+// Rola a grade até as notas (com um brilho rápido) para mostrar onde a
+// anotação foi parar.
+function mostrarNotas(piscar = false) {
+  const el = document.getElementById('notas-grade');
+  const area = $('grade-area');
+  if (!el || !area || !J.tam) return;
+  const a = area.getBoundingClientRect();
+  const r = el.getBoundingClientRect();
+  const topo = a.top + H_CAT + J.tam.hItem;
+  const esq = a.left + W_CAT + J.tam.wItem;
+  let dx = 0;
+  let dy = 0;
+  if (r.top < topo || r.top > a.bottom - 48) dy = r.top - topo - 6;
+  if (r.left < esq || r.left > a.right - 64) dx = r.left - esq - 6;
+  if (dx || dy) area.scrollBy({ left: dx, top: dy, behavior: 'smooth' });
+  if (piscar) {
+    el.classList.remove('pisca');
+    void el.offsetWidth;
+    el.classList.add('pisca');
+  }
+}
+
+// Abre a aba Relação (e, se vier um id, a anotação para alterar).
+function abrirRelacao(id = null) {
+  if (!J || J.rel.k < 0) return;
+  J.painelDica = null;
+  J.alvo.clear();
+  if (J.aba !== 'relacao' || !painelExpandido()) J.rel.form.d = String(J.dicaAtual);
+  J.aba = 'relacao';
+  if (!largo.matches) J.expandido = true;
+  if (id != null) editarRelacao(id, false);
+  renderPainel();
+  pintar();
+  pintarNotas();
+  setTimeout(() => J && mostrarNotas(), 260); // depois que o painel termina de abrir
 }
 
 function ajustarMedida() {
@@ -830,12 +892,66 @@ function anotarRelacao() {
   f.b = '';
   salvar();
   renderPainel();
+  pintarNotas();
+  mostrarNotas(true);
+}
+
+// Carrega uma anotação no formulário para alterar (Salvar/Cancelar).
+function editarRelacao(id, redesenhar = true) {
+  const r = J.prog.relacoes.find((x) => String(x.id) === String(id));
+  if (!r) return;
+  J.rel.editando = r.id;
+  J.rel.k = r.k;
+  J.rel.form = { a: String(r.a), t: r.t, v: r.v, b: String(r.b), d: r.d == null ? '' : String(r.d) };
+  if (r.d != null) J.dicaAtual = r.d;
+  if (redesenhar) {
+    renderPainel();
+    pintarNotas();
+  }
+  const corpo = $('painel-corpo');
+  if (corpo) corpo.scrollTop = 0;
+}
+
+function salvarEdicao() {
+  const f = J.rel.form;
+  const k = J.rel.k;
+  const r = J.prog.relacoes.find((x) => String(x.id) === String(J.rel.editando));
+  if (!r) return cancelarEdicao();
+  if (f.a === '' || f.b === '') return toast('Escolha os dois itens.');
+  const a = Number(f.a);
+  const b = Number(f.b);
+  if (a === b) return toast('Escolha dois itens diferentes.');
+  ajustarMedida();
+  const v = R.preciso(f.t) ? Number(f.v) : null;
+  const igual = (x) => x !== r && x.k === k && ((x.a === a && x.b === b && x.t === f.t) || (x.a === b && x.b === a && x.t === INVERSO[f.t])) && (v == null || x.v === v);
+  if (J.prog.relacoes.some(igual)) return toast('Essa relação já está anotada.');
+  Object.assign(r, { k, a, b, t: f.t, v, d: f.d === '' ? null : Number(f.d) });
+  J.rel.editando = null;
+  J.rel.form = { ...novoFormRel(), t: f.t, v: f.v, d: f.d };
+  salvar();
+  renderPainel();
+  pintarNotas();
+  mostrarNotas(true);
+  toast('Anotação alterada.');
+}
+
+function cancelarEdicao() {
+  const d = J.rel.form.d;
+  J.rel.editando = null;
+  J.rel.form = { ...novoFormRel(), d };
+  renderPainel();
+  pintarNotas();
 }
 
 function apagarRelacao(id) {
   J.prog.relacoes = J.prog.relacoes.filter((r) => String(r.id) !== String(id));
+  if (String(J.rel.editando) === String(id)) {
+    J.rel.editando = null;
+    J.rel.form = { ...novoFormRel(), d: J.rel.form.d };
+  }
   salvar();
   renderPainel();
+  pintarNotas();
 }
 
 function limparRelacoes() {
@@ -844,8 +960,13 @@ function limparRelacoes() {
   if (!n) return;
   if (!confirm(`Apagar ${n === 1 ? 'a anotação' : `as ${n} anotações`} de ${J.P.cats[k].nome}?`)) return;
   J.prog.relacoes = J.prog.relacoes.filter((r) => r.k !== k);
+  if (J.rel.editando != null && !J.prog.relacoes.some((r) => String(r.id) === String(J.rel.editando))) {
+    J.rel.editando = null;
+    J.rel.form = { ...novoFormRel(), d: J.rel.form.d };
+  }
   salvar();
   renderPainel();
+  pintarNotas();
 }
 
 // Setas da faixa de dica: … → última dica → anotação livre → 1ª dica → …
@@ -917,6 +1038,10 @@ function cliquePainel(e) {
       toast(errs.length === 1 ? 'Marcação errada apagada.' : `${errs.length} marcações erradas apagadas.`);
     } else if (a === 'rel-add') {
       anotarRelacao();
+    } else if (a === 'rel-salvar') {
+      salvarEdicao();
+    } else if (a === 'rel-cancelar') {
+      cancelarEdicao();
     } else if (a === 'rel-limpar') {
       limparRelacoes();
     }
@@ -937,6 +1062,12 @@ function cliquePainel(e) {
   const relDel = e.target.closest('[data-rel-del]');
   if (relDel) {
     apagarRelacao(relDel.dataset.relDel);
+    return;
+  }
+  const relEd = e.target.closest('[data-rel-edit]');
+  if (relEd) {
+    if (String(J.rel.editando) === String(relEd.dataset.relEdit)) cancelarEdicao();
+    else editarRelacao(relEd.dataset.relEdit);
     return;
   }
   const nav = e.target.closest('[data-car]');
@@ -1063,8 +1194,15 @@ function ligarEventos() {
     if (e.target.closest('td[data-c]')) e.preventDefault();
   });
   area.addEventListener('click', (e) => {
+    if (!J) return;
+    const notas = e.target.closest('#notas-grade');
+    if (notas) {
+      const ed = e.target.closest('[data-rel-edit]');
+      abrirRelacao(ed ? ed.dataset.relEdit : null);
+      return;
+    }
     const td = e.target.closest('td[data-c]');
-    if (!td || !J) return;
+    if (!td) return;
     const c = Number(td.dataset.c);
     if (J.lp && J.lp.disparou && J.lp.c === c) {
       J.lp = null;
@@ -1134,6 +1272,11 @@ function ligarEventos() {
 
 function teclado(e) {
   if (!J || modalAberto()) return;
+  if (e.target && e.target.id === 'notas-grade' && (e.key === 'Enter' || e.key === ' ')) {
+    e.preventDefault();
+    abrirRelacao();
+    return;
+  }
   const tag = e.target && e.target.tagName;
   if (tag === 'SELECT' || tag === 'INPUT' || tag === 'TEXTAREA') return;
   if (tag === 'BUTTON' && (e.key === ' ' || e.key === 'Enter')) return; // o botão age sozinho

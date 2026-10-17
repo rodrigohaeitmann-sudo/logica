@@ -33,7 +33,8 @@ Esmeralda × claro/noturno; fonte Manrope).
 - `js/motor.js` é compartilhado entre o app (botão Dica, verificar, quadro) e o
   validador/gerador em Node — não usar DOM nele.
 - Marcas da grade: ✕ (não combinam) e **S** (combinam), nunca bolinha.
-- Aba Relação (`js/relacao.js`): anotações do jogador (`progresso.relacoes`);
-  não pode consultar a solução.
+- Aba Relação (`js/relacao.js`): anotações do jogador (`progresso.relacoes`),
+  editáveis; as cadeias aparecem também na grade, numa célula no espaço vazio do
+  último bloco de linhas (`#notas-grade`). Não pode consultar a solução.
 - `localStorage` só com prefixo `logica:` (o domínio é compartilhado com o estudo-tema).
 - Textos da interface em português do Brasil.
