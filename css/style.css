@@ -218,6 +218,9 @@ button:disabled { opacity:.45;cursor:default }
 .opcao-txt { flex:1;min-width:0 }
 .opcao-nome { font-size:13.5px;font-weight:700 }
 .opcao-desc { font-size:12px;color:var(--text2);line-height:1.45;margin-top:2px }
+.instalar-txt { font-size:13px;line-height:1.55;color:var(--text2);margin:0 }
+.instalar-txt b { color:var(--text) }
+#instalar .btn-primary { margin-bottom:8px }
 
 .como-card p, .como-lista { font-size:14px;line-height:1.55;color:var(--text);margin:0 0 10px }
 .como-card p:last-child, .como-lista:last-child { margin-bottom:0 }
@@ -393,18 +396,21 @@ body.em-jogo { overflow:hidden }
   width:var(--notas-w, 100%);height:calc(var(--cel) * var(--n) - 12px);margin:6px;
   overflow-y:auto;overscroll-behavior:contain;
   border:1.5px dashed var(--border-s);border-radius:10px;background:var(--surf-alt);
-  padding:6px 9px;font-size:11.5px;line-height:1.45;font-weight:600;color:var(--text2);
+  padding:6px 7px;font-size:11px;line-height:1.5;font-weight:600;color:var(--text2);
   -webkit-user-select:none;user-select:none;
 }
 .notas:focus-visible { outline:2px solid var(--accent);outline-offset:1px }
 .notas-titulo { font-size:9.5px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--text3);margin:1px 0 1px }
 .notas-titulo.erro { color:var(--bad) }
-.notas-cadeia { margin:0 0 5px }
+.notas-cadeia { margin:0 0 4px }
+.notas-passo { white-space:nowrap }
 .notas-no { font-weight:800;color:var(--text);white-space:nowrap }
-.notas-con { font-size:10.5px;font-weight:700;color:var(--acc-soft-txt);white-space:nowrap;border-radius:5px;padding:1px 1px }
-.notas-con::before { content:'\2009–\00a0' }
-.notas-con::after { content:'\00a0–\2009' }
-.notas-con.ed { background:var(--acc-soft);outline:1.5px solid var(--accent) }
+.notas-q {
+  display:inline-block;min-width:1.5em;margin:0 2px;padding:0 3px;border-radius:5px;text-align:center;
+  font-size:10.5px;font-weight:800;line-height:1.5;white-space:nowrap;
+  background:var(--acc-soft);color:var(--acc-soft-txt);
+}
+.notas-q.ed { outline:1.5px solid var(--accent) }
 .notas-vazio { font-size:11px;line-height:1.4;color:var(--text3);font-weight:600 }
 .notas.pisca { animation:notas-pisca 1.1s ease-out }
 @keyframes notas-pisca { 0%,35% { background:var(--acc-soft);border-color:var(--accent) } 100% { background:var(--surf-alt) } }
@@ -533,13 +539,25 @@ body.em-jogo { overflow:hidden }
 .rel-sel select:focus { outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--acc-soft) }
 .rel-sel select:invalid { color:var(--text3);font-weight:600 }
 .rel-sel select option { color:var(--text);font-weight:600 }
-.rel-tipo select { color:var(--acc-soft-txt) }
-.rel-linha { display:flex;gap:7px }
-.rel-tipo { flex:1.5 }
-.rel-qtd { flex:1 }
-.rel-acoes { display:flex;align-items:center;gap:8px;margin-top:1px }
+.rel-trio { display:grid;grid-template-columns:minmax(0,1fr) 80px minmax(0,1fr);gap:2px 6px;align-items:end }
+.rel-rot { font-size:10.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--text3);padding:0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis }
+.rel-rot-meio { text-align:center }
+.rel-trio .rel-sel select { padding:8px 22px 8px 9px }
+.rel-trio .rel-sel::after { right:9px;width:6px;height:6px }
+.rel-sel-q select { text-align:center;text-align-last:center;color:var(--acc-soft-txt);font-weight:800 }
+.rel-acoes { display:flex;align-items:center;gap:8px;margin-top:2px }
+.rel-inverter {
+  width:38px;height:38px;flex-shrink:0;border:1px solid var(--border-s);border-radius:10px;cursor:pointer;
+  background:var(--surface);color:var(--text2);font-size:18px;font-weight:700;line-height:1;
+}
 .rel-previa { flex:1;min-width:0;font-size:12.5px;line-height:1.4;color:var(--text3) }
-.rel-previa b { color:var(--text);font-weight:700 }
+.rel-previa b { color:var(--text);font-weight:800 }
+.rel-compacto { font-size:14.5px;color:var(--text) }
+.rel-leitura { font-size:11.5px;color:var(--text3) }
+.rel-q {
+  display:inline-block;min-width:1.6em;padding:0 5px;border-radius:6px;text-align:center;
+  font-weight:800;font-size:.92em;line-height:1.45;background:var(--acc-soft);color:var(--acc-soft-txt);
+}
 .btn-rel-add {
   flex-shrink:0;border:none;border-radius:10px;padding:10px 18px;cursor:pointer;
   background:var(--accent);color:var(--acc-txt);font-family:inherit;font-size:14px;font-weight:800;
@@ -564,13 +582,11 @@ body.em-jogo { overflow:hidden }
 .rel-pos { font-size:10.5px;font-weight:700;color:var(--text2);margin-top:2px }
 .rel-pos-erro { color:var(--bad) }
 .rel-con {
-  display:inline-flex;align-items:center;gap:3px;padding:3px 3px;margin:0;
-  border:none;background:transparent;border-radius:7px;cursor:pointer;
-  font-family:inherit;font-size:11px;font-weight:700;color:var(--text3);white-space:nowrap;
+  display:inline-flex;align-items:center;justify-content:center;min-width:26px;margin:0 5px;padding:3px 7px;
+  border:none;border-radius:8px;cursor:pointer;background:var(--acc-soft);color:var(--acc-soft-txt);
+  font-family:inherit;font-size:12px;font-weight:800;white-space:nowrap;
 }
-.rel-con.ed { background:var(--acc-soft);color:var(--acc-soft-txt) }
-.rel-con::before, .rel-con::after { content:'';width:7px;height:2px;border-radius:1px;background:var(--border-s) }
-.rel-con::after { width:10px;clip-path:polygon(0 0,70% 0,100% 50%,70% 100%,0 100%) }
+.rel-con.ed { outline:2px solid var(--accent) }
 .rel-alerta { margin:0;font-size:12.5px;line-height:1.45;font-weight:600;color:var(--bad);background:var(--bad-soft);border-radius:10px;padding:8px 10px }
 .rel-lista { list-style:none;margin:0;padding:0 }
 .rel-item { display:flex;align-items:center;gap:6px;padding:6px 4px;font-size:13.5px;line-height:1.4;cursor:pointer;border-radius:10px }
@@ -584,7 +600,7 @@ body.em-jogo { overflow:hidden }
 .rel-item.editando .rel-ed { background:var(--accent);color:var(--acc-txt) }
 .rel-sec-dica { margin-left:auto;font-size:11px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--text3) }
 .rel-form-edicao { border-color:var(--accent);box-shadow:0 0 0 3px var(--acc-soft) }
-.rel-editando { display:flex;flex-direction:column;gap:1px;font-size:13px;line-height:1.35;color:var(--text) }
+.rel-editando { display:flex;flex-direction:column;gap:2px;font-size:14px;line-height:1.35;color:var(--text) }
 .rel-editando span { font-size:10.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--acc-soft-txt) }
 .btn-rel-sec {
   flex-shrink:0;border:1px solid var(--border-s);border-radius:10px;padding:9px 14px;cursor:pointer;

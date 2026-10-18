@@ -31,14 +31,20 @@ em escada cruza as categorias duas a duas:
 
 Nos desafios com categorias que dá para comparar (datas, idades, preços,
 horários, páginas…), a aba **Relação** faz o papel das anotações na margem da
-revista. O jogador escolhe um item, a relação e outro item:
+revista, numa notação padronizada e compacta: **o item menor primeiro, a
+diferença exata no meio (só o número, sem unidade) ou `?` se não se sabe quanto,
+e o maior por último**:
 
-- sem medida: “Renata **antes de** Marta”, “Ana **mais velha que** Bia”;
-- com medida exata: “Paulo **1 mês depois de** Suspense”, “Poesia **60 páginas a menos que** Romance”.
+- só a ordem: **Renata ? Marta** (Renata indicou antes de Marta);
+- diferença exata: **Suspense 1 Paulo** (Paulo leu um mês depois do suspense),
+  **Poesia 60 Romance** (60 páginas a menos);
+- diferença sem saber quem vem antes: **Igor ±18 Tia**.
 
-Cada anotação pode ficar ligada a uma dica (as setas mostram o texto dela). A
-anotação seguinte já começa no último item, e o app monta as cadeias
-(**Renata – Marta – Paulo**), que aparecem também na tela do desafio, no espaço
+O formulário segue a mesma ordem (menor · diferença · maior, com botão para
+trocar os itens) e mostra a leitura por extenso para conferir. Cada anotação
+pode ficar ligada a uma dica (as setas mostram o texto dela). A anotação
+seguinte já começa no último item, e o app monta as cadeias crescentes
+(**Renata ? Marta ? Paulo**), que aparecem também na tela do desafio, no espaço
 vazio da escada da grade (como na margem da revista). Tocar numa anotação — na
 lista, na cadeia ou nas notas da grade — abre para alterar (Salvar/Cancelar).
 Opcionalmente, mostra embaixo de cada item os valores que ainda cabem,

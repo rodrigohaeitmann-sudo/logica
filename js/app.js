@@ -288,7 +288,79 @@ function renderHome() {
 
 // ---------- Ajustes ----------
 
+// ---------- Instalar no celular ----------
+// O Lógica tem identidade própria no manifesto (id "/logica/", escopo /logica/),
+// separada dos outros apps do mesmo domínio (TEMa Estudo etc.).
+
+let pedidoInstalar = null; // evento beforeinstallprompt guardado para o botão
+let instaladoAqui = false; // o próprio Lógica já está instalado neste aparelho?
+
+function emModoApp() {
+  return matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: fullscreen)').matches || navigator.standalone === true;
+}
+
+function ehIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+
+function renderInstalar() {
+  const el = $('instalar');
+  if (!el) return;
+  let h;
+  if (emModoApp()) {
+    h = '<p class="instalar-txt">Você está usando o app instalado. ✓</p>';
+  } else if (pedidoInstalar) {
+    h = '<button class="btn-primary" data-acao="instalar">Instalar o app Lógica</button><p class="instalar-txt">Ele fica na tela inicial e funciona sem internet.</p>';
+  } else if (instaladoAqui) {
+    h = '<p class="instalar-txt"><b>O Lógica já está instalado neste celular.</b> Procure “Lógica” na lista de apps: tirar o ícone da tela inicial não desinstala. Para instalar de novo, desinstale esse primeiro.</p>';
+  } else if (ehIOS()) {
+    h = '<p class="instalar-txt">No iPhone, abra este endereço no Safari, toque em <b>Compartilhar</b> e depois em <b>Adicionar à Tela de Início</b>.</p>';
+  } else {
+    h = '<p class="instalar-txt">No Android, abra no Chrome e use o menu <b>⋮</b> → <b>Instalar app</b>. Se ele disser que o app já está instalado, procure “Lógica” na lista de apps do celular (tirar o ícone da tela inicial não desinstala).</p>';
+  }
+  el.innerHTML = h;
+}
+
+async function verificarInstalado() {
+  if (!('getInstalledRelatedApps' in navigator)) return;
+  try {
+    const apps = await navigator.getInstalledRelatedApps();
+    instaladoAqui = apps.some((x) => x.platform === 'webapp');
+    renderInstalar();
+  } catch {
+    /* navegador sem suporte */
+  }
+}
+
+function ligarInstalar() {
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    pedidoInstalar = e;
+    renderInstalar();
+  });
+  window.addEventListener('appinstalled', () => {
+    pedidoInstalar = null;
+    instaladoAqui = true;
+    renderInstalar();
+  });
+  $('instalar').addEventListener('click', async (e) => {
+    if (!e.target.closest('[data-acao="instalar"]') || !pedidoInstalar) return;
+    const pedido = pedidoInstalar;
+    pedidoInstalar = null;
+    pedido.prompt();
+    try {
+      await pedido.userChoice;
+    } catch {
+      /* janela fechada */
+    }
+    renderInstalar();
+  });
+  renderInstalar();
+  verificarInstalado();
+}
+
 function renderAjustes() {
+  renderInstalar();
   const a = estado.getAjustes();
   document.querySelectorAll('[data-ajuste]').forEach((grupo) => {
     const v = a[grupo.dataset.ajuste] ? '1' : '0';
@@ -344,6 +416,7 @@ async function iniciar() {
     abrirDesafio: (id) => irPara(`#/jogo/${encodeURIComponent(id)}`),
   });
   ligarAjustes();
+  ligarInstalar();
   observarAtualizacao();
 
   document.querySelectorAll('#bottom-nav button').forEach((btn) => {

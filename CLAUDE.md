@@ -34,7 +34,12 @@ Esmeralda × claro/noturno; fonte Manrope).
   validador/gerador em Node — não usar DOM nele.
 - Marcas da grade: ✕ (não combinam) e **S** (combinam), nunca bolinha.
 - Aba Relação (`js/relacao.js`): anotações do jogador (`progresso.relacoes`),
-  editáveis; as cadeias aparecem também na grade, numa célula no espaço vazio do
-  último bloco de linhas (`#notas-grade`). Não pode consultar a solução.
+  editáveis, sempre exibidas na notação padronizada "MENOR q MAIOR" (q = diferença
+  exata, só o número, ou `?`; `±q` sem ordem). As cadeias aparecem também na grade,
+  numa célula no espaço vazio do último bloco de linhas (`#notas-grade`). Não pode
+  consultar a solução.
+- PWA: o manifesto tem `id` próprio (`/logica/`) e escopo `./`; outros apps do
+  usuário vivem no mesmo domínio (rodrigohaeitmann-sudo.github.io), então nunca
+  use escopo `/` nem copie `id`/`start_url` de outro app.
 - `localStorage` só com prefixo `logica:` (o domínio é compartilhado com o estudo-tema).
 - Textos da interface em português do Brasil.

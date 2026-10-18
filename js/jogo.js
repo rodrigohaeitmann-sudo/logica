@@ -789,12 +789,13 @@ function quadro() {
 }
 
 // ---------------------------------------------------------------------------
-// Aba Relação: o jogador anota relações entre itens ("Renata antes de Marta",
-// "Paulo 1 mês depois do suspense") e o app monta as cadeias.
+// Aba Relação: o jogador anota relações entre itens na forma padronizada da
+// margem da revista — o menor primeiro, a diferença (ou ?) e o maior:
+// "Renata ? Marta", "Suspense 1 Paulo" — e o app monta as cadeias.
 // ---------------------------------------------------------------------------
 
 function novoFormRel() {
-  return { a: '', t: '<', v: null, b: '', d: '' };
+  return { a: '', q: '?', b: '', d: '' };
 }
 
 function relacoesValidas(P, ks, lista) {
@@ -860,36 +861,32 @@ function abrirRelacao(id = null) {
 }
 
 function ajustarMedida() {
-  const f = J.rel.form;
-  if (!R.exatas(J.P, J.rel.k) && R.preciso(f.t)) f.t = '<';
-  if (!R.preciso(f.t)) return;
-  const difs = R.diferencas(J.P, J.rel.k);
-  if (!difs.includes(Number(f.v))) f.v = difs[0];
+  R.ajustarForm(J.P, J.rel.k, J.rel.form);
 }
-
-const INVERSO = { '<': '>', '>': '<', '+': '-', '-': '+', '~': '~' };
 
 function anotarRelacao() {
   const f = J.rel.form;
   const k = J.rel.k;
   if (f.a === '' || f.b === '') return toast('Escolha os dois itens.');
-  const a = Number(f.a);
-  const b = Number(f.b);
-  if (a === b) return toast('Escolha dois itens diferentes.');
+  if (f.a === f.b) return toast('Escolha dois itens diferentes.');
   ajustarMedida();
-  const v = R.preciso(f.t) ? Number(f.v) : null;
-  const igual = (r) => r.k === k && ((r.a === a && r.b === b && r.t === f.t) || (r.a === b && r.b === a && r.t === INVERSO[f.t])) && (v == null || r.v === v);
-  if (J.prog.relacoes.some(igual)) return toast('Essa relação já está anotada.');
-  const id = J.prog.relacoes.reduce((m, r) => Math.max(m, Number(r.id) || 0), 0) + 1;
-  const nova = { id, k, a, b, t: f.t, v, d: f.d === '' ? null : Number(f.d) };
+  const { a, b, t, v } = R.relDoForm(f);
+  const nova = { id: 0, k, a, b, t, v, d: f.d === '' ? null : Number(f.d) };
+  const ja = R.jaImplica(J.prog.relacoes, nova);
+  if (ja) return toast(`Já está anotado: ${R.compacto(J.P, ja)}.`);
+  nova.id = J.prog.relacoes.reduce((m, r) => Math.max(m, Number(r.id) || 0), 0) + 1;
+  const velhas = R.superadas(J.prog.relacoes, nova);
+  J.prog.relacoes = J.prog.relacoes.filter((r) => !velhas.includes(r));
   J.prog.relacoes.push(nova);
+  if (velhas.length) toast(`Anotado no lugar de ${velhas.map((r) => R.compacto(J.P, r)).join(', ')}.`);
   if (!J.prog.iniciado && !encerrado()) {
     J.prog.iniciado = true;
     iniciarRelogio();
   }
-  // Como no papel: a próxima anotação continua a cadeia a partir do 2º item.
+  // Como no papel: a próxima anotação continua a cadeia a partir do maior.
   f.a = String(b);
   f.b = '';
+  f.q = '?';
   salvar();
   renderPainel();
   pintarNotas();
@@ -902,7 +899,7 @@ function editarRelacao(id, redesenhar = true) {
   if (!r) return;
   J.rel.editando = r.id;
   J.rel.k = r.k;
-  J.rel.form = { a: String(r.a), t: r.t, v: r.v, b: String(r.b), d: r.d == null ? '' : String(r.d) };
+  J.rel.form = R.formDe(r);
   if (r.d != null) J.dicaAtual = r.d;
   if (redesenhar) {
     renderPainel();
@@ -918,16 +915,17 @@ function salvarEdicao() {
   const r = J.prog.relacoes.find((x) => String(x.id) === String(J.rel.editando));
   if (!r) return cancelarEdicao();
   if (f.a === '' || f.b === '') return toast('Escolha os dois itens.');
-  const a = Number(f.a);
-  const b = Number(f.b);
-  if (a === b) return toast('Escolha dois itens diferentes.');
+  if (f.a === f.b) return toast('Escolha dois itens diferentes.');
   ajustarMedida();
-  const v = R.preciso(f.t) ? Number(f.v) : null;
-  const igual = (x) => x !== r && x.k === k && ((x.a === a && x.b === b && x.t === f.t) || (x.a === b && x.b === a && x.t === INVERSO[f.t])) && (v == null || x.v === v);
-  if (J.prog.relacoes.some(igual)) return toast('Essa relação já está anotada.');
-  Object.assign(r, { k, a, b, t: f.t, v, d: f.d === '' ? null : Number(f.d) });
+  const nova = { ...R.relDoForm(f), k, d: f.d === '' ? null : Number(f.d) };
+  const outras = J.prog.relacoes.filter((x) => x !== r);
+  const ja = R.jaImplica(outras, nova);
+  if (ja) return toast(`Já está anotado: ${R.compacto(J.P, ja)}.`);
+  const velhas = R.superadas(outras, nova);
+  Object.assign(r, nova);
+  J.prog.relacoes = J.prog.relacoes.filter((x) => !velhas.includes(x));
   J.rel.editando = null;
-  J.rel.form = { ...novoFormRel(), t: f.t, v: f.v, d: f.d };
+  J.rel.form = { ...novoFormRel(), d: f.d };
   salvar();
   renderPainel();
   pintarNotas();
@@ -990,10 +988,16 @@ function mudancaPainel(e) {
     ajustes = estado.getAjustes();
     ajustes.relPossiveis = el.checked;
     estado.salvarAjustes(ajustes);
-  } else if (['a', 'b', 't', 'v'].includes(campo)) {
+  } else if (['a', 'b', 'q'].includes(campo)) {
     J.rel.form[campo] = el.value;
     ajustarMedida();
   }
+  renderPainel();
+}
+
+function inverterForm() {
+  const f = J.rel.form;
+  [f.a, f.b] = [f.b, f.a];
   renderPainel();
 }
 
@@ -1038,6 +1042,8 @@ function cliquePainel(e) {
       toast(errs.length === 1 ? 'Marcação errada apagada.' : `${errs.length} marcações erradas apagadas.`);
     } else if (a === 'rel-add') {
       anotarRelacao();
+    } else if (a === 'rel-inverter') {
+      inverterForm();
     } else if (a === 'rel-salvar') {
       salvarEdicao();
     } else if (a === 'rel-cancelar') {
