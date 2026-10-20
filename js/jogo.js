@@ -630,8 +630,11 @@ function focoDoPasso(p) {
   return { ...p, marcas: [sim || p.marcas[0]] };
 }
 
+let pensando = false;
+
 function pedirDica() {
   if (encerrado()) return avisarEncerrado();
+  if (pensando) return;
   const errs = M.erros(J.P, J.marcas);
   if (errs.length) {
     J.painelDica = { tipo: 'erros', erros: errs };
@@ -639,8 +642,30 @@ function pedirDica() {
     renderPainel();
     return;
   }
+  // A explicação por hipótese pode levar um instante: mostra o botão ocupado
+  // e só calcula depois que a tela for atualizada.
+  const btn = $('btn-dica');
+  const jogo = J;
+  pensando = true;
+  btn.classList.add('pensando');
+  btn.setAttribute('aria-busy', 'true');
+  requestAnimationFrame(() =>
+    setTimeout(() => {
+      try {
+        if (J === jogo && !encerrado()) mostrarProximoPasso();
+      } finally {
+        pensando = false;
+        btn.classList.remove('pensando');
+        btn.removeAttribute('aria-busy');
+      }
+    }, 0),
+  );
+}
+
+function mostrarProximoPasso() {
   const g = efetiva(ajustes.autoX ? M.autoX(J.P, J.marcas) : null);
-  const passo = M.proximoPasso(J.P, g);
+  // Em aparelhos lentos, não espera demais por uma explicação ainda mais curta.
+  const passo = M.proximoPassoDica(J.P, g, { limiteMs: 500 });
   if (!passo || passo.tipo === 'contradicao') {
     toast('Não encontrei um próximo passo a partir daqui.');
     return;
@@ -665,6 +690,7 @@ function tituloPasso(p) {
     case 'G5': return 'Elimine pelas opções que restam';
     case 'dica': return p.direta ? `Use a dica ${p.dica + 1}` : `Releia a dica ${p.dica + 1}`;
     case 'dicas': return `Junte as dicas ${p.dicas[0] + 1} e ${p.dicas[1] + 1}`;
+    case 'hipotese': return 'Teste uma hipótese';
     default: return 'Próximo passo';
   }
 }
@@ -686,9 +712,11 @@ function cardDica() {
   }
   const p = pd.passo;
   const P = J.P;
+  const citar = (lista) => lista.map((i) => `<div class="dica-citada">Dica ${i + 1}: “${esc(P.dicas[i].texto)}”</div>`).join('');
   let citacao = '';
-  if (p.tipo === 'dica') citacao = `<div class="dica-citada">Dica ${p.dica + 1}: “${esc(P.dicas[p.dica].texto)}”</div>`;
-  if (p.tipo === 'dicas') citacao = p.dicas.map((i) => `<div class="dica-citada">Dica ${i + 1}: “${esc(P.dicas[i].texto)}”</div>`).join('');
+  if (p.tipo === 'dica') citacao = citar([p.dica]);
+  if (p.tipo === 'dicas') citacao = citar(p.dicas);
+  if (p.tipo === 'hipotese') citacao = citar(M.dicasDaProva(p.prova));
   const qtd = p.marcas.length;
   return `<div class="dica-card">
     <div class="modal-eyebrow">Dica · próximo passo</div>

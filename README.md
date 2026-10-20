@@ -24,8 +24,22 @@ em escada cruza as categorias duas a duas:
   **quadro de respostas** (se monta sozinho conforme você marca) e a
   **relação** (veja abaixo);
 - **Verificar** aponta marcações erradas; **Dica** mostra o próximo passo lógico
-  e explica qual regra ou dica permite concluí-lo;
+  e explica qual regra ou dica permite concluí-lo. Quando só juntando dicas dá
+  para avançar, a Dica explica por hipótese: “suponha que A combine com B;
+  então… mas aí a dica 3 não teria como ser cumprida” — uma cadeia curta de
+  passos simples (regras da grade e dicas isoladas) até a contradição;
 - resolver sem verificar nem pedir dica vale ★★★ (Verificar: ★★; Dica: ★).
+
+### Instalar no celular
+
+No Android, o Chrome oferece **Instalar app** (o app também mostra um botão na
+tela inicial quando o navegador permite). No iPhone, abra no Safari →
+**Compartilhar** → **Adicionar à Tela de Início**. Em **Ajustes → App no
+celular** ficam os passos para cada navegador e uma linha de diagnóstico (service
+worker, manifesto, se o navegador ofereceu a instalação, se o app já está
+instalado). Se o Chrome disser que o app já está instalado, ele existe no
+aparelho mesmo sem ícone na tela inicial — tirar o ícone não desinstala; procure
+“Lógica” na lista de apps.
 
 ### Aba Relação
 
@@ -87,7 +101,11 @@ deploy acontecer se, para todos os desafios:
 5. nenhuma dica é dispensável (aviso) e os textos não têm deslizes comuns de
    redação (contração faltando, espaço duplo, falta de ponto final…).
 
-O mesmo motor (`js/motor.js`) gera o botão **Dica** do app.
+O mesmo motor (`js/motor.js`) gera o botão **Dica** do app. Nos pontos em que
+só juntando duas dicas dá para avançar, o botão não diz apenas “junte as dicas
+i e j”: procura uma casa que se resolva por absurdo com a explicação mais curta
+(`passoPorHipotese`), preferindo finais que se veem de imediato na grade ou na
+dica (e diz por que a dica falharia, quando dá para resumir).
 
 ```bash
 node scripts/validar.mjs            # valida todos
@@ -138,8 +156,9 @@ node scripts/validar.mjs rascunho.json --passos   # testa um desafio avulso
   Categorias sem `valores` não aparecem na aba; se nenhuma tiver, a aba some.
 - `solucao`: uma linha por item da categoria principal, com um item de cada
   categoria, na ordem das categorias.
-- Se mudar a grade ou as dicas de um desafio já publicado, aumente `versao` (o
-  progresso salvo dele é reiniciado).
+- Se mudar a grade, as regras das dicas ou a solução de um desafio já publicado,
+  aumente `versao` (o progresso salvo dele é reiniciado). Corrigir só a redação
+  de uma dica, sem mudar o sentido, não precisa.
 
 Regras disponíveis (itens pelo nome; use `"idCategoria:Nome"` se o nome se repetir):
 

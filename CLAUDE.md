@@ -23,7 +23,9 @@ Esmeralda × claro/noturno; fonte Manrope).
 - `tipo`: `associacao`, `ordem`, `calculo` ou `misto`. Categorias com `valores`
   podem ter `relacao` (rótulos da aba Relação; ver README).
 - Ao criar ou alterar um desafio: `node scripts/validar.mjs arquivo.json --passos`
-  até passar sem erros nem dicas dispensáveis. Mudou um desafio publicado? Aumente `versao`.
+  até passar sem erros nem dicas dispensáveis. Mudou a grade, as regras ou a
+  solução de um desafio publicado? Aumente `versao` (só corrigir a redação de uma
+  dica, sem mudar o sentido, não precisa: o progresso salvo continua valendo).
 - Evite associações que dê para adivinhar pelo mundo real (ex.: forró ↔ Recife).
 - Gerador: `node scripts/gerador/gerar.mjs --gerar A-B` (temas em
   `scripts/gerador/temas.mjs`, português em `lingua.mjs`); é determinístico.
@@ -31,7 +33,10 @@ Esmeralda × claro/noturno; fonte Manrope).
 
 ## Código
 - `js/motor.js` é compartilhado entre o app (botão Dica, verificar, quadro) e o
-  validador/gerador em Node — não usar DOM nele.
+  validador/gerador em Node — não usar DOM nele. `proximoPasso` define o nível e
+  o relatório do validador: mexer na ordem dos passos muda tudo (compare a saída
+  de `--passos` antes e depois). O botão Dica usa `proximoPassoDica`, que troca
+  o "junte as dicas i e j" por uma explicação por hipótese (`passoPorHipotese`).
 - Marcas da grade: ✕ (não combinam) e **S** (combinam), nunca bolinha.
 - Aba Relação (`js/relacao.js`): anotações do jogador (`progresso.relacoes`),
   editáveis, sempre exibidas na notação padronizada "MENOR q MAIOR" (q = diferença
@@ -41,5 +46,10 @@ Esmeralda × claro/noturno; fonte Manrope).
 - PWA: o manifesto tem `id` próprio (`/logica/`) e escopo `./`; outros apps do
   usuário vivem no mesmo domínio (rodrigohaeitmann-sudo.github.io), então nunca
   use escopo `/` nem copie `id`/`start_url` de outro app.
+- Instalação: cartão "App no celular" em Ajustes (passos por navegador e uma
+  linha de diagnóstico: service worker, manifesto, oferta de instalação, app já
+  instalado) e aviso na tela inicial no celular ("Agora não" esconde por 30
+  dias, chave `logica:avisos`). No Android, tirar o ícone da tela inicial não
+  desinstala o app: o Chrome continua dizendo que já está instalado.
 - `localStorage` só com prefixo `logica:` (o domínio é compartilhado com o estudo-tema).
 - Textos da interface em português do Brasil.

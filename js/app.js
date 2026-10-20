@@ -293,7 +293,10 @@ function renderHome() {
 // separada dos outros apps do mesmo domínio (TEMa Estudo etc.).
 
 let pedidoInstalar = null; // evento beforeinstallprompt guardado para o botão
-let instaladoAqui = false; // o próprio Lógica já está instalado neste aparelho?
+let houvePedido = false; // o navegador chegou a oferecer a instalação nesta visita?
+let instaladoAqui = null; // getInstalledRelatedApps: true/false (null: sem resposta)
+let verificouInstalado = false; // já deu para saber (ou não há como saber)?
+let acabouDeInstalar = false;
 
 function emModoApp() {
   return matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: fullscreen)').matches || navigator.standalone === true;
@@ -303,59 +306,177 @@ function ehIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 }
 
+// Navegador em uso (para as instruções e o diagnóstico).
+function navegador() {
+  const ua = navigator.userAgent;
+  const versao = (re) => (ua.match(re) || [])[1] || '';
+  const so = ehIOS() ? 'iPhone/iPad' : /Android/i.test(ua) ? 'Android' : 'computador';
+  if (/FBAN|FBAV|Instagram|Line\/|MicroMessenger|TikTok|Snapchat|; wv\)/.test(ua)) return { id: 'interno', nome: 'navegador interno de outro app', so };
+  if (/SamsungBrowser\//.test(ua)) return { id: 'samsung', nome: `Samsung Internet ${versao(/SamsungBrowser\/(\d+)/)}`, so };
+  if (/EdgA?\/|EdgiOS\//.test(ua)) return { id: 'edge', nome: `Edge ${versao(/Edg\w*\/(\d+)/)}`, so };
+  if (/OPR\/|OPT\//.test(ua)) return { id: 'opera', nome: 'Opera', so };
+  if (/Firefox\/|FxiOS\//.test(ua)) return { id: 'firefox', nome: `Firefox ${versao(/(?:Firefox|FxiOS)\/(\d+)/)}`, so };
+  if (/CriOS\//.test(ua)) return { id: 'chrome', nome: `Chrome ${versao(/CriOS\/(\d+)/)}`, so };
+  if (/Chrome\//.test(ua)) return { id: 'chrome', nome: `Chrome ${versao(/Chrome\/(\d+)/)}`, so };
+  if (/Safari\//.test(ua)) return { id: 'safari', nome: 'Safari', so };
+  return { id: 'outro', nome: 'navegador', so };
+}
+
+// Passos para instalar, conforme o aparelho e o navegador.
+function passosInstalar(nav) {
+  const jaInstalado =
+    '<li>Se o navegador disser que o app <b>já está instalado</b> (ou mostrar <b>Abrir no app</b>), ele existe no celular, mesmo sem ícone na tela inicial: procure “Lógica” na lista de apps. Para instalar de novo, desinstale em <b>Configurações → Apps → Lógica → Desinstalar</b> e recarregue esta página.</li>';
+  if (nav.id === 'interno') {
+    return '<li>Este link abriu dentro de outro app (Instagram, Facebook…), que não instala apps. Toque em <b>⋮</b> ou <b>…</b> e escolha <b>Abrir no navegador</b> (ou copie o endereço e cole no Chrome).</li><li>No Chrome, use o menu <b>⋮</b> → <b>Instalar app</b>.</li>';
+  }
+  if (nav.so === 'iPhone/iPad') {
+    return '<li>Abra este endereço no <b>Safari</b>.</li><li>Toque em <b>Compartilhar</b> (o quadrado com a seta) → <b>Adicionar à Tela de Início</b> → <b>Adicionar</b>.</li><li>No iOS 16.4 ou mais novo, o Chrome também tem essa opção em <b>Compartilhar</b>.</li>';
+  }
+  if (nav.so === 'computador') {
+    return '<li>No Chrome ou no Edge, use o ícone de instalar no fim da barra de endereço (ou o menu → <b>Instalar Lógica</b>).</li>';
+  }
+  const abrirNoChrome =
+    '<li>Se você abriu o link pelo WhatsApp, Gmail ou outro app, toque em <b>⋮</b> e escolha <b>Abrir no Chrome</b>: a página aberta dentro de outro app não instala.</li>';
+  if (nav.id === 'samsung') {
+    return `${abrirNoChrome.replace('Abrir no Chrome', 'Abrir no navegador')}<li>No Samsung Internet, toque no ícone de instalar na barra de endereço ou no menu <b>≡</b> → <b>Adicionar página a</b> → <b>Tela inicial</b>.</li>${jaInstalado}`;
+  }
+  if (nav.id === 'firefox') return `${abrirNoChrome}<li>No Firefox, toque em <b>⋮</b> → <b>Instalar</b> (ou <b>Adicionar à tela inicial</b>).</li>${jaInstalado}`;
+  return `${abrirNoChrome}<li>No Chrome, toque em <b>⋮</b> → <b>Instalar app</b> (em algumas versões, <b>Adicionar à tela inicial</b> → <b>Instalar</b>).</li>${jaInstalado}`;
+}
+
 function renderInstalar() {
   const el = $('instalar');
   if (!el) return;
+  const nav = navegador();
   let h;
   if (emModoApp()) {
     h = '<p class="instalar-txt">Você está usando o app instalado. ✓</p>';
+  } else if (acabouDeInstalar) {
+    h = '<p class="instalar-txt"><b>App instalado.</b> Procure o ícone “Lógica” na tela inicial ou na lista de apps.</p>';
   } else if (pedidoInstalar) {
-    h = '<button class="btn-primary" data-acao="instalar">Instalar o app Lógica</button><p class="instalar-txt">Ele fica na tela inicial e funciona sem internet.</p>';
+    h = '<button class="btn-primary" data-acao="instalar">Instalar o app Lógica</button><p class="instalar-txt">Ele fica na tela inicial, abre em tela cheia e funciona sem internet.</p>';
   } else if (instaladoAqui) {
     h = '<p class="instalar-txt"><b>O Lógica já está instalado neste celular.</b> Procure “Lógica” na lista de apps: tirar o ícone da tela inicial não desinstala. Para instalar de novo, desinstale esse primeiro.</p>';
-  } else if (ehIOS()) {
-    h = '<p class="instalar-txt">No iPhone, abra este endereço no Safari, toque em <b>Compartilhar</b> e depois em <b>Adicionar à Tela de Início</b>.</p>';
   } else {
-    h = '<p class="instalar-txt">No Android, abra no Chrome e use o menu <b>⋮</b> → <b>Instalar app</b>. Se ele disser que o app já está instalado, procure “Lógica” na lista de apps do celular (tirar o ícone da tela inicial não desinstala).</p>';
+    h = `<p class="instalar-txt">Para instalar, siga os passos abaixo (${esc(nav.nome)}${nav.so === 'computador' ? '' : `, ${nav.so}`}).</p>`;
+  }
+  if (!emModoApp()) {
+    const aberto = !pedidoInstalar && !acabouDeInstalar ? ' open' : '';
+    h += `<details class="instalar-ajuda"${aberto}><summary>${pedidoInstalar ? 'Outras formas de instalar' : 'Como instalar'}</summary><ol class="instalar-passos">${passosInstalar(nav)}</ol>
+      <p class="instalar-diag" id="instalar-diag">Diagnóstico: verificando…</p></details>`;
   }
   el.innerHTML = h;
+  diagnosticar();
+}
+
+// Uma linha com o que o app consegue ver sobre a instalação (ajuda a achar a
+// causa quando não dá para instalar).
+async function diagnosticar() {
+  const alvo = $('instalar-diag');
+  if (!alvo || !alvo.closest('.screen.active')) return; // só com Ajustes aberto
+  const nav = navegador();
+  const partes = [`${nav.nome}${nav.so === 'computador' ? '' : ` no ${nav.so}`}`];
+  if ('serviceWorker' in navigator) {
+    let sw = 'service worker não registrado';
+    try {
+      if (navigator.serviceWorker.controller) sw = 'service worker ativo';
+      else if (await navigator.serviceWorker.getRegistration()) sw = 'service worker registrado';
+    } catch {
+      sw = 'service worker indisponível';
+    }
+    partes.push(sw);
+  } else partes.push('sem service worker');
+  try {
+    const r = await fetch('manifest.json', { cache: 'no-cache' });
+    const m = await r.json();
+    const icones = (m.icons || []).map((i) => i.sizes).join(', ');
+    partes.push(r.ok && m.id && m.start_url ? `manifesto ok (id ${m.id}, ícones ${icones})` : 'manifesto incompleto');
+  } catch {
+    partes.push('manifesto não carregou');
+  }
+  partes.push(pedidoInstalar ? 'oferta de instalação: disponível' : houvePedido ? 'oferta de instalação: já usada' : 'oferta de instalação: não veio');
+  if (instaladoAqui !== null) partes.push(instaladoAqui ? 'app já instalado neste aparelho' : 'nenhuma instalação detectada');
+  const el = $('instalar-diag'); // (o cartão pode ter sido redesenhado enquanto isso)
+  if (el) el.textContent = `Diagnóstico: ${partes.join(' · ')}.`;
 }
 
 async function verificarInstalado() {
-  if (!('getInstalledRelatedApps' in navigator)) return;
   try {
-    const apps = await navigator.getInstalledRelatedApps();
-    instaladoAqui = apps.some((x) => x.platform === 'webapp');
-    renderInstalar();
+    if ('getInstalledRelatedApps' in navigator) {
+      const apps = await navigator.getInstalledRelatedApps();
+      instaladoAqui = apps.some((x) => x.platform === 'webapp');
+    }
   } catch {
     /* navegador sem suporte */
   }
+  verificouInstalado = true;
+  renderInstalar();
+  renderAvisoInstalar();
+}
+
+// Aviso discreto na tela inicial: no celular, enquanto o app não estiver
+// instalado (com o botão do navegador, quando ele oferece; senão, o caminho
+// para as instruções em Ajustes). "Agora não" esconde por 30 dias.
+function renderAvisoInstalar() {
+  const el = $('home-instalar');
+  if (!el) return;
+  const dispensado = estado.getAvisos().instalarDispensado;
+  const recente = dispensado && Date.now() - new Date(dispensado).getTime() < 30 * 864e5;
+  const celular = navegador().so !== 'computador';
+  const mostrar = !emModoApp() && !acabouDeInstalar && !recente && (!!pedidoInstalar || (celular && verificouInstalado && instaladoAqui !== true));
+  el.classList.toggle('hidden', !mostrar);
+  if (!mostrar) {
+    el.innerHTML = '';
+    return;
+  }
+  const botao = pedidoInstalar
+    ? '<button class="btn-aviso" data-acao="instalar">Instalar</button>'
+    : '<button class="btn-aviso" data-acao="ver-instalar">Ver como</button>';
+  el.innerHTML = `<p><b>Instale o Lógica no celular:</b> ele abre como app, em tela cheia, e funciona sem internet.</p><div class="aviso-botoes">${botao}<button class="link-acao" data-acao="instalar-depois">Agora não</button></div>`;
+}
+
+async function instalarAgora() {
+  if (!pedidoInstalar) return;
+  const pedido = pedidoInstalar;
+  pedidoInstalar = null;
+  try {
+    await pedido.prompt();
+    await pedido.userChoice;
+  } catch {
+    /* janela fechada ou pedido já usado */
+  }
+  renderInstalar();
+  renderAvisoInstalar();
 }
 
 function ligarInstalar() {
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     pedidoInstalar = e;
+    houvePedido = true;
     renderInstalar();
+    renderAvisoInstalar();
   });
   window.addEventListener('appinstalled', () => {
     pedidoInstalar = null;
     instaladoAqui = true;
+    acabouDeInstalar = true;
     renderInstalar();
+    renderAvisoInstalar();
   });
-  $('instalar').addEventListener('click', async (e) => {
-    if (!e.target.closest('[data-acao="instalar"]') || !pedidoInstalar) return;
-    const pedido = pedidoInstalar;
-    pedidoInstalar = null;
-    pedido.prompt();
-    try {
-      await pedido.userChoice;
-    } catch {
-      /* janela fechada */
+  $('instalar').addEventListener('click', (e) => {
+    if (e.target.closest('[data-acao="instalar"]')) instalarAgora();
+  });
+  $('home-instalar').addEventListener('click', (e) => {
+    if (e.target.closest('[data-acao="instalar"]')) instalarAgora();
+    else if (e.target.closest('[data-acao="ver-instalar"]')) irPara('#/ajustes');
+    else if (e.target.closest('[data-acao="instalar-depois"]')) {
+      estado.salvarAvisos({ ...estado.getAvisos(), instalarDispensado: new Date().toISOString() });
+      renderAvisoInstalar();
     }
-    renderInstalar();
   });
   renderInstalar();
+  renderAvisoInstalar();
   verificarInstalado();
 }
 

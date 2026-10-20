@@ -221,6 +221,20 @@ button:disabled { opacity:.45;cursor:default }
 .instalar-txt { font-size:13px;line-height:1.55;color:var(--text2);margin:0 }
 .instalar-txt b { color:var(--text) }
 #instalar .btn-primary { margin-bottom:8px }
+.instalar-ajuda { margin-top:10px;font-size:13px;color:var(--text2);line-height:1.55 }
+.instalar-ajuda summary { cursor:pointer;font-weight:700;color:var(--accent);padding:4px 0 }
+.instalar-passos { margin:6px 0 8px;padding-left:20px }
+.instalar-passos li { margin-bottom:6px }
+.instalar-passos b { color:var(--text) }
+.instalar-diag { font-size:11.5px;color:var(--text3);margin:0;line-height:1.5;overflow-wrap:anywhere }
+.aviso-instalar p { margin:0 0 8px }
+.aviso-instalar b { color:var(--text) }
+.aviso-botoes { display:flex;align-items:center;gap:14px }
+.btn-aviso {
+  border:none;border-radius:10px;padding:8px 16px;background:var(--accent);color:var(--acc-txt);
+  font:inherit;font-weight:700;cursor:pointer;
+}
+.aviso-botoes .link-acao { margin-left:0 }
 
 .como-card p, .como-lista { font-size:14px;line-height:1.55;color:var(--text);margin:0 0 10px }
 .como-card p:last-child, .como-lista:last-child { margin-bottom:0 }
@@ -435,6 +449,10 @@ body.em-jogo { overflow:hidden }
 .ferr svg { width:19px;height:19px }
 .ferr:active { border-color:var(--accent) }
 .ferr-dica { color:var(--accent);border-color:var(--border-s) }
+.ferr.pensando { opacity:.55;pointer-events:none }
+.ferr.pensando svg { animation:pensando 1s ease-in-out infinite alternate }
+@keyframes pensando { from { transform:scale(1) } to { transform:scale(.82) } }
+@media (prefers-reduced-motion: reduce) { .ferr.pensando svg { animation:none } }
 
 /* Painel de dicas / história / quadro */
 .painel {
@@ -664,6 +682,11 @@ body.em-jogo { overflow:hidden }
   padding:13px 14px;font-size:14.5px;line-height:1.55;margin:0 0 12px;
 }
 .dica-box b { color:var(--accent) }
+.dica-box p { margin:0 0 8px }
+.dica-box p:last-child { margin-bottom:0 }
+.dica-cadeia { margin:0 0 8px;padding-left:22px }
+.dica-cadeia li { margin-bottom:4px;padding-left:2px }
+.dica-cadeia li:last-child { margin-bottom:0 }
 .dica-citada { font-size:13px;color:var(--text2);font-style:italic;margin:-4px 0 12px;line-height:1.5 }
 .festa { text-align:center }
 .festa .big { font-size:52px;line-height:1;margin:6px 0 4px }

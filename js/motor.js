@@ -336,6 +336,19 @@ export function celula(P, gA, gB) {
   return P.base[ca][cb] + P.idxDe[gA] * P.n + P.idxDe[gB];
 }
 
+// Tabela (item A · N + item B) → casa, ou -1 se forem da mesma categoria.
+// Calculada uma vez por desafio; acelera as varreduras da grade.
+const cacheCelulas = new WeakMap();
+function tabelaCelulas(P) {
+  let t = cacheCelulas.get(P);
+  if (t) return t;
+  const N = P.m * P.n;
+  t = new Int32Array(N * N);
+  for (let x = 0; x < N; x++) for (let y = 0; y < N; y++) t[x * N + y] = celula(P, x, y);
+  cacheCelulas.set(P, t);
+  return t;
+}
+
 export function novaGrade(P) {
   return new Uint8Array(P.total);
 }
@@ -655,12 +668,6 @@ export function contarSolucoes(P, { limite = 2, regras = null } = {}) {
 //   G5 cruzamento: todas as opções de A numa categoria são ✕ com C ⇒ A–C ✕
 //   dica: o que a dica permite concluir com o que já se sabe
 
-function itensDe(P, c) {
-  const out = [];
-  for (let i = 0; i < P.n; i++) out.push(c * P.n + i);
-  return out;
-}
-
 function* passosG1(P, g) {
   const { n } = P;
   for (let a = 0; a < P.m; a++) {
@@ -712,23 +719,30 @@ function* passosG2(P, g) {
   }
 }
 
+// Mesma ordem de sempre (A, B, C, a, b, c); os pares a–b com S de cada (A, B)
+// são listados uma vez só.
 function* passosG34(P, g, tipo) {
-  const { m } = P;
+  const { m, n } = P;
+  const N = m * n;
+  const T = tabelaCelulas(P);
+  const quer = tipo === 'G3' ? SIM : NAO;
   for (let A = 0; A < m; A++) {
     for (let B = 0; B < m; B++) {
       if (B === A) continue;
+      const pares = [];
+      for (let a = A * n; a < A * n + n; a++) {
+        for (let b = B * n; b < B * n + n; b++) if (g[T[a * N + b]] === SIM) pares.push(a, b);
+      }
+      if (!pares.length) continue;
       for (let C = 0; C < m; C++) {
         if (C === A || C === B) continue;
-        for (const a of itensDe(P, A)) {
-          for (const b of itensDe(P, B)) {
-            if (g[celula(P, a, b)] !== SIM) continue;
-            for (const c of itensDe(P, C)) {
-              const ac = celula(P, a, c);
-              if (g[ac] !== VAZIO) continue;
-              const bc = g[celula(P, b, c)];
-              if (tipo === 'G3' && bc === SIM) yield { tipo: 'G3', marcas: [[ac, SIM]], a, b, c };
-              if (tipo === 'G4' && bc === NAO) yield { tipo: 'G4', marcas: [[ac, NAO]], a, b, c };
-            }
+        for (let k = 0; k < pares.length; k += 2) {
+          const a = pares[k];
+          const b = pares[k + 1];
+          for (let c = C * n; c < C * n + n; c++) {
+            const ac = T[a * N + c];
+            if (g[ac] !== VAZIO) continue;
+            if (g[T[b * N + c]] === quer) yield { tipo, marcas: [[ac, quer]], a, b, c };
           }
         }
       }
@@ -737,22 +751,33 @@ function* passosG34(P, g, tipo) {
 }
 
 function* passosG5(P, g) {
-  const { m } = P;
+  const { m, n } = P;
+  const N = m * n;
+  const T = tabelaCelulas(P);
   for (let A = 0; A < m; A++) {
     for (let C = 0; C < m; C++) {
       if (C === A) continue;
-      for (const a of itensDe(P, A)) {
-        for (const c of itensDe(P, C)) {
-          const ac = celula(P, a, c);
+      for (let a = A * n; a < A * n + n; a++) {
+        for (let c = C * n; c < C * n + n; c++) {
+          const ac = T[a * N + c];
           if (g[ac] !== VAZIO) continue;
           for (let B = 0; B < m; B++) {
             if (B === A || B === C) continue;
-            const cand = itensDe(P, B).filter((b) => g[celula(P, a, b)] !== NAO);
-            if (cand.length === 0) continue;
-            if (cand.every((b) => g[celula(P, b, c)] === NAO)) {
-              yield { tipo: 'G5', marcas: [[ac, NAO]], a, c, cand };
-              break;
+            let tem = false;
+            let todos = true;
+            for (let b = B * n; b < B * n + n; b++) {
+              if (g[T[a * N + b]] === NAO) continue;
+              tem = true;
+              if (g[T[b * N + c]] !== NAO) {
+                todos = false;
+                break;
+              }
             }
+            if (!tem || !todos) continue;
+            const cand = [];
+            for (let b = B * n; b < B * n + n; b++) if (g[T[a * N + b]] !== NAO) cand.push(b);
+            yield { tipo: 'G5', marcas: [[ac, NAO]], a, c, cand };
+            break;
           }
         }
       }
@@ -1062,6 +1087,410 @@ export function deduzirTudo(P, inicial = null, { maxPassos = 5000, pares = true 
 }
 
 // ---------------------------------------------------------------------------
+// Explicação por hipótese (prova por absurdo)
+// ---------------------------------------------------------------------------
+//
+// Quando só juntando dicas dá para avançar, o botão Dica mostra o raciocínio de
+// quem resolve no papel: "suponha que A combine com B; então …; mas aí … —
+// impossível". A cadeia usa só passos simples (regras da grade e dicas
+// isoladas) e é enxugada para conter só o que leva à contradição.
+
+// Contradição visível numa grade: dois S na mesma linha de um quadro, uma
+// linha toda de ✕, ou A–B e A–C com S mas B–C com ✕. Devolve as casas que a
+// provam (ou null).
+export function contradicaoGrade(P, g) {
+  const { n } = P;
+  for (let a = 0; a < P.m; a++) {
+    for (let b = a + 1; b < P.m; b++) {
+      const base = P.base[a][b];
+      for (let i = 0; i < n; i++) {
+        // linha i (item a·n+i) e coluna i (item b·n+i): passo 1 e n entre casas
+        for (const [ini, passo, item, outra] of [[base + i * n, 1, a * n + i, b], [base + i, n, b * n + i, a]]) {
+          let sims = 0;
+          let naos = 0;
+          for (let j = 0; j < n; j++) {
+            const v = g[ini + j * passo];
+            if (v === SIM) sims++;
+            else if (v === NAO) naos++;
+          }
+          if (sims < 2 && naos < n) continue;
+          const L = [];
+          for (let j = 0; j < n; j++) L.push(ini + j * passo);
+          if (sims > 1) return { tipo: 'dois', item, casas: L.filter((c) => g[c] === SIM).slice(0, 2) };
+          return { tipo: 'nenhum', item, outra, casas: L };
+        }
+      }
+    }
+  }
+  const N = P.m * n;
+  const T = tabelaCelulas(P);
+  const sims = [];
+  for (let x = 0; x < N; x++) {
+    sims.length = 0;
+    for (let y = 0; y < N; y++) {
+      const c = T[x * N + y];
+      if (c >= 0 && g[c] === SIM) sims.push(y);
+    }
+    for (let i = 0; i < sims.length; i++) {
+      for (let j = i + 1; j < sims.length; j++) {
+        const y = sims[i];
+        const z = sims[j];
+        const c = T[y * N + z];
+        if (c >= 0 && g[c] === NAO) return { tipo: 'trans', x, y, z, casas: [T[x * N + y], T[x * N + z], c] };
+      }
+    }
+  }
+  return null;
+}
+
+// Há contradição envolvendo alguma das casas `mudou`? (Mais rápido que
+// varrer a grade toda; vale quando a grade não tinha contradição antes delas.)
+function haContradicao(P, g, mudou) {
+  const { n } = P;
+  const N = P.m * n;
+  const T = tabelaCelulas(P);
+  for (const c of mudou) {
+    const a = P.celA[c];
+    const b = P.celB[c];
+    const A = P.catDe[a];
+    const B = P.catDe[b];
+    for (const [x, Y] of [[a, B], [b, A]]) {
+      let sims = 0;
+      let naos = 0;
+      for (let y = Y * n; y < Y * n + n; y++) {
+        const v = g[T[x * N + y]];
+        if (v === SIM) sims++;
+        else if (v === NAO) naos++;
+      }
+      if (sims > 1 || naos === n) return true;
+    }
+    const v = g[c];
+    for (let z = 0; z < N; z++) {
+      const Z = P.catDe[z];
+      if (Z === A || Z === B) continue;
+      const az = g[T[a * N + z]];
+      const bz = g[T[b * N + z]];
+      if (v === SIM && ((az === SIM && bz === NAO) || (az === NAO && bz === SIM))) return true;
+      if (v === NAO && az === SIM && bz === SIM) return true;
+    }
+  }
+  return false;
+}
+
+// Casas que um passo da grade usou como premissa.
+function premissasPasso(P, p) {
+  const cel = (a, b) => celula(P, a, b);
+  switch (p.tipo) {
+    case 'G1':
+      return [cel(p.a, p.b)];
+    case 'G2': {
+      const out = [];
+      for (let k = 0; k < P.n; k++) {
+        const z = p.outra * P.n + k;
+        if (z !== p.escolhido) out.push(cel(p.item, z));
+      }
+      return out;
+    }
+    case 'G3':
+    case 'G4':
+      return [cel(p.a, p.b), cel(p.b, p.c)];
+    case 'G5': {
+      const B = P.catDe[p.cand[0]];
+      const out = [];
+      for (let k = 0; k < P.n; k++) {
+        const b = B * P.n + k;
+        if (!p.cand.includes(b)) out.push(cel(p.a, b));
+      }
+      for (const b of p.cand) out.push(cel(b, p.c));
+      return out;
+    }
+    default:
+      return null;
+  }
+}
+
+// Entre as casas `candidatas`, as que a dica D precisa para continuar
+// concluindo `alvo` (ou, com contradicao, para continuar impossível). Tenta
+// dispensar primeiro as do fim da lista, para ficar com as mais antigas (que
+// pedem menos passos para explicar).
+function premissasDica(P, gAntes, D, alvo, candidatas, contradicao) {
+  const segue = (gr) => {
+    const r = deduzirDica(P, gr, D);
+    if (r.estourou) return false;
+    if (r.contradicao) return true;
+    if (contradicao) return false;
+    const m = new Map(r.marcas);
+    return alvo.every(([c, v]) => m.get(c) === v);
+  };
+  const g = Uint8Array.from(gAntes);
+  const usadas = [];
+  for (let k = candidatas.length - 1; k >= 0; k--) {
+    const c = candidatas[k];
+    const v = g[c];
+    if (v === VAZIO) continue;
+    g[c] = VAZIO;
+    if (!segue(g)) {
+      g[c] = v;
+      usadas.push(c);
+    }
+  }
+  return usadas;
+}
+
+// Uma regra já impossível só de olhar as casas dos itens que ela cita (sem
+// raciocinar sobre o resto da grade)? Devolve o motivo, para a explicação, ou
+// null se a regra ainda parece possível:
+//   { tipo: 'liga', a, b, v }       a combinaria (v = S) / não combinaria (✕) com b
+//   { tipo: 'dois', a, b, c }       a combinaria com b e também com c
+//   { tipo: 'nenhuma', a, bs }      a não combinaria com nenhum de bs
+//   { tipo: 'so', as, b }           os itens de `as` só poderiam combinar com b
+//   { tipo: 'opcoes', itens }       [[item, [opções…]]…] na categoria comparada
+//   { tipo: 'outro' }               impossível, sem resumo em palavras
+function regraSemSaida(P, gx, r) {
+  const { n } = P;
+  const liga = (a, b) => {
+    if (a === b) return SIM;
+    const c = celula(P, a, b);
+    return c < 0 ? NAO : gx[c];
+  };
+  switch (r.t) {
+    case '=':
+      return liga(r.refs[0], r.refs[1]) === NAO ? { tipo: 'liga', a: r.refs[0], b: r.refs[1], v: NAO } : null;
+    case '!=':
+      return liga(r.refs[0], r.refs[1]) === SIM ? { tipo: 'liga', a: r.refs[0], b: r.refs[1], v: SIM } : null;
+    case 'distintos':
+      for (let i = 0; i < r.refs.length; i++) {
+        for (let j = i + 1; j < r.refs.length; j++) {
+          if (liga(r.refs[i], r.refs[j]) === SIM) return { tipo: 'liga', a: r.refs[i], b: r.refs[j], v: SIM };
+        }
+      }
+      return null;
+    case 'ou': {
+      const [a, ...bs] = r.refs;
+      const sims = bs.filter((b) => liga(a, b) === SIM);
+      if (sims.length > 1) return { tipo: 'dois', a, b: sims[0], c: sims[1] };
+      if (bs.every((b) => liga(a, b) === NAO)) return { tipo: 'nenhuma', a, bs };
+      return null;
+    }
+    case 'par': {
+      const k = r.A.length;
+      const usado = new Array(k).fill(false);
+      const tenta = (i) => {
+        if (i === k) return true;
+        for (let j = 0; j < k; j++) {
+          if (usado[j] || liga(r.A[i], r.B[j]) === NAO) continue;
+          usado[j] = true;
+          const ok = tenta(i + 1);
+          usado[j] = false;
+          if (ok) return true;
+        }
+        return false;
+      };
+      if (tenta(0)) return null;
+      const ops = r.A.map((a) => r.B.filter((b) => liga(a, b) !== NAO));
+      const i = ops.findIndex((o) => o.length === 0);
+      if (i >= 0) return { tipo: 'nenhuma', a: r.A[i], bs: r.B };
+      if (k === 2 && ops[0].length === 1 && ops[1].length === 1) return { tipo: 'so', as: r.A, b: ops[0][0] };
+      return { tipo: 'outro' };
+    }
+    default:
+      break;
+  }
+  if (r.K === undefined) return null;
+  const dom = r.refs.map((x) => {
+    if (P.catDe[x] === r.K) return [x];
+    const out = [];
+    for (let y = r.K * n; y < r.K * n + n; y++) {
+      const v = gx[celula(P, x, y)];
+      if (v === SIM) return [y];
+      if (v !== NAO) out.push(y);
+    }
+    return out;
+  });
+  const val = (y) => P.valores[r.K][P.idxDe[y]];
+  const ext = (v) => Math.abs(v - P.minK[r.K]) < TOL || Math.abs(v - P.maxK[r.K]) < TOL;
+  const cabe = (a, b) => {
+    switch (r.t) {
+      case 'dif': return Math.abs(val(a) - val(b) - r.k) < TOL;
+      case 'dist': return Math.abs(Math.abs(val(a) - val(b)) - r.k) < TOL;
+      case '>': return val(a) > val(b) + TOL;
+      case 'extremo': return ext(val(a));
+      case 'meio': return !ext(val(a));
+      default: return true;
+    }
+  };
+  const possivel = dom.length === 1 ? dom[0].some((a) => cabe(a)) : dom[0].some((a) => dom[1].some((b) => a !== b && cabe(a, b)));
+  if (possivel) return null;
+  const itens = r.refs.map((x, i) => [x, dom[i]]).filter(([x]) => P.catDe[x] !== r.K);
+  return itens.length ? { tipo: 'opcoes', itens } : { tipo: 'outro' };
+}
+
+// Supõe o contrário de (c, v) e aplica só passos simples até uma contradição.
+// Devolve { celula, valor, passos: [{ p, alvo }], fim } com só os passos que
+// levam à contradição, ou null se não chegar a uma.
+export function provarPorAbsurdo(P, g, c0, v0, { maxPassos = 60, pares = false } = {}) {
+  const h = Uint8Array.from(g);
+  h[c0] = v0 === SIM ? NAO : SIM;
+  const passos = [];
+  let fim = contradicaoGrade(P, h);
+  for (let k = 0; !fim; k++) {
+    if (k >= maxPassos) return null;
+    const p = proximoPasso(P, h, { pares });
+    if (!p) return null;
+    if (p.tipo === 'contradicao') {
+      fim = p.dicas ? { tipo: 'dicas', dicas: p.dicas } : { tipo: 'dica', dica: p.dica };
+      break;
+    }
+    passos.push({ p, antes: Uint8Array.from(h) });
+    for (const [c, v] of p.marcas) h[c] = v;
+    if (haContradicao(P, h, p.marcas.map(([c]) => c))) fim = contradicaoGrade(P, h);
+  }
+  const derivadas = new Set([c0]);
+  for (const s of passos) for (const [c] of s.p.marcas) derivadas.add(c);
+  const precisa = new Set();
+  const conjunto = (q) => (q.tipo === 'dicas' ? conjuntoDoPar(P, q.dicas[0], q.dicas[1]) : P.dicas[q.dica]);
+  if (fim.tipo === 'dica' || fim.tipo === 'dicas') {
+    for (const c of premissasDica(P, h, conjunto(fim), [], [...derivadas], true)) precisa.add(c);
+  } else {
+    for (const c of fim.casas) if (derivadas.has(c)) precisa.add(c);
+  }
+  const usados = [];
+  for (let i = passos.length - 1; i >= 0; i--) {
+    const s = passos[i];
+    const alvo = s.p.marcas.filter(([c]) => precisa.has(c));
+    if (!alvo.length) continue;
+    for (const [c] of alvo) precisa.delete(c);
+    let prem = premissasPasso(P, s.p);
+    if (!prem) {
+      if (s.p.direta) prem = [];
+      else {
+        const anteriores = [c0];
+        for (let j = 0; j < i; j++) for (const [c] of passos[j].p.marcas) anteriores.push(c);
+        prem = premissasDica(P, s.antes, conjunto(s.p), alvo, anteriores, false);
+      }
+    }
+    for (const c of prem) if (derivadas.has(c)) precisa.add(c);
+    usados.unshift({ p: s.p, alvo });
+  }
+  if (fim.tipo === 'trans') fim = { ...fim, suposto: derivadas.has(fim.casas[2]) };
+  if (fim.tipo === 'dica') {
+    // O que o jogador tem em mente: a grade + a suposição + os passos mostrados
+    // (com os ✕ óbvios de cada S).
+    const gx = Uint8Array.from(g);
+    gx[c0] = h[c0];
+    for (const { p, alvo } of usados) for (const [c, v] of p.tipo === 'G1' ? p.marcas : alvo) gx[c] = v;
+    const ax = autoX(P, gx);
+    for (let c = 0; c < gx.length; c++) if (ax[c] && gx[c] === VAZIO) gx[c] = NAO;
+    // À vista: alguma regra da dica já não cabe nas casas dos itens que cita.
+    // Senão, o jogador ainda teria de raciocinar para ver por que a dica falha.
+    for (const r of P.dicas[fim.dica].regras) {
+      const motivo = regraSemSaida(P, gx, r);
+      if (!motivo) continue;
+      fim = { ...fim, visivel: true, motivo };
+      break;
+    }
+  }
+  return { celula: c0, valor: v0, passos: usados, fim };
+}
+
+// Casas vazias, começando pelas que estão numa linha ou coluna com menos
+// opções livres (as escolhas "ou isto ou aquilo" costumam dar provas curtas).
+function casasPorOpcoes(P, g) {
+  const { n } = P;
+  const out = [];
+  for (let c = 0; c < g.length; c++) {
+    if (g[c] !== VAZIO) continue;
+    const a = P.celA[c];
+    const b = P.celB[c];
+    const A = P.catDe[a] * n;
+    const B = P.catDe[b] * n;
+    let la = 0;
+    let lb = 0;
+    for (let k = 0; k < n; k++) {
+      if (g[celula(P, a, B + k)] === VAZIO) la++;
+      if (g[celula(P, A + k, b)] === VAZIO) lb++;
+    }
+    out.push([Math.min(la, lb), c]);
+  }
+  out.sort((x, y) => x[0] - y[0] || x[1] - y[1]);
+  return out.map(([, c]) => c);
+}
+
+// Passo para o botão Dica quando só juntando dicas dá para avançar: uma casa
+// que se resolve por absurdo, com a explicação mais curta que se encontrar.
+// Primeiro as conclusões que os pares de dicas permitem; se a explicação ficar
+// longa, testa as outras casas vazias. `limiteMs` (opcional) encerra a busca
+// por algo melhor depois de um tempo, se já houver uma explicação.
+export function passoPorHipotese(P, g, { bom = 3, longo = 6, maxPassos = 45, limiteMs = Infinity } = {}) {
+  const t0 = Date.now();
+  let melhor = null;
+  const esgotou = () => melhor && Date.now() - t0 > limiteMs;
+  const vistos = new Set();
+  const candidatos = [];
+  const avaliar = (c, v, opcoes = {}) => {
+    const prova = provarPorAbsurdo(P, g, c, v, opcoes);
+    if (!prova) return;
+    const f = prova.fim;
+    const oculto = (f.tipo === 'dica' || f.tipo === 'dicas') && !f.visivel;
+    const custo = prova.passos.filter((s) => s.p.tipo !== 'G1').length + (oculto ? 8 : 0) + (opcoes.pares ? 100 : 0);
+    if (!melhor || custo < melhor.custo) melhor = { custo, prova, c, v };
+  };
+  const bastou = () => melhor && melhor.custo <= bom;
+  for (const [i, j] of paresDeDicas(P)) {
+    const r = deduzirDica(P, g, conjuntoDoPar(P, i, j));
+    if (r.contradicao || !r.marcas.length) continue;
+    for (const [c, v] of enxugar(P, r.marcas)) {
+      if (vistos.has(c)) continue;
+      vistos.add(c);
+      candidatos.push([c, v]);
+      avaliar(c, v);
+    }
+    if (bastou() || esgotou()) break;
+  }
+  // Com a solução à mão, só testa o lado que pode dar contradição.
+  const lados = (c) => (P.gradeSolucao ? [P.gradeSolucao[c]] : [SIM, NAO]);
+  if (!bastou()) {
+    for (const c of casasPorOpcoes(P, g)) {
+      if (vistos.has(c)) continue;
+      for (const v of lados(c)) avaliar(c, v, { maxPassos });
+      if (bastou() || esgotou()) break;
+    }
+  }
+  if (!esgotou() && (!melhor || melhor.custo > longo)) {
+    for (const c of casasPorOpcoes(P, g)) {
+      for (const v of lados(c)) avaliar(c, v, { maxPassos: 3 * maxPassos });
+      if ((melhor && melhor.custo <= longo) || esgotou()) break;
+    }
+  }
+  // Casos raros: cadeia mais longa e, em último caso, juntando dicas dentro dela.
+  if (!melhor) for (const [c, v] of candidatos.slice(0, 6)) avaliar(c, v, { maxPassos: 200 });
+  if (!melhor) for (const [c, v] of candidatos.slice(0, 3)) avaliar(c, v, { maxPassos: 200, pares: true });
+  if (!melhor) return null;
+  return { tipo: 'hipotese', marcas: [[melhor.c, melhor.v]], prova: melhor.prova };
+}
+
+// Próximo passo para o botão Dica: os passos simples primeiro; quando só
+// juntando dicas, uma hipótese explicada passo a passo.
+export function proximoPassoDica(P, g, opcoes = {}) {
+  return proximoPasso(P, g, { pares: false }) || passoPorHipotese(P, g, opcoes) || proximoPasso(P, g, { pares: true });
+}
+
+// Dicas citadas numa prova por absurdo (na ordem em que aparecem).
+export function dicasDaProva(prova) {
+  const out = [];
+  const add = (i) => {
+    if (!out.includes(i)) out.push(i);
+  };
+  for (const s of prova.passos) {
+    if (s.p.tipo === 'dica') add(s.p.dica);
+    if (s.p.tipo === 'dicas') s.p.dicas.forEach(add);
+  }
+  if (prova.fim.tipo === 'dica') add(prova.fim.dica);
+  if (prova.fim.tipo === 'dicas') prova.fim.dicas.forEach(add);
+  return out;
+}
+
+// ---------------------------------------------------------------------------
 // Textos (para as dicas do app e para o relatório do validador)
 // ---------------------------------------------------------------------------
 
@@ -1132,11 +1561,86 @@ export function descreverPasso(P, p) {
       const txt = concl.length > 1 ? concl.slice(0, -1).join('; ') + ' e ' + concl[concl.length - 1] : concl[0];
       return `Junte as dicas ${p.dicas[0] + 1} e ${p.dicas[1] + 1}. Analisadas juntas, com o que já foi descoberto, elas mostram que ${txt}.`;
     }
+    case 'hipotese':
+      return descreverHipotese(P, p.prova);
     case 'contradicao':
       return `Há uma contradição com a dica ${p.dica + 1}. Confira suas marcações.`;
     default:
       return '';
   }
+}
+
+function juntarFrases(arr) {
+  return arr.length > 1 ? `${arr.slice(0, -1).join('; ')} e ${arr[arr.length - 1]}` : arr[0] || '';
+}
+
+// "Suponha que …" → passos (no condicional) → contradição → conclusão
+export function descreverHipotese(P, prova) {
+  const N = (g) => `<b>${escapar(nomeItem(P, g))}</b>`;
+  const par = (c) => [P.celA[c], P.celB[c]];
+  const hipot = (c, v) => {
+    const [a, b] = par(c);
+    return v === SIM ? `${N(a)} combinaria com ${N(b)}` : `${N(a)} não combinaria com ${N(b)}`;
+  };
+  const [a0, b0] = par(prova.celula);
+  const sup = prova.valor === SIM ? `${N(a0)} não combine com ${N(b0)}` : `${N(a0)} combine com ${N(b0)}`;
+  const concl = prova.valor === SIM ? `${N(a0)} combina com ${N(b0)}` : `${N(a0)} não combina com ${N(b0)}`;
+  const linhas = [];
+  for (const { p, alvo } of prova.passos) {
+    switch (p.tipo) {
+      case 'G1':
+        break;
+      case 'G2':
+        linhas.push(`Para ${N(p.item)}, sobraria só ${N(p.escolhido)}.`);
+        break;
+      case 'G3':
+        linhas.push(`${N(p.a)} combinaria com ${N(p.c)} (via ${N(p.b)}).`);
+        break;
+      case 'G4':
+        linhas.push(`${N(p.a)} não combinaria com ${N(p.c)} (via ${N(p.b)}).`);
+        break;
+      case 'G5':
+        linhas.push(
+          p.cand.length === 1
+            ? `${N(p.a)} não combinaria com ${N(p.c)}, porque a única opção que sobraria para ${N(p.a)} (${N(p.cand[0])}) não combina com ${N(p.c)}.`
+            : `${N(p.a)} não combinaria com ${N(p.c)}, porque nenhuma das opções que sobrariam para ${N(p.a)} (${lista(p.cand.map(N))}) combina com ${N(p.c)}.`,
+        );
+        break;
+      case 'dica':
+        linhas.push(`Pela dica ${p.dica + 1}, ${juntarFrases(alvo.map(([c, v]) => hipot(c, v)))}.`);
+        break;
+      case 'dicas':
+        linhas.push(`Juntando as dicas ${p.dicas[0] + 1} e ${p.dicas[1] + 1}, ${juntarFrases(alvo.map(([c, v]) => hipot(c, v)))}.`);
+        break;
+      default:
+        break;
+    }
+  }
+  const f = prova.fim;
+  let fim;
+  if (f.tipo === 'dica') {
+    const m = f.motivo;
+    const nem = (bs) => `nem com ${bs.map(N).join(' nem com ')}`;
+    let porque = '';
+    if (!m || m.tipo === 'outro') porque = '';
+    else if (m.tipo === 'opcoes') {
+      porque = juntarFrases(m.itens.map(([x, ys]) => (ys.length === 1 ? `${N(x)} combinaria com ${N(ys[0])}` : `${N(x)} só poderia combinar com ${lista(ys.map(N))}`)));
+    } else if (m.tipo === 'liga') porque = `${N(m.a)} ${m.v === SIM ? 'combinaria' : 'não combinaria'} com ${N(m.b)}`;
+    else if (m.tipo === 'dois') porque = `${N(m.a)} combinaria com ${N(m.b)} e também com ${N(m.c)}`;
+    else if (m.tipo === 'nenhuma') porque = `${N(m.a)} não combinaria ${nem(m.bs)}`;
+    else if (m.tipo === 'so') porque = `${N(m.as[0])} e ${N(m.as[1])} só poderiam combinar com ${N(m.b)}`;
+    fim = `Mas aí a dica ${f.dica + 1} não teria como ser cumprida${porque ? `: ${porque}` : ''}.`;
+  } else if (f.tipo === 'dicas') fim = `Mas aí as dicas ${f.dicas[0] + 1} e ${f.dicas[1] + 1} não teriam como ser cumpridas juntas.`;
+  else if (f.tipo === 'dois') {
+    const outro = (c) => (P.celA[c] === f.item ? P.celB[c] : P.celA[c]);
+    fim = `Mas aí ${N(f.item)} combinaria com ${N(outro(f.casas[0]))} e também com ${N(outro(f.casas[1]))}.`;
+  } else if (f.tipo === 'nenhum') {
+    fim = `Mas aí não sobraria nenhuma opção para ${N(f.item)} no quadro ${escapar(nomeQuadro(P, P.catDe[f.item], f.outra))}.`;
+  } else {
+    fim = `Mas aí ${N(f.x)} combinaria com ${N(f.y)} e com ${N(f.z)}, e ${N(f.y)} ${f.suposto ? 'não combinaria' : 'não combina'} com ${N(f.z)}.`;
+  }
+  const lista1 = linhas.length ? `<ol class="dica-cadeia">${linhas.map((l) => `<li>${l}</li>`).join('')}</ol>` : '';
+  return `<p>Suponha que ${sup}.</p>${lista1}<p>${fim}</p><p>Então a suposição é impossível: ${concl}.</p>`;
 }
 
 function escapar(s) {

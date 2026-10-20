@@ -1306,7 +1306,7 @@ export const TEMAS = [
         pred: 'teve {x}',
         predMin: 'teve a menor nota', npMin: 'teve a menor nota', predMax: 'teve a maior nota', npMax: 'teve a maior nota',
         verbo: 'teve', maior: 'nota maior que a de {B}', menor: 'nota menor que a de {B}',
-        difMaior: (k) => `${pontos(k)} a mais que a de {B}`, difMenor: (k) => `${pontos(k)} a menos que a de {B}`,
+        difMaior: (k) => `${pontos(k)} a mais que {B}`, difMenor: (k) => `${pontos(k)} a menos que {B}`,
         dist: (k) => `as notas de {A} e de {B} tiveram ${pontos(k)} de diferença`,
         extremo: 'teve a maior ou a menor nota', meio: 'não teve nem a maior nem a menor nota',
         relacao: { menor: 'nota menor que', maior: 'nota maior que', menorK: '{k} a menos que', maiorK: '{k} a mais que', unidade: ['ponto', 'pontos'], menorCurto: 'menor', maiorCurto: 'maior' },

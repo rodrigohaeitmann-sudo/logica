@@ -5,6 +5,7 @@ const K = {
   progresso: 'logica:progresso',
   ajustes: 'logica:ajustes',
   filtros: 'logica:filtros',
+  avisos: 'logica:avisos',
 };
 
 function ler(chave, padrao) {
@@ -45,6 +46,15 @@ export function getFiltros() {
 
 export function salvarFiltros(f) {
   gravar(K.filtros, f);
+}
+
+// --- Avisos já dispensados (ex.: { instalarDispensado: data ISO }) ---
+export function getAvisos() {
+  return ler(K.avisos, {});
+}
+
+export function salvarAvisos(a) {
+  gravar(K.avisos, a);
 }
 
 // --- Progresso por desafio ---
