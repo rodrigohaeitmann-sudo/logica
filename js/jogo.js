@@ -14,8 +14,11 @@ export const NIVEL = { facil: 'Fácil', medio: 'Médio', dificil: 'Difícil' };
 export const TIPO = { associacao: 'Associação', ordem: 'Ordem', calculo: 'Cálculo', misto: 'Misto' };
 const W_CAT = 22;
 const H_CAT = 22;
-const ZOOM_MIN = -3;
 const ZOOM_MAX = 6;
+// Abaixo do tamanho normal, cada toque em "Menor" reduz as casas em ~20% (e os
+// nomes, mais devagar), até a grade inteira caber na área sem rolar.
+const PASSO_MENOR = 0.8;
+const CEL_MIN = 9; // abaixo disso a linha não encolhe mais (altura do nome, com a menor escala)
 
 let J = null; // jogo aberto
 let ajustes = estado.getAjustes();
@@ -87,6 +90,7 @@ export function abrir(item, opcoes = {}) {
   fecharMenu();
   montarGrade();
   renderPainel();
+  aplicarTamanhos(); // de novo: com o painel desenhado, a área da grade mudou de altura
   pintar();
   mostrarTempo();
   atualizarBotoes();
@@ -214,6 +218,14 @@ function larguraTexto(textos, peso = 600, tam = 12) {
   return w;
 }
 
+// Tamanhos da grade (variáveis CSS da tabela).
+//   zoom 0: casas que fazem a grade caber na largura (até 40px), ou 28px com a
+//           grade rolando para os lados;
+//   zoom > 0: +4px por toque (até 60px);
+//   zoom < 0: −20% por toque, com os nomes encolhendo junto (mais devagar), até
+//           o menor nível, em que a grade inteira cabe na área, sem rolar.
+// O nível mínimo depende da grade e da tela; um zoom salvo abaixo dele vale como
+// o mínimo.
 function aplicarTamanhos() {
   if (!J || !J.tabela) return;
   const { P } = J;
@@ -222,37 +234,86 @@ function aplicarTamanhos() {
   for (const rc of categoriasLinha(P)) for (let i = 0; i < P.n; i++) nomesLinha.push(P.nomes[rc * P.n + i]);
   const nomesColuna = [];
   for (const c of categoriasColuna(P)) for (let i = 0; i < P.n; i++) nomesColuna.push(P.nomes[c * P.n + i]);
-  const wItem = Math.ceil(Math.min(112, Math.max(44, larguraTexto(nomesLinha) + 14)));
-  const hItem = Math.ceil(Math.min(112, Math.max(36, larguraTexto(nomesColuna) + 12)));
-  const cols = (P.m - 1) * P.n;
-  const disp = (area.clientWidth || 340) - W_CAT - wItem - 6;
-  // Se a grade inteira cabe na largura com casas de pelo menos 22px, ajusta à
-  // tela; senão usa casas confortáveis (28px) e a grade rola para os lados.
-  const caber = Math.floor(disp / cols);
-  let cel = caber >= 22 ? Math.min(caber, 40) : 28;
-  cel = Math.max(16, Math.min(60, cel + (ajustes.zoom || 0) * 4));
+  const wItem0 = Math.ceil(Math.min(112, Math.max(44, larguraTexto(nomesLinha) + 14)));
+  const hItem0 = Math.ceil(Math.min(112, Math.max(36, larguraTexto(nomesColuna) + 12)));
+  const cols = (P.m - 1) * P.n; // também é o número de linhas da escada
+  const areaW = area.clientWidth || 340;
+  const areaH = area.clientHeight || 400;
+  const caber = Math.floor((areaW - W_CAT - wItem0 - 6) / cols);
+  const cel0 = caber >= 22 ? Math.min(caber, 40) : 28;
+  const escDe = (cel) => Math.max(0.6, Math.min(1, Math.sqrt(cel / cel0)));
+  const medidas = (cel, esc = 1) => ({
+    cel,
+    esc,
+    wItem: Math.ceil(wItem0 * esc),
+    hItem: Math.ceil(hItem0 * esc),
+    wCat: Math.round(W_CAT * esc),
+    hCat: Math.round(H_CAT * esc),
+  });
+  // Bordas e arredondamentos: o que a tabela mede além da soma das partes.
+  aplicarMedidas(medidas(cel0));
+  const folgaW = J.tabela.offsetWidth - (W_CAT + wItem0 + cols * cel0);
+  const folgaH = J.tabela.offsetHeight - (H_CAT + hItem0 + cols * cel0);
+  // A linha nunca fica mais baixa que o nome dela (fonte de 12px na escala, entrelinha 1,15).
+  const alturaLinha = (t) => Math.max(t.cel, Math.ceil(12 * t.esc * 1.15));
+  const cabe = (t) => t.wCat + t.wItem + cols * t.cel + folgaW <= areaW - 2 && t.hCat + t.hItem + cols * alturaLinha(t) + folgaH <= areaH - 2;
+  let celCabe = CEL_MIN; // maior casa com a grade inteira à vista
+  for (let c = cel0; c > CEL_MIN; c--) {
+    if (cabe(medidas(c, escDe(c)))) {
+      celCabe = c;
+      break;
+    }
+  }
+  const celNivel = (z) => Math.round(cel0 * PASSO_MENOR ** -z);
+  let zMin = 0;
+  if (cel0 > celCabe) {
+    zMin = -1;
+    while (celNivel(zMin) > celCabe && zMin > -30) zMin--;
+  }
+  const z = Math.max(zMin, Math.min(ZOOM_MAX, Math.round(ajustes.zoom || 0)));
+  let t;
+  if (z >= 0) t = medidas(Math.min(60, cel0 + z * 4));
+  else {
+    const cel = z === zMin ? celCabe : celNivel(z);
+    t = medidas(cel, escDe(cel));
+  }
+  aplicarMedidas(t);
+  // No menor nível, confere de verdade (arredondamentos) e reduz se precisar.
+  for (let i = 0; i < 4 && z === zMin && zMin < 0 && t.cel > CEL_MIN && (J.tabela.offsetWidth > areaW || J.tabela.offsetHeight > areaH); i++) {
+    t = medidas(t.cel - 1, escDe(t.cel - 1));
+    aplicarMedidas(t);
+  }
+  J.zoom = z;
+  J.zoomMin = zMin;
+  $('btn-menos').disabled = z <= zMin;
+  $('btn-mais').disabled = z >= ZOOM_MAX || t.cel >= 60;
+}
+
+function aplicarMedidas(t) {
+  const { P } = J;
+  const area = $('grade-area');
   const s = J.tabela.style;
-  s.setProperty('--cel', `${cel}px`);
-  s.setProperty('--w-item', `${wItem}px`);
-  s.setProperty('--h-item', `${hItem}px`);
-  s.setProperty('--w-cat', `${W_CAT}px`);
-  s.setProperty('--h-cat', `${H_CAT}px`);
-  J.tam = { cel, wItem, hItem };
+  s.setProperty('--cel', `${t.cel}px`);
+  s.setProperty('--w-item', `${t.wItem}px`);
+  s.setProperty('--h-item', `${t.hItem}px`);
+  s.setProperty('--w-cat', `${t.wCat}px`);
+  s.setProperty('--h-cat', `${t.hCat}px`);
+  s.setProperty('--esc', String(+t.esc.toFixed(3)));
+  J.tam = { cel: t.cel, wItem: t.wItem, hItem: t.hItem, wCat: t.wCat, hCat: t.hCat };
   if (J.rel.k >= 0) {
     // O espaço vazio começa depois do 1º bloco de colunas; as notas ocupam a
     // parte dele que aparece sem rolar a grade para o lado (margem de 6px).
-    const inicio = W_CAT + wItem + P.n * cel;
-    const total = (P.m - 2) * P.n * cel - 12;
+    const inicio = t.wCat + t.wItem + P.n * t.cel;
+    const total = (P.m - 2) * P.n * t.cel - 12;
     const visivel = (area.clientWidth || 340) - inicio - 16;
     s.setProperty('--notas-w', `${Math.round(Math.max(Math.min(total, visivel), Math.min(total, 120)))}px`);
   }
-  $('btn-menos').disabled = (ajustes.zoom || 0) <= ZOOM_MIN || cel <= 16;
-  $('btn-mais').disabled = (ajustes.zoom || 0) >= ZOOM_MAX || cel >= 60;
 }
 
 function zoom(delta) {
   ajustes = estado.getAjustes();
-  ajustes.zoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, (ajustes.zoom || 0) + delta));
+  const atual = J.zoom ?? Math.round(ajustes.zoom || 0);
+  ajustes.zoom = Math.max(J.zoomMin ?? -30, Math.min(ZOOM_MAX, atual + delta));
   estado.salvarAjustes(ajustes);
   aplicarTamanhos();
   if (J.sel >= 0) rolarAte(J.sel);
@@ -419,8 +480,8 @@ function rolarAte(c) {
   if (!td || !area) return;
   const a = area.getBoundingClientRect();
   const r = td.getBoundingClientRect();
-  const esq = a.left + W_CAT + J.tam.wItem;
-  const topo = a.top + H_CAT + J.tam.hItem;
+  const esq = a.left + J.tam.wCat + J.tam.wItem;
+  const topo = a.top + J.tam.hCat + J.tam.hItem;
   let dx = 0;
   let dy = 0;
   if (r.left < esq) dx = r.left - esq - 8;
@@ -823,7 +884,33 @@ function quadro() {
 // ---------------------------------------------------------------------------
 
 function novoFormRel() {
-  return { a: '', q: '?', b: '', d: '' };
+  return { a: '', q: '?', b: '', d: '', auto: null };
+}
+
+// Põe no formulário os dois itens da próxima comparação da dica escolhida que
+// ainda não foi anotada (na ordem do texto, com "?"): o jogador decide quem vem
+// antes e a diferença. Sem `forcar`, só preenche se o formulário estiver vazio
+// ou com os itens de outra dica (não apaga o que o jogador escolheu).
+function preencherPelaDica(forcar = false) {
+  if (!J || J.rel.k < 0 || J.rel.editando != null) return;
+  const f = J.rel.form;
+  const d = f.d === '' ? null : Number(f.d);
+  const vazio = f.a === '' && f.b === '';
+  const deOutra = f.auto != null && f.auto !== d;
+  if (!forcar && !vazio && !deOutra) return;
+  const s = d == null ? null : R.sugestoes(J.P, d).find((x) => !R.parAnotado(J.prog.relacoes, x));
+  if (s) {
+    J.rel.k = s.k;
+    f.a = String(s.a);
+    f.b = String(s.b);
+    f.q = '?';
+    f.auto = d;
+  } else if (f.auto != null) {
+    f.a = '';
+    f.b = '';
+    f.q = '?';
+    f.auto = null;
+  }
 }
 
 function relacoesValidas(P, ks, lista) {
@@ -842,13 +929,14 @@ function abaRelacao() {
     mostrarPossiveis: mostrar,
     grade: mostrar ? efetiva(J.ax) : null,
     editando: J.rel.editando,
+    riscadas: J.prog.riscadas,
   });
 }
 
 function pintarNotas() {
   const el = document.getElementById('notas-grade');
   if (!el || !J) return;
-  el.innerHTML = R.notasHtml(J.P, J.prog.relacoes, J.rel.editando);
+  el.innerHTML = R.notasHtml(J.P, J.prog.relacoes, J.rel.editando, J.prog.riscadas);
 }
 
 // Rola a grade até as notas (com um brilho rápido) para mostrar onde a
@@ -859,8 +947,8 @@ function mostrarNotas(piscar = false) {
   if (!el || !area || !J.tam) return;
   const a = area.getBoundingClientRect();
   const r = el.getBoundingClientRect();
-  const topo = a.top + H_CAT + J.tam.hItem;
-  const esq = a.left + W_CAT + J.tam.wItem;
+  const topo = a.top + J.tam.hCat + J.tam.hItem;
+  const esq = a.left + J.tam.wCat + J.tam.wItem;
   let dx = 0;
   let dy = 0;
   if (r.top < topo || r.top > a.bottom - 48) dy = r.top - topo - 6;
@@ -882,6 +970,7 @@ function abrirRelacao(id = null) {
   J.aba = 'relacao';
   if (!largo.matches) J.expandido = true;
   if (id != null) editarRelacao(id, false);
+  else preencherPelaDica();
   renderPainel();
   pintar();
   pintarNotas();
@@ -911,10 +1000,13 @@ function anotarRelacao() {
     J.prog.iniciado = true;
     iniciarRelogio();
   }
-  // Como no papel: a próxima anotação continua a cadeia a partir do maior.
+  // Como no papel: a próxima anotação continua a cadeia a partir do maior —
+  // a não ser que a dica tenha outra comparação ainda não anotada.
   f.a = String(b);
   f.b = '';
   f.q = '?';
+  f.auto = null;
+  preencherPelaDica(true);
   salvar();
   renderPainel();
   pintarNotas();
@@ -954,6 +1046,7 @@ function salvarEdicao() {
   J.prog.relacoes = J.prog.relacoes.filter((x) => !velhas.includes(x));
   J.rel.editando = null;
   J.rel.form = { ...novoFormRel(), d: f.d };
+  preencherPelaDica();
   salvar();
   renderPainel();
   pintarNotas();
@@ -965,6 +1058,7 @@ function cancelarEdicao() {
   const d = J.rel.form.d;
   J.rel.editando = null;
   J.rel.form = { ...novoFormRel(), d };
+  preencherPelaDica();
   renderPainel();
   pintarNotas();
 }
@@ -975,6 +1069,7 @@ function apagarRelacao(id) {
     J.rel.editando = null;
     J.rel.form = { ...novoFormRel(), d: J.rel.form.d };
   }
+  preencherPelaDica();
   salvar();
   renderPainel();
   pintarNotas();
@@ -990,6 +1085,7 @@ function limparRelacoes() {
     J.rel.editando = null;
     J.rel.form = { ...novoFormRel(), d: J.rel.form.d };
   }
+  preencherPelaDica();
   salvar();
   renderPainel();
   pintarNotas();
@@ -1003,6 +1099,7 @@ function navegarDicaRel(passo) {
   const prox = (atual + passo + N + 1) % (N + 1);
   f.d = prox === N ? '' : String(prox);
   if (f.d !== '') J.dicaAtual = prox;
+  preencherPelaDica(true);
   salvar();
   renderPainel();
 }
@@ -1018,6 +1115,7 @@ function mudancaPainel(e) {
     estado.salvarAjustes(ajustes);
   } else if (['a', 'b', 'q'].includes(campo)) {
     J.rel.form[campo] = el.value;
+    if (campo !== 'q') J.rel.form.auto = null; // o jogador trocou um dos itens
     ajustarMedida();
   }
   renderPainel();
@@ -1037,6 +1135,7 @@ function alternarUsada(i) {
   J.dicaAtual = i;
   salvar();
   renderPainel();
+  pintarNotas(); // as anotações dessa dica ficam riscadas (ou voltam) na grade
 }
 
 function cliquePainel(e) {
@@ -1119,7 +1218,10 @@ function cliqueAba(aba) {
   if (!J) return;
   J.painelDica = null;
   J.alvo.clear();
-  if (aba === 'relacao' && J.rel.k >= 0 && (J.aba !== 'relacao' || !painelExpandido())) J.rel.form.d = String(J.dicaAtual);
+  if (aba === 'relacao' && J.rel.k >= 0 && (J.aba !== 'relacao' || !painelExpandido())) {
+    J.rel.form.d = String(J.dicaAtual);
+    preencherPelaDica();
+  }
   if (largo.matches) {
     J.aba = aba;
   } else if (!J.expandido) {

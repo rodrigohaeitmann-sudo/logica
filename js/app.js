@@ -480,6 +480,23 @@ function ligarInstalar() {
   verificarInstalado();
 }
 
+// ---------- Tela cheia ----------
+// O manifesto pede "fullscreen": instalado, o app abre sem a barra de status e
+// sem os botões do Android (que voltam por um instante ao deslizar da borda).
+// Quem instalou antes disso fica com a janela comum até o Chrome atualizar o
+// app — ele faz isso sozinho, com o app fechado, o celular carregando e no
+// Wi-Fi. Até lá, o app entra em tela cheia no primeiro toque.
+function ligarTelaCheia() {
+  if (!document.fullscreenEnabled || !/Android/i.test(navigator.userAgent)) return;
+  const janela = matchMedia('(display-mode: standalone)');
+  const entrar = () => {
+    if (!janela.matches || document.fullscreenElement) return;
+    document.documentElement.requestFullscreen({ navigationUI: 'hide' }).catch(() => {});
+  };
+  document.addEventListener('pointerup', entrar, true);
+  document.addEventListener('keydown', entrar, true);
+}
+
 function renderAjustes() {
   renderInstalar();
   const a = estado.getAjustes();
@@ -538,6 +555,7 @@ async function iniciar() {
   });
   ligarAjustes();
   ligarInstalar();
+  ligarTelaCheia();
   observarAtualizacao();
 
   document.querySelectorAll('#bottom-nav button').forEach((btn) => {

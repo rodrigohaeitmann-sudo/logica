@@ -18,6 +18,8 @@ em escada cruza as categorias duas a duas:
 
 - toque numa casa: **✕** (não combinam) → **S** (combinam) → limpa;
 - toque e segure: **S** direto;
+- **Menor**/**Maior** mudam o tamanho da grade; o menor tamanho é o que faz a
+  grade inteira caber na tela (as casas e, mais devagar, os nomes encolhem);
 - ao marcar **S**, o resto da linha e da coluna daquele quadro recebe ✕
   automaticamente (dá para desligar em Ajustes);
 - o painel de baixo traz as **dicas** (toque para riscar), a **história**, o
@@ -33,7 +35,11 @@ em escada cruza as categorias duas a duas:
 ### Instalar no celular
 
 No Android, o Chrome oferece **Instalar app** (o app também mostra um botão na
-tela inicial quando o navegador permite). No iPhone, abra no Safari →
+tela inicial quando o navegador permite). Instalado, o app abre em **tela
+cheia**, sem a barra de status e sem os botões do Android (deslizar da borda
+mostra os dois por um instante). Quem instalou antes da tela cheia recebe a
+mudança quando o Chrome atualiza o app (sozinho, com o app fechado, o celular
+carregando e no Wi-Fi); até lá, o app entra em tela cheia no primeiro toque. No iPhone, abra no Safari →
 **Compartilhar** → **Adicionar à Tela de Início**. Em **Ajustes → App no
 celular** ficam os passos para cada navegador e uma linha de diagnóstico (service
 worker, manifesto, se o navegador ofereceu a instalação, se o app já está
@@ -56,7 +62,11 @@ e o maior por último**:
 
 O formulário segue a mesma ordem (menor · diferença · maior, com botão para
 trocar os itens) e mostra a leitura por extenso para conferir. Cada anotação
-pode ficar ligada a uma dica (as setas mostram o texto dela). A anotação
+pode ficar ligada a uma dica (as setas mostram o texto dela). Se a dica compara
+dois itens, eles já vêm no formulário, na ordem em que aparecem no texto e com
+`?` no meio — quem vem antes e a diferença o jogador decide (o app não olha a
+resposta para isso). Ao riscar uma dica, as anotações ligadas a ela aparecem
+riscadas na aba e nas notas da grade. A anotação
 seguinte já começa no último item, e o app monta as cadeias crescentes
 (**Renata ? Marta ? Paulo**), que aparecem também na tela do desafio, no espaço
 vazio da escada da grade (como na margem da revista). Tocar numa anotação — na

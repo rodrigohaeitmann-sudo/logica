@@ -42,7 +42,14 @@ Esmeralda × claro/noturno; fonte Manrope).
   editáveis, sempre exibidas na notação padronizada "MENOR q MAIOR" (q = diferença
   exata, só o número, ou `?`; `±q` sem ordem). As cadeias aparecem também na grade,
   numa célula no espaço vazio do último bloco de linhas (`#notas-grade`). Não pode
-  consultar a solução.
+  consultar a solução. Ao escolher uma dica, o formulário recebe os itens das
+  comparações dela (`R.sugestoes`, ordem do texto, sempre com `?`); anotações de
+  dicas riscadas aparecem riscadas (lista, cadeias e notas da grade).
+- Zoom da grade (`aplicarTamanhos`): o menor nível é calculado para a grade
+  inteira caber na área (casas e, mais devagar, nomes via `--esc`).
+- PWA: `display: fullscreen` (sem barra de status nem botões do Android); para
+  quem instalou antes, `ligarTelaCheia` (app.js) pede tela cheia no 1º toque
+  enquanto o Chrome não atualiza o app. Respeite `env(safe-area-inset-*)`.
 - PWA: o manifesto tem `id` próprio (`/logica/`) e escopo `./`; outros apps do
   usuário vivem no mesmo domínio (rodrigohaeitmann-sudo.github.io), então nunca
   use escopo `/` nem copie `id`/`start_url` de outro app.

@@ -191,6 +191,78 @@ export function ajustarForm(P, k, f) {
 }
 
 // ---------------------------------------------------------------------------
+// Sugestões a partir das dicas: os dois itens de cada comparação da dica (na
+// ordem em que aparecem no texto), sem dizer quem vem antes nem a diferença —
+// isso fica para o jogador.
+// ---------------------------------------------------------------------------
+
+function normalizar(s) {
+  return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
+
+// Posição do nome do item no texto da dica (palavra inteira; "7" não casa com
+// "7,5" nem "17"), ou -1. Se o nome exato não aparece, tenta o número por
+// extenso ("3 noites" → "três noites") e o começo da palavra ("Branca" →
+// "branco", "Estudos" → "estudar").
+const POR_EXTENSO = { 1: ['um', 'uma'], 2: ['dois', 'duas'], 3: ['tres'], 4: ['quatro'], 5: ['cinco'], 6: ['seis'], 7: ['sete'], 8: ['oito'], 9: ['nove'], 10: ['dez'] };
+
+function posicaoNoTexto(texto, nomeItem) {
+  const t = normalizar(texto);
+  const alnum = (ch) => !!ch && /[a-z0-9]/.test(ch);
+  const dig = (ch) => !!ch && /[0-9]/.test(ch);
+  const achar = (alvo, inteira = true) => {
+    if (!alvo) return -1;
+    for (let i = t.indexOf(alvo); i >= 0; i = t.indexOf(alvo, i + 1)) {
+      const antes = t[i - 1];
+      const depois = t[i + alvo.length];
+      const decimal = (antes === ',' && dig(t[i - 2])) || (depois === ',' && dig(t[i + alvo.length + 1]));
+      if (!alnum(antes) && (!inteira || !alnum(depois)) && !decimal) return i;
+    }
+    return -1;
+  };
+  const nomeN = normalizar(nomeItem).trim();
+  let i = achar(nomeN);
+  if (i >= 0) return i;
+  const num = nomeN.match(/^(\d+) (.+)$/);
+  if (num && POR_EXTENSO[num[1]]) {
+    for (const w of POR_EXTENSO[num[1]]) {
+      i = achar(`${w} ${num[2]}`);
+      if (i >= 0) return i;
+    }
+  }
+  const palavra = nomeN.split(/[^a-z0-9]+/).find((x) => x.length >= 4 && !/^\d/.test(x));
+  if (palavra) return achar(palavra.slice(0, Math.max(3, Math.min(5, palavra.length - 1))), false);
+  return -1;
+}
+
+// [{ k, a, b, semOrdem }] para as comparações da dica i (diferença, distância,
+// maior/menor) em categorias que a aba Relação aceita.
+export function sugestoes(P, i) {
+  const D = P.dicas[i];
+  if (!D) return [];
+  const ks = relacionaveis(P);
+  const out = [];
+  for (const r of D.regras) {
+    if (!['dif', 'dist', '>'].includes(r.t) || !ks.includes(r.K)) continue;
+    // Na ordem do texto; sem como saber, na ordem das listas (que não diz nada
+    // sobre a resposta).
+    let [a, b] = r.refs;
+    const pa = posicaoNoTexto(D.texto, P.nomes[a]);
+    const pb = posicaoNoTexto(D.texto, P.nomes[b]);
+    if (pa < 0 && pb < 0 ? b < a : pb >= 0 && (pa < 0 || pb < pa)) [a, b] = [b, a];
+    if (!out.some((x) => x.k === r.K && ((x.a === a && x.b === b) || (x.a === b && x.b === a)))) {
+      out.push({ k: r.K, a, b, semOrdem: r.t === 'dist' });
+    }
+  }
+  return out;
+}
+
+// Já existe anotação (de qualquer forma) entre esses dois itens nessa categoria?
+export function parAnotado(rels, s) {
+  return rels.some((r) => r.k === s.k && ((r.a === s.a && r.b === s.b) || (r.a === s.b && r.b === s.a)));
+}
+
+// ---------------------------------------------------------------------------
 // Cadeias: caminhos crescentes (MENOR q … q MAIOR), os mais longos primeiro.
 // As anotações sem ordem (±q) ficam à parte.
 // ---------------------------------------------------------------------------
@@ -248,14 +320,23 @@ export function trilhas(P, k, rels) {
 }
 
 // `juntar`: mantém "q item" na mesma linha (a cadeia quebra entre os passos).
-function desenharTrilhas(P, k, rels, { no, passo, classe, juntar = '' }) {
+// `riscadas`: dicas que o jogador já riscou; o trecho que só vem delas aparece
+// riscado também (e a cadeia inteira, se todos os trechos vierem delas).
+function desenharTrilhas(P, k, rels, { no, passo, classe, juntar = '', riscadas = [] }) {
+  const riscado = (p) => p.rels.every((r) => r.d != null && r.d !== '' && riscadas.includes(Number(r.d)));
   let h = '';
   for (const tr of trilhas(P, k, rels)) {
-    h += `<div class="${classe}${tr.semOrdem ? ' sem-ordem' : ''}">`;
+    const toda = tr.passos.every(riscado);
+    h += `<div class="${classe}${tr.semOrdem ? ' sem-ordem' : ''}${toda ? ' riscada' : ''}">`;
     tr.nos.forEach((g, i) => {
-      if (!i) h += no(g);
-      else if (juntar) h += ` <span class="${juntar}">${passo(tr.passos[i - 1])}${no(g)}</span>`;
-      else h += passo(tr.passos[i - 1]) + no(g);
+      if (!i) {
+        h += no(g);
+        return;
+      }
+      const p = tr.passos[i - 1];
+      const cls = !toda && riscado(p) ? ' riscado' : '';
+      if (juntar) h += ` <span class="${juntar}${cls}">${passo(p)}${no(g)}</span>`;
+      else h += cls ? `<span class="passo-riscado">${passo(p)}${no(g)}</span>` : passo(p) + no(g);
     });
     h += '</div>';
   }
@@ -358,9 +439,11 @@ function rotuloValor(P, k, j) {
 // HTML da aba
 // ---------------------------------------------------------------------------
 //
-// estado: { k, form: { a, q, b, d }, rels, mostrarPossiveis, grade, editando }
+// estado: { k, form: { a, q, b, d, auto }, rels, mostrarPossiveis, grade, editando, riscadas }
 //   form.a: item menor · form.b: item maior (índice global, em texto) ou ''
 //   form.q: '?' | 'n' | '±n' · form.d: dica de origem (índice) ou ''
+//   form.auto: dica cujos itens o app pôs no formulário (ou null)
+//   riscadas: dicas riscadas pelo jogador (as anotações delas aparecem riscadas)
 //   editando: id da anotação que está sendo alterada (ou null)
 // Contrato com o jogo (eventos delegados no painel e nas notas da grade):
 //   [data-rel-cat]  troca a categoria      [data-rel-nav] dica anterior/seguinte
@@ -394,6 +477,8 @@ function compactoHtml(P, r) {
 export function html(P, estado) {
   const { k, form, rels, mostrarPossiveis, grade } = estado;
   const editando = estado.editando ?? null;
+  const riscadas = estado.riscadas || [];
+  const daDicaRiscada = (r) => r.d != null && r.d !== '' && riscadas.includes(Number(r.d));
   const emEdicao = editando != null ? rels.find((r) => String(r.id) === String(editando)) : null;
   const ks = relacionaveis(P);
   const nomeCat = (c) => esc(P.cats[c].nome);
@@ -433,6 +518,7 @@ export function html(P, estado) {
     ? '<div class="rel-fonte-txt rel-fonte-livre">Anotação livre, sem dica ligada. Use as setas para escolher a dica.</div>'
     : `<div class="rel-fonte-txt"><span class="dica-num">${dica + 1}</span>${esc(P.dicas[dica].texto)}</div>`;
   const pronto = !vazio(form.a) && !vazio(form.b) && String(form.a) !== String(form.b);
+  const sugerido = !emEdicao && dica != null && form.auto != null && Number(form.auto) === dica && pronto;
   const previa = pronto ? { k, ...relDoForm(form) } : null;
   const botoes = emEdicao
     ? `<button class="btn-rel-sec" data-acao="rel-cancelar">Cancelar</button><button class="btn-rel-add" data-acao="rel-salvar"${pronto ? '' : ' disabled'}>Salvar</button>`
@@ -444,6 +530,7 @@ export function html(P, estado) {
       ${fonte}
       <button class="car-nav" data-rel-nav="1" aria-label="Próxima dica">›</button>
     </div>
+    ${sugerido ? `<div class="rel-auto">Itens da dica ${dica + 1}. Confira quem vem antes (⇄) e a diferença antes de anotar.</div>` : ''}
     <div class="rel-trio">
       <span class="rel-rot">${esc(semOrdem ? 'Um' : cap(rt.menorCurto))}</span>
       <span class="rel-rot rel-rot-meio">${esc(rotuloMeio(P, k))}</span>
@@ -479,7 +566,7 @@ export function html(P, estado) {
     };
     const passo = (p) => `<button class="rel-con${p.rels.some((r) => String(r.id) === String(editando)) ? ' ed' : ''}" data-rel-edit="${esc(p.rels[0].id)}" aria-label="Alterar: ${esc(texto(P, p.rels[0]))}">${esc(p.q)}</button>`;
     h += '<div class="rel-sec">Cadeias</div><div class="rel-cadeias">';
-    h += desenharTrilhas(P, k, rels, { no, passo, classe: 'rel-cadeia' });
+    h += desenharTrilhas(P, k, rels, { no, passo, classe: 'rel-cadeia', riscadas });
     h += '</div>';
     const semSaida = possiveis(P, k, rels, null);
     if ([...semSaida.values()].some((s) => !s.size)) {
@@ -491,7 +578,8 @@ export function html(P, estado) {
     for (const r of rk) {
       const ed = String(r.id) === String(editando);
       const leitura = esc(texto(P, r));
-      h += `<li class="rel-item${ed ? ' editando' : ''}" data-rel-edit="${esc(r.id)}"${ed ? ' aria-current="true"' : ''} title="${leitura}">
+      const risc = daDicaRiscada(r);
+      h += `<li class="rel-item${ed ? ' editando' : ''}${risc ? ' riscada' : ''}" data-rel-edit="${esc(r.id)}"${ed ? ' aria-current="true"' : ''} title="${leitura}${risc ? ' (dica riscada)' : ''}">
         <span class="rel-txt">${compactoHtml(P, r)}${r.d != null && r.d !== '' ? ` <span class="rel-tag">dica ${Number(r.d) + 1}</span>` : ''}</span>
         <button class="rel-ed" data-rel-edit="${esc(r.id)}" aria-label="Alterar anotação: ${leitura}">${LAPIS}</button>
         <button class="rel-del" data-rel-del="${esc(r.id)}" aria-label="Apagar anotação: ${leitura}">✕</button></li>`;
@@ -509,7 +597,7 @@ export function html(P, estado) {
 // resto, a aba Relação.
 // ---------------------------------------------------------------------------
 
-export function notasHtml(P, rels, editando = null) {
+export function notasHtml(P, rels, editando = null, riscadas = []) {
   const ks = relacionaveis(P).filter((k) => rels.some((r) => r.k === k));
   if (!ks.length) {
     return '<div class="notas-titulo">Relações</div><div class="notas-vazio">Toque aqui para anotar as relações das dicas, como na margem da revista: o menor primeiro, a diferença (ou ?) e o maior.</div>';
@@ -520,7 +608,7 @@ export function notasHtml(P, rels, editando = null) {
   for (const k of ks) {
     const contradiz = [...possiveis(P, k, rels, null).values()].some((s) => !s.size);
     h += `<div class="notas-titulo${contradiz ? ' erro' : ''}">${esc(P.cats[k].nome)}${contradiz ? ' · não fecha' : ''}</div>`;
-    h += desenharTrilhas(P, k, rels, { no, passo, classe: 'notas-cadeia', juntar: 'notas-passo' });
+    h += desenharTrilhas(P, k, rels, { no, passo, classe: 'notas-cadeia', juntar: 'notas-passo', riscadas });
   }
   return h;
 }

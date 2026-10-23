@@ -79,7 +79,8 @@ button { color:inherit }
 main {
   max-width:480px;
   margin:0 auto;
-  padding:20px 20px calc(68px + env(safe-area-inset-bottom) + 16px);
+  /* em tela cheia, o conteúdo pode chegar ao recorte da câmera: respeita as áreas seguras */
+  padding:calc(20px + env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) calc(68px + env(safe-area-inset-bottom) + 16px) max(20px, env(safe-area-inset-left));
 }
 .screen { display:none }
 .screen.active { display:block }
@@ -332,39 +333,40 @@ body.em-jogo { overflow:hidden }
   --w-item:72px;
   --h-cat:22px;
   --h-item:70px;
+  --esc:1; /* escala dos nomes quando a grade é reduzida para caber na tela */
   --linha:var(--border);
   --bloco:var(--text3);
   border-collapse:separate;border-spacing:0;
   user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
   touch-action:manipulation;
-  font-size:12px;
+  font-size:calc(12px * var(--esc));
 }
 .grade th { font-weight:700;padding:0;background:var(--surf-alt);color:var(--text) }
 .grade thead th { position:sticky;z-index:2 }
 .grade .th-cat {
   top:0;height:var(--h-cat);
-  font-size:10.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--text2);
+  font-size:calc(10.5px * var(--esc));letter-spacing:.5px;text-transform:uppercase;color:var(--text2);
   border-left:2px solid var(--bloco);border-bottom:1px solid var(--linha);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:0;
-  padding:0 4px;
+  padding:0 calc(4px * var(--esc));
 }
 .grade .th-item {
   top:var(--h-cat);height:var(--h-item);width:var(--cel);min-width:var(--cel);max-width:var(--cel);
   border-right:1px solid var(--linha);border-bottom:2px solid var(--bloco);
-  vertical-align:bottom;padding:5px 0;
+  vertical-align:bottom;padding:calc(5px * var(--esc)) 0;
 }
 .grade .th-item.ini-col { border-left:2px solid var(--bloco) }
 .grade .th-item span {
   writing-mode:vertical-rl;transform:rotate(180deg);
   display:inline-block;white-space:nowrap;font-weight:600;
-  max-height:calc(var(--h-item) - 10px);overflow:hidden;text-overflow:ellipsis;
+  max-height:calc(var(--h-item) - 10px * var(--esc));overflow:hidden;text-overflow:ellipsis;
   line-height:var(--cel);
 }
 .grade .canto { left:0;top:0;z-index:4;background:var(--surface);border-bottom:2px solid var(--bloco) }
 .grade .th-cat-linha {
   position:sticky;left:0;z-index:1;width:var(--w-cat);min-width:var(--w-cat);max-width:var(--w-cat);
   border-top:2px solid var(--bloco);border-right:1px solid var(--linha);
-  font-size:10.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--text2);
+  font-size:calc(10.5px * var(--esc));letter-spacing:.5px;text-transform:uppercase;color:var(--text2);
 }
 .grade .th-cat-linha span {
   writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;display:inline-block;
@@ -373,8 +375,8 @@ body.em-jogo { overflow:hidden }
 .grade .th-linha {
   position:sticky;left:var(--w-cat);z-index:1;
   width:var(--w-item);min-width:var(--w-item);max-width:var(--w-item);
-  height:var(--cel);
-  text-align:left;padding:0 6px;font-weight:600;
+  height:var(--cel);line-height:1.15;
+  text-align:left;padding:0 calc(6px * var(--esc));font-weight:600;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   border-right:2px solid var(--bloco);border-bottom:1px solid var(--linha);
 }
@@ -625,6 +627,17 @@ body.em-jogo { overflow:hidden }
   background:var(--surface);color:var(--text);font-family:inherit;font-size:14px;font-weight:700;
 }
 .rel-txt { flex:1;min-width:0 }
+/* Anotações de dicas que o jogador já riscou: riscadas também */
+.rel-item.riscada .rel-txt { text-decoration:line-through;text-decoration-thickness:1.5px;color:var(--text3) }
+.rel-item.riscada .rel-txt b { color:var(--text3) }
+.rel-cadeia.riscada { opacity:.55 }
+.passo-riscado { display:contents }
+.passo-riscado > * { opacity:.5 }
+.rel-cadeia.riscada .rel-nome, .rel-cadeia.riscada .rel-con,
+.passo-riscado .rel-nome, .passo-riscado .rel-con { text-decoration:line-through;text-decoration-thickness:1.5px }
+.notas-cadeia.riscada, .notas-passo.riscado { opacity:.5;text-decoration:line-through }
+.notas-cadeia.riscada .notas-q, .notas-passo.riscado .notas-q { text-decoration:line-through }
+.rel-auto { font-size:12px;line-height:1.4;font-weight:600;color:var(--acc-soft-txt);background:var(--acc-soft);border-radius:8px;padding:5px 8px;margin:0 0 6px }
 .rel-tag { font-size:10.5px;font-weight:800;white-space:nowrap;background:var(--acc-soft);color:var(--acc-soft-txt);border-radius:6px;padding:1px 6px;margin-left:2px }
 .rel-del {
   width:30px;height:30px;flex-shrink:0;border:none;border-radius:8px;cursor:pointer;
