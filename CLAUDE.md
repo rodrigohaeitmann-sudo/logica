@@ -41,10 +41,14 @@ Esmeralda × claro/noturno; fonte Manrope).
 - Aba Relação (`js/relacao.js`): anotações do jogador (`progresso.relacoes`),
   editáveis, sempre exibidas na notação padronizada "MENOR q MAIOR" (q = diferença
   exata, só o número, ou `?`; `±q` sem ordem). As cadeias aparecem também na grade,
-  numa célula no espaço vazio do último bloco de linhas (`#notas-grade`). Não pode
+  numa célula no espaço vazio do último bloco de linhas (`#notas-grade`), que
+  desce por uma linha extra abaixo da grade (`tr.notas-extra`, altura
+  `--notas-extra`: um bloco, ou o espaço livre embaixo da grade). Não pode
   consultar a solução. Ao escolher uma dica, o formulário recebe os itens das
-  comparações dela (`R.sugestoes`, ordem do texto, sempre com `?`); anotações de
-  dicas riscadas aparecem riscadas (lista, cadeias e notas da grade).
+  comparações dela (`R.sugestoes`, ordem do texto, sempre com `?`) — também ao
+  abrir a aba (`formParaDicaAtual`: dica do carrossel; só não sobrescreve uma
+  escolha à mão na mesma dica, `form.manual`); anotações de dicas riscadas
+  aparecem riscadas (lista, cadeias e notas da grade).
 - Zoom da grade (`aplicarTamanhos`): o menor nível é calculado para a grade
   inteira caber na área (casas e, mais devagar, nomes via `--esc`).
 - PWA: `display: fullscreen` (sem barra de status nem botões do Android); para

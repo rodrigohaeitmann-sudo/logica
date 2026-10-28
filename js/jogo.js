@@ -156,7 +156,8 @@ function montarGrade() {
   }
   h += '</tr></thead><tbody>';
   // As relações anotadas ficam no espaço vazio da escada, no último bloco de
-  // linhas (como na margem da revista).
+  // linhas (como na margem da revista), e descem por uma linha extra abaixo da
+  // grade (altura em --notas-extra), para caber mais coisa sem rolar.
   const comNotas = J.rel.k >= 0;
   const linhas = categoriasLinha(P);
   const blocoNotas = linhas[linhas.length - 1];
@@ -184,10 +185,13 @@ function montarGrade() {
       }
       const resto = (m - 1 - ncg) * n;
       if (resto > 0 && comNotas && rc === blocoNotas) {
-        if (i === 0) h += `<td class="fora notas-cel" colspan="${resto}" rowspan="${n}" style="--n:${n}"><div class="notas" id="notas-grade" role="button" tabindex="0" aria-label="Relações anotadas: toque para abrir a aba Relação"></div></td>`;
+        if (i === 0) h += `<td class="fora notas-cel" colspan="${resto}" rowspan="${n + 1}" style="--n:${n}"><div class="notas" id="notas-grade" role="button" tabindex="0" aria-label="Relações anotadas: toque para abrir a aba Relação"></div></td>`;
       } else if (resto > 0) h += `<td class="fora" colspan="${resto}" aria-hidden="true"></td>`;
       h += '</tr>';
       ri++;
+    }
+    if (comNotas && rc === blocoNotas && (m - 1 - ncg) > 0) {
+      h += `<tr class="notas-extra"><td class="fora notas-extra-esq" colspan="${2 + ncg * n}" aria-hidden="true"></td></tr>`;
     }
   }
   h += '</tbody></table>';
@@ -250,7 +254,9 @@ function aplicarTamanhos() {
     wCat: Math.round(W_CAT * esc),
     hCat: Math.round(H_CAT * esc),
   });
-  // Bordas e arredondamentos: o que a tabela mede além da soma das partes.
+  // Bordas e arredondamentos: o que a tabela mede além da soma das partes
+  // (sem a extensão das notas, que se ajusta no fim).
+  J.tabela.style.setProperty('--notas-extra', '0px');
   aplicarMedidas(medidas(cel0));
   const folgaW = J.tabela.offsetWidth - (W_CAT + wItem0 + cols * cel0);
   const folgaH = J.tabela.offsetHeight - (H_CAT + hItem0 + cols * cel0);
@@ -282,6 +288,15 @@ function aplicarTamanhos() {
   for (let i = 0; i < 4 && z === zMin && zMin < 0 && t.cel > CEL_MIN && (J.tabela.offsetWidth > areaW || J.tabela.offsetHeight > areaH); i++) {
     t = medidas(t.cel - 1, escDe(t.cel - 1));
     aplicarMedidas(t);
+  }
+  // Notas mais altas: descem até o fim da área quando sobra espaço embaixo da
+  // grade; se a grade já rola, descem pelo menos um bloco. (Quando a grade cabe
+  // inteira, as notas não fazem ela passar a rolar.)
+  if (J.rel.k >= 0) {
+    const livre = areaH - J.tabela.offsetHeight - 2;
+    const cabeInteira = J.tabela.offsetWidth <= areaW && J.tabela.offsetHeight <= areaH;
+    const extra = cabeInteira ? Math.max(0, livre) : Math.max(Math.round(P.n * t.cel), livre);
+    J.tabela.style.setProperty('--notas-extra', `${extra}px`);
   }
   J.zoom = z;
   J.zoomMin = zMin;
@@ -883,8 +898,10 @@ function quadro() {
 // "Renata ? Marta", "Suspense 1 Paulo" — e o app monta as cadeias.
 // ---------------------------------------------------------------------------
 
+// auto: dica cujos itens o app pôs no formulário · manual: o jogador escolheu
+// itens à mão (e ainda não anotou)
 function novoFormRel() {
-  return { a: '', q: '?', b: '', d: '', auto: null };
+  return { a: '', q: '?', b: '', d: '', auto: null, manual: false };
 }
 
 // Põe no formulário os dois itens da próxima comparação da dica escolhida que
@@ -905,12 +922,24 @@ function preencherPelaDica(forcar = false) {
     f.b = String(s.b);
     f.q = '?';
     f.auto = d;
+    f.manual = false;
   } else if (f.auto != null) {
     f.a = '';
     f.b = '';
     f.q = '?';
     f.auto = null;
   }
+}
+
+// Ao abrir a aba Relação, o formulário passa a ser da dica em foco (a do
+// carrossel ou a última tocada na lista) e já vem com os itens dela — a não ser
+// que o jogador esteja no meio de uma anotação à mão na mesma dica.
+function formParaDicaAtual() {
+  const f = J.rel.form;
+  const nova = String(J.dicaAtual);
+  const mudou = f.d !== nova;
+  f.d = nova;
+  preencherPelaDica(mudou || !f.manual);
 }
 
 function relacoesValidas(P, ks, lista) {
@@ -966,11 +995,11 @@ function abrirRelacao(id = null) {
   if (!J || J.rel.k < 0) return;
   J.painelDica = null;
   J.alvo.clear();
-  if (J.aba !== 'relacao' || !painelExpandido()) J.rel.form.d = String(J.dicaAtual);
+  const abrindo = J.aba !== 'relacao' || !painelExpandido();
   J.aba = 'relacao';
   if (!largo.matches) J.expandido = true;
   if (id != null) editarRelacao(id, false);
-  else preencherPelaDica();
+  else if (abrindo) formParaDicaAtual();
   renderPainel();
   pintar();
   pintarNotas();
@@ -1006,6 +1035,7 @@ function anotarRelacao() {
   f.b = '';
   f.q = '?';
   f.auto = null;
+  f.manual = false;
   preencherPelaDica(true);
   salvar();
   renderPainel();
@@ -1115,7 +1145,10 @@ function mudancaPainel(e) {
     estado.salvarAjustes(ajustes);
   } else if (['a', 'b', 'q'].includes(campo)) {
     J.rel.form[campo] = el.value;
-    if (campo !== 'q') J.rel.form.auto = null; // o jogador trocou um dos itens
+    if (campo !== 'q') {
+      J.rel.form.auto = null; // o jogador trocou um dos itens
+      J.rel.form.manual = true;
+    }
     ajustarMedida();
   }
   renderPainel();
@@ -1218,10 +1251,7 @@ function cliqueAba(aba) {
   if (!J) return;
   J.painelDica = null;
   J.alvo.clear();
-  if (aba === 'relacao' && J.rel.k >= 0 && (J.aba !== 'relacao' || !painelExpandido())) {
-    J.rel.form.d = String(J.dicaAtual);
-    preencherPelaDica();
-  }
+  if (aba === 'relacao' && J.rel.k >= 0 && (J.aba !== 'relacao' || !painelExpandido())) formParaDicaAtual();
   if (largo.matches) {
     J.aba = aba;
   } else if (!J.expandido) {

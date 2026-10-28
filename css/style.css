@@ -408,8 +408,9 @@ body.em-jogo { overflow:hidden }
 
 /* Notas da aba Relação no espaço vazio da escada (como na margem da revista) */
 .grade td.notas-cel { vertical-align:top;text-align:left;cursor:pointer;font-size:12px;font-weight:600;line-height:1.4;color:var(--text2) }
+.grade tr.notas-extra td.notas-extra-esq { height:var(--notas-extra, 0px);padding:0;border:none;background:transparent;cursor:default }
 .notas {
-  width:var(--notas-w, 100%);height:calc(var(--cel) * var(--n) - 12px);margin:6px;
+  width:var(--notas-w, 100%);height:calc(var(--cel) * var(--n) + var(--notas-extra, 0px) - 12px);margin:6px;
   overflow-y:auto;overscroll-behavior:contain;
   border:1.5px dashed var(--border-s);border-radius:10px;background:var(--surf-alt);
   padding:6px 7px;font-size:11px;line-height:1.5;font-weight:600;color:var(--text2);

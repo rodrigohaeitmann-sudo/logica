@@ -62,14 +62,16 @@ e o maior por último**:
 
 O formulário segue a mesma ordem (menor · diferença · maior, com botão para
 trocar os itens) e mostra a leitura por extenso para conferir. Cada anotação
-pode ficar ligada a uma dica (as setas mostram o texto dela). Se a dica compara
-dois itens, eles já vêm no formulário, na ordem em que aparecem no texto e com
+pode ficar ligada a uma dica (as setas mostram o texto dela; a aba abre na dica
+que está no carrossel). Se a dica compara dois itens, eles já vêm no formulário, na ordem em que aparecem no texto e com
 `?` no meio — quem vem antes e a diferença o jogador decide (o app não olha a
 resposta para isso). Ao riscar uma dica, as anotações ligadas a ela aparecem
 riscadas na aba e nas notas da grade. A anotação
 seguinte já começa no último item, e o app monta as cadeias crescentes
 (**Renata ? Marta ? Paulo**), que aparecem também na tela do desafio, no espaço
-vazio da escada da grade (como na margem da revista). Tocar numa anotação — na
+vazio da escada da grade (como na margem da revista) — um quadro que começa no
+último bloco de linhas e desce abaixo da grade, ocupando o espaço livre embaixo
+dela. Tocar numa anotação — na
 lista, na cadeia ou nas notas da grade — abre para alterar (Salvar/Cancelar).
 Opcionalmente, mostra embaixo de cada item os valores que ainda cabem,
 cruzando as anotações com os ✕ e S da grade — sem consultar a resposta. As
