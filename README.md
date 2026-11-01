@@ -7,8 +7,13 @@ progresso no próprio aparelho (offline).
 
 **App:** https://rodrigohaeitmann-sudo.github.io/logica/
 
-O visual (temas Âmbar, Ametista e Esmeralda, claro/noturno, fonte Manrope) segue
-o app [TEMa Estudo](https://github.com/rodrigohaeitmann-sudo/estudo-tema).
+O visual (fonte Manrope; paletas Âmbar, Ametista e Esmeralda) segue o app
+[TEMa Estudo](https://github.com/rodrigohaeitmann-sudo/estudo-tema). Em
+**Ajustes → Aparência** há seis paletas (Âmbar, Ametista, Esmeralda, Oceano,
+Rosa e Grafite) e quatro modos: **Claro**, **Noturno**, **Preto** (fundo preto
+puro para tela AMOLED, com as cores da paleta) e **Dormir** — preto puro, sem
+nenhuma área clara e com letras âmbar-avermelhadas fracas, de pouca luz azul,
+para usar perto de dormir (vale para qualquer paleta).
 
 ## Como jogar
 

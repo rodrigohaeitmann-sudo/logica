@@ -1,8 +1,13 @@
 # Lógica — Configuração do Projeto
 
 PWA estática (HTML + CSS + JS vanilla, sem bundler) com desafios de lógica de
-associação em grade. Visual herdado do app `estudo-tema` (temas Âmbar, Ametista,
-Esmeralda × claro/noturno; fonte Manrope).
+associação em grade. Visual herdado do app `estudo-tema` (fonte Manrope; paletas
+Âmbar, Ametista, Esmeralda). Temas: `data-theme` (paleta: ambar, ametista,
+esmeralda, oceano, rosa, grafite) × `data-mode` (light, night, amoled = preto puro
+com as cores do noturno, sleep = Dormir: preto puro e âmbar-avermelhado fraco, sem
+áreas claras, igual em toda paleta). Tokens no topo de `css/style.css`; aplicados
+antes da 1ª pintura pelo script no `<head>` (chaves `logica:tema`/`logica:modo`).
+Cor nova na interface? Use os tokens, e confira o modo Dormir (nada claro).
 
 ## Deploy
 - Branch: **`main`**. Cada push roda `.github/workflows/deploy-pages.yml`:

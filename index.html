@@ -20,29 +20,48 @@
   <script>
     // Tema/modo antes da primeira pintura (evita piscar). Na primeira visita,
     // herda a escolha feita no app TEMa Estudo (mesmo domínio), se houver.
+    //   tema: paleta de cores · modo: light | night | amoled (preto puro) | sleep (Dormir)
     (function () {
       var ls = {};
       try { ls = window.localStorage; } catch (e) { ls = { getItem: function () { return null; }, setItem: function () {} }; }
-      var t = ls.getItem('logica:tema') || ls.getItem('ms_theme') || 'ambar';
-      var m = ls.getItem('logica:modo') || ls.getItem('ms_mode') || 'light';
-      var CORES = { ambar: ['#f7f2e9', '#1b1611'], ametista: ['#f4f2f8', '#17131f'], esmeralda: ['#eef3ef', '#111711'] };
+      var CORES = {
+        ambar: ['#f7f2e9', '#1b1611'], ametista: ['#f4f2f8', '#17131f'], esmeralda: ['#eef3ef', '#111711'],
+        oceano: ['#eef3f8', '#0f151d'], rosa: ['#f8f1f4', '#1a1216'], grafite: ['#f1f1ef', '#131313'],
+      };
+      var MODOS = ['light', 'night', 'amoled', 'sleep'];
+      var DESC = {
+        light: 'Fundo claro, para o dia.',
+        night: 'Fundo escuro, com as cores do tema.',
+        amoled: 'Preto puro: na tela AMOLED os pixels pretos ficam apagados (gasta menos bateria). Com as cores do tema.',
+        sleep: 'Para usar perto de dormir: preto puro e letras âmbar-avermelhadas bem fracas, sem áreas claras e com pouca luz azul. Nesse modo as cores do tema ficam de lado. Diminua também o brilho do celular.',
+      };
+      function ler(k) { try { return ls.getItem(k); } catch (e) { return null; } }
+      var t = ler('logica:tema') || ler('ms_theme');
+      var m = ler('logica:modo') || ler('ms_mode');
+      if (!CORES[t]) t = 'ambar';
+      if (MODOS.indexOf(m) < 0) m = 'light';
       function aplicar() {
         var html = document.documentElement;
         html.dataset.theme = t;
         html.dataset.mode = m;
         var meta = document.querySelector('meta[name="theme-color"]');
-        if (meta && CORES[t]) meta.setAttribute('content', CORES[t][m === 'night' ? 1 : 0]);
-        ['ambar', 'ametista', 'esmeralda'].forEach(function (n) {
-          var b = document.getElementById('btn-theme-' + n);
-          if (b) b.classList.toggle('on', t === n);
-        });
-        ['light', 'night'].forEach(function (n) {
-          var b = document.getElementById('btn-mode-' + n);
-          if (b) b.classList.toggle('on', m === n);
-        });
+        if (meta) meta.setAttribute('content', m === 'amoled' || m === 'sleep' ? '#000000' : CORES[t][m === 'night' ? 1 : 0]);
+        var marcar = function (sel, chave, valor) {
+          document.querySelectorAll(sel).forEach(function (b) {
+            var on = b.getAttribute(chave) === valor;
+            b.classList.toggle('on', on);
+            b.setAttribute('aria-pressed', on ? 'true' : 'false');
+          });
+        };
+        marcar('[data-tema]', 'data-tema', t);
+        marcar('[data-modo]', 'data-modo', m);
+        var temas = document.getElementById('temas');
+        if (temas) temas.classList.toggle('inativo', m === 'sleep');
+        var d = document.getElementById('modo-desc');
+        if (d) d.textContent = DESC[m];
       }
-      window.__setTheme = function (v) { t = v; try { ls.setItem('logica:tema', v); } catch (e) {} aplicar(); };
-      window.__setMode = function (v) { m = v; try { ls.setItem('logica:modo', v); } catch (e) {} aplicar(); };
+      window.__setTheme = function (v) { if (!CORES[v]) return; t = v; try { ls.setItem('logica:tema', v); } catch (e) {} aplicar(); };
+      window.__setMode = function (v) { if (MODOS.indexOf(v) < 0) return; m = v; try { ls.setItem('logica:modo', v); } catch (e) {} aplicar(); };
       aplicar();
       document.addEventListener('DOMContentLoaded', aplicar);
     })();
@@ -157,21 +176,24 @@
 
       <div class="card settings-card">
         <div class="settings-section-title">Aparência</div>
-        <div class="seg-row">
-          <span class="seg-label">Tema</span>
-          <div class="seg-track">
-            <button class="seg-btn" id="btn-theme-ambar"     onclick="window.__setTheme('ambar')">Âmbar</button>
-            <button class="seg-btn" id="btn-theme-ametista"  onclick="window.__setTheme('ametista')">Ametista</button>
-            <button class="seg-btn" id="btn-theme-esmeralda" onclick="window.__setTheme('esmeralda')">Esmeralda</button>
-          </div>
+        <div class="ajuste-rotulo">Modo</div>
+        <div class="seg-track modos" role="group" aria-label="Modo">
+          <button class="seg-btn" data-modo="light" onclick="window.__setMode('light')">Claro</button>
+          <button class="seg-btn" data-modo="night" onclick="window.__setMode('night')">Noturno</button>
+          <button class="seg-btn" data-modo="amoled" onclick="window.__setMode('amoled')">Preto</button>
+          <button class="seg-btn" data-modo="sleep" onclick="window.__setMode('sleep')">Dormir</button>
         </div>
-        <div class="seg-row" style="margin-bottom:0">
-          <span class="seg-label">Modo</span>
-          <div class="seg-track">
-            <button class="seg-btn" id="btn-mode-light" onclick="window.__setMode('light')">Claro</button>
-            <button class="seg-btn" id="btn-mode-night" onclick="window.__setMode('night')">Noturno</button>
-          </div>
+        <p class="modo-desc" id="modo-desc"></p>
+        <div class="ajuste-rotulo">Cores</div>
+        <div class="temas" id="temas" role="group" aria-label="Cores do tema">
+          <button class="tema-btn" data-tema="ambar" onclick="window.__setTheme('ambar')"><span class="tema-amostra" style="--a:#c0791f;--b:#e0a04a;--f:#1b1611"></span>Âmbar</button>
+          <button class="tema-btn" data-tema="ametista" onclick="window.__setTheme('ametista')"><span class="tema-amostra" style="--a:#6a40cc;--b:#a786ec;--f:#17131f"></span>Ametista</button>
+          <button class="tema-btn" data-tema="esmeralda" onclick="window.__setTheme('esmeralda')"><span class="tema-amostra" style="--a:#1c7a4d;--b:#46b87a;--f:#111711"></span>Esmeralda</button>
+          <button class="tema-btn" data-tema="oceano" onclick="window.__setTheme('oceano')"><span class="tema-amostra" style="--a:#2563ab;--b:#5b9ee8;--f:#0f151d"></span>Oceano</button>
+          <button class="tema-btn" data-tema="rosa" onclick="window.__setTheme('rosa')"><span class="tema-amostra" style="--a:#bf3d78;--b:#ec7fb0;--f:#1a1216"></span>Rosa</button>
+          <button class="tema-btn" data-tema="grafite" onclick="window.__setTheme('grafite')"><span class="tema-amostra" style="--a:#3b3b3a;--b:#d9d9d9;--f:#131313"></span>Grafite</button>
         </div>
+        <p class="temas-nota">No modo Dormir, as cores são sempre âmbar-avermelhadas.</p>
       </div>
 
       <div class="card settings-card">

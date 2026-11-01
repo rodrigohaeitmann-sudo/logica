@@ -1,4 +1,8 @@
-/* ── THEME TOKENS (mesmos do TEMa Estudo) ───────────────────────────────── */
+/* ── THEME TOKENS ───────────────────────────────────────────────────────────
+   Paletas (data-theme) × modos (data-mode):
+     light · night · amoled (preto puro, cores do tema) · sleep (Dormir: preto
+     puro e âmbar-avermelhado fraco, igual em qualquer paleta).
+   Âmbar, Ametista e Esmeralda são as mesmas do TEMa Estudo. */
 html[data-theme="ambar"][data-mode="light"] {
   --bg:#f7f2e9;--surface:#fff;--surf-alt:#faf6ee;--track:#ece3d3;
   --border:#ebe2d2;--border-s:#dccbb0;
@@ -9,7 +13,7 @@ html[data-theme="ambar"][data-mode="light"] {
   --shadow:0 1px 2px rgba(43,36,25,.04),0 6px 18px rgba(43,36,25,.05);
   --acc-shadow:0 6px 16px rgba(192,121,31,.3);
 }
-html[data-theme="ambar"][data-mode="night"] {
+html[data-theme="ambar"]:is([data-mode="night"],[data-mode="amoled"]) {
   --bg:#1b1611;--surface:#251f17;--surf-alt:#201b14;--track:#382f22;
   --border:#352c20;--border-s:#463827;
   --text:#efe6d4;--text2:#ab9c80;--text3:#7d7058;
@@ -29,7 +33,7 @@ html[data-theme="ametista"][data-mode="light"] {
   --shadow:0 1px 2px rgba(34,29,46,.05),0 6px 18px rgba(34,29,46,.06);
   --acc-shadow:0 6px 16px rgba(106,64,204,.3);
 }
-html[data-theme="ametista"][data-mode="night"] {
+html[data-theme="ametista"]:is([data-mode="night"],[data-mode="amoled"]) {
   --bg:#17131f;--surface:#201b2b;--surf-alt:#1b1624;--track:#312a40;
   --border:#2e2740;--border-s:#3e3454;
   --text:#ece7f6;--text2:#a79dbd;--text3:#786f8e;
@@ -49,7 +53,7 @@ html[data-theme="esmeralda"][data-mode="light"] {
   --shadow:0 1px 2px rgba(24,36,28,.05),0 6px 18px rgba(24,36,28,.06);
   --acc-shadow:0 6px 16px rgba(28,122,77,.3);
 }
-html[data-theme="esmeralda"][data-mode="night"] {
+html[data-theme="esmeralda"]:is([data-mode="night"],[data-mode="amoled"]) {
   --bg:#111711;--surface:#1a221a;--surf-alt:#151c15;--track:#2b362c;
   --border:#283329;--border-s:#364437;
   --text:#e6efe6;--text2:#9bab9d;--text3:#6f7f71;
@@ -60,7 +64,96 @@ html[data-theme="esmeralda"][data-mode="night"] {
   --acc-shadow:0 6px 16px rgba(70,184,122,.22);
 }
 
-html[data-mode="night"] { color-scheme:dark }
+html[data-theme="oceano"][data-mode="light"] {
+  --bg:#eef3f8;--surface:#fff;--surf-alt:#f5f8fc;--track:#dde6f1;
+  --border:#e1e8f2;--border-s:#c9d5e6;
+  --text:#17202c;--text2:#5a6678;--text3:#8a96a8;
+  --accent:#2563ab;--acc-txt:#fff;--acc-soft:#e0eaf7;--acc-soft-txt:#1c4f8c;
+  --good:#2f9e6f;--good-soft:#e3f3eb;--bad:#cf4f3b;--bad-soft:#f8e6e2;--bad-border:#e8bbb0;
+  --nav-bg:#fff;--nav-border:#e7edf5;
+  --shadow:0 1px 2px rgba(23,32,44,.05),0 6px 18px rgba(23,32,44,.06);
+  --acc-shadow:0 6px 16px rgba(37,99,171,.3);
+}
+html[data-theme="oceano"]:is([data-mode="night"],[data-mode="amoled"]) {
+  --bg:#0f151d;--surface:#18202b;--surf-alt:#131a24;--track:#263243;
+  --border:#243041;--border-s:#334358;
+  --text:#e4ebf5;--text2:#98a7ba;--text3:#6b798d;
+  --accent:#5b9ee8;--acc-txt:#07192f;--acc-soft:#1c2a3d;--acc-soft-txt:#8fc0f3;
+  --good:#5fc28f;--good-soft:#1b2b24;--bad:#e88f78;--bad-soft:#2f1e1b;--bad-border:#553831;
+  --nav-bg:#151c26;--nav-border:#202a37;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 22px rgba(0,0,0,.4);
+  --acc-shadow:0 6px 16px rgba(91,158,232,.22);
+}
+html[data-theme="rosa"][data-mode="light"] {
+  --bg:#f8f1f4;--surface:#fff;--surf-alt:#fcf6f8;--track:#eee0e6;
+  --border:#efe3e8;--border-s:#e0c8d2;
+  --text:#2a1a21;--text2:#7a5f6a;--text3:#a68f98;
+  --accent:#bf3d78;--acc-txt:#fff;--acc-soft:#f8e1eb;--acc-soft-txt:#9c2c5f;
+  --good:#3a9a62;--good-soft:#e4f2e8;--bad:#d4612f;--bad-soft:#f9e8df;--bad-border:#ecc3ae;
+  --nav-bg:#fff;--nav-border:#f0e6ea;
+  --shadow:0 1px 2px rgba(42,26,33,.05),0 6px 18px rgba(42,26,33,.06);
+  --acc-shadow:0 6px 16px rgba(191,61,120,.28);
+}
+html[data-theme="rosa"]:is([data-mode="night"],[data-mode="amoled"]) {
+  --bg:#1a1216;--surface:#241a1f;--surf-alt:#1f161a;--track:#3a2a31;
+  --border:#35262d;--border-s:#4a3540;
+  --text:#f2e6eb;--text2:#b39aa5;--text3:#826b75;
+  --accent:#ec7fb0;--acc-txt:#2a0b19;--acc-soft:#3a2230;--acc-soft-txt:#f3a6c8;
+  --good:#64c08c;--good-soft:#1d2b22;--bad:#ea9468;--bad-soft:#33211a;--bad-border:#5a3a2c;
+  --nav-bg:#20171b;--nav-border:#2c2026;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 22px rgba(0,0,0,.4);
+  --acc-shadow:0 6px 16px rgba(236,127,176,.22);
+}
+html[data-theme="grafite"][data-mode="light"] {
+  --bg:#f1f1ef;--surface:#fff;--surf-alt:#f7f7f5;--track:#e3e3e0;
+  --border:#e5e5e2;--border-s:#cfcfcb;
+  --text:#1e1e1d;--text2:#666664;--text3:#949491;
+  --accent:#3b3b3a;--acc-txt:#fff;--acc-soft:#e9e9e7;--acc-soft-txt:#2b2b2a;
+  --good:#2f9e6f;--good-soft:#e3f2ea;--bad:#cf4f3b;--bad-soft:#f7e6e2;--bad-border:#e6bcb2;
+  --nav-bg:#fff;--nav-border:#ebebe8;
+  --shadow:0 1px 2px rgba(30,30,29,.05),0 6px 18px rgba(30,30,29,.06);
+  --acc-shadow:0 6px 16px rgba(30,30,29,.22);
+}
+html[data-theme="grafite"]:is([data-mode="night"],[data-mode="amoled"]) {
+  --bg:#131313;--surface:#1c1c1c;--surf-alt:#171717;--track:#2d2d2d;
+  --border:#2a2a2a;--border-s:#3a3a3a;
+  --text:#ebebeb;--text2:#a2a2a2;--text3:#737373;
+  --accent:#d9d9d9;--acc-txt:#151515;--acc-soft:#2b2b2b;--acc-soft-txt:#e8e8e8;
+  --good:#62c28f;--good-soft:#1c2a22;--bad:#e8896f;--bad-soft:#2e1d1a;--bad-border:#52362f;
+  --nav-bg:#181818;--nav-border:#252525;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 22px rgba(0,0,0,.4);
+  --acc-shadow:0 6px 16px rgba(0,0,0,.4);
+}
+
+/* Preto (AMOLED): as cores do noturno da paleta sobre preto puro (pixel apagado). */
+html[data-theme][data-mode="amoled"] {
+  --bg:#000;--surface:#000;--surf-alt:#0b0b0b;--nav-bg:#000;--nav-border:#1c1c1c;
+  --shadow:none;--acc-shadow:none;
+}
+
+/* Dormir: para usar perto de dormir, em tela AMOLED. Preto puro, nenhuma área
+   clara e letras âmbar-avermelhadas fracas (pouca luz azul). Vale para todas as
+   paletas. */
+html[data-mode="sleep"] {
+  --bg:#000;--surface:#000;--surf-alt:#080402;--track:#1a0b05;
+  --border:#3a1d10;--border-s:#4d2614;
+  --text:#b36238;--text2:#87492a;--text3:#653620;
+  --accent:#b8582a;--acc-txt:#000;--acc-soft:#1f0c05;--acc-soft-txt:#b8582a;
+  --good:#8c7a2c;--good-soft:#151004;--bad:#a8361d;--bad-soft:#1a0603;--bad-border:#4a160a;
+  --nav-bg:#000;--nav-border:#2a1409;
+  --shadow:none;--acc-shadow:none;
+}
+html[data-mode="sleep"] :is(.btn-primary, .seg-btn.on, .filtro-chip.on, .btn-aviso, .btn-rel-add, .rel-item.editando .rel-ed) {
+  background:var(--acc-soft);color:var(--accent);border-color:var(--border-s);box-shadow:inset 0 0 0 1px var(--border-s);
+}
+html[data-mode="sleep"] .fill { background:var(--text3) }
+html[data-mode="sleep"] .toast { background:var(--surf-alt);color:var(--text);box-shadow:inset 0 0 0 1px var(--border-s) }
+html[data-mode="sleep"] .modal-fundo { background:rgba(0,0,0,.75) }
+html[data-mode="sleep"] .grade td.x.auto::after { opacity:1 }
+html[data-mode="sleep"] input[type="checkbox"] { accent-color:var(--accent);filter:sepia(1) saturate(1.6) hue-rotate(-15deg) brightness(.6) }
+html[data-mode="sleep"] .festa .big { filter:grayscale(1) sepia(1) saturate(2) hue-rotate(-15deg) brightness(.45) }
+
+html:is([data-mode="night"],[data-mode="amoled"],[data-mode="sleep"]) { color-scheme:dark }
 
 /* ── RESET & BASE ───────────────────────────────────────────────────────── */
 *,*::before,*::after { box-sizing:border-box }
@@ -210,6 +303,28 @@ button:disabled { opacity:.45;cursor:default }
 .seg-btn { flex:1;text-align:center;padding:8px 2px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;border:none;background:transparent;color:var(--text2);transition:all .15s;white-space:nowrap }
 .seg-btn.on { background:var(--accent);color:var(--acc-txt) }
 .seg-mini { flex:0 0 112px }
+
+/* Aparência: modo e cores */
+.ajuste-rotulo { font-size:12.5px;font-weight:700;color:var(--text2);margin:2px 0 7px }
+.modos { margin-bottom:6px }
+.modo-desc { font-size:12.5px;line-height:1.45;color:var(--text2);margin:0 0 14px;min-height:1.45em }
+.temas { display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px }
+.tema-btn {
+  display:flex;align-items:center;gap:7px;min-width:0;
+  padding:9px 8px;border-radius:11px;border:1px solid var(--border);background:var(--surf-alt);
+  color:var(--text);font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;
+}
+.tema-btn.on { border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:var(--acc-soft) }
+.tema-amostra {
+  width:18px;height:18px;flex-shrink:0;border-radius:50%;
+  background:conic-gradient(var(--a) 0 50%, var(--b) 0 75%, var(--f) 0);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);
+}
+.temas-nota { display:none;font-size:12px;line-height:1.4;color:var(--text3);margin:8px 0 0 }
+.temas.inativo { opacity:.45 }
+.temas.inativo + .temas-nota { display:block }
+html[data-mode="sleep"] .tema-amostra { filter:grayscale(1) sepia(1) brightness(.5) }
 
 /* ── TELAS DE TEXTO ─────────────────────────────────────────────────────── */
 .screen-title { font-size:25px;font-weight:800;color:var(--text);letter-spacing:-.4px;margin:8px 0 18px }
