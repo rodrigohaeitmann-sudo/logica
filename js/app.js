@@ -395,6 +395,7 @@ async function diagnosticar() {
     partes.push('manifesto não carregou');
   }
   partes.push(pedidoInstalar ? 'oferta de instalação: disponível' : houvePedido ? 'oferta de instalação: já usada' : 'oferta de instalação: não veio');
+  if (armazenamentoProtegido !== null) partes.push(armazenamentoProtegido ? 'armazenamento protegido' : 'armazenamento sem proteção (o navegador pode apagar o progresso se faltar espaço)');
   if (instaladoAqui !== null) partes.push(instaladoAqui ? 'app já instalado neste aparelho' : 'nenhuma instalação detectada');
   const el = $('instalar-diag'); // (o cartão pode ter sido redesenhado enquanto isso)
   if (el) el.textContent = `Diagnóstico: ${partes.join(' · ')}.`;
@@ -480,6 +481,22 @@ function ligarInstalar() {
   verificarInstalado();
 }
 
+// ---------- Armazenamento persistente ----------
+// O progresso fica no armazenamento do navegador (localStorage). Sem
+// "armazenamento persistente", o Chrome pode apagá-lo quando falta espaço no
+// celular. O pedido é atendido sem perguntar para app instalado ou site muito
+// usado; se negado, é repetido nas próximas aberturas.
+let armazenamentoProtegido = null; // true / false / null (sem suporte)
+
+async function protegerArmazenamento() {
+  try {
+    if (!navigator.storage || !navigator.storage.persist) return;
+    armazenamentoProtegido = (await navigator.storage.persisted()) || (await navigator.storage.persist());
+  } catch {
+    armazenamentoProtegido = null;
+  }
+}
+
 // ---------- Tela cheia ----------
 // O manifesto pede "fullscreen": instalado, o app abre sem a barra de status e
 // sem os botões do Android (que voltam por um instante ao deslizar da borda).
@@ -556,6 +573,7 @@ async function iniciar() {
   ligarAjustes();
   ligarInstalar();
   ligarTelaCheia();
+  protegerArmazenamento();
   observarAtualizacao();
 
   document.querySelectorAll('#bottom-nav button').forEach((btn) => {
