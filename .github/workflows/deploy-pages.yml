@@ -51,7 +51,7 @@ jobs:
       - name: Montar o site (só os arquivos do app)
         run: |
           mkdir -p _site
-          cp -r index.html manifest.json sw.js css js icons desafios _site/
+          cp -r index.html manifest.json sw.js css js icons desafios apps-script _site/
           touch _site/.nojekyll
       - name: Configurar Pages
         uses: actions/configure-pages@v5

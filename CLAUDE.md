@@ -67,5 +67,15 @@ Cor nova na interface? Use os tokens, e confira o modo Dormir (nada claro).
   instalado) e aviso na tela inicial no celular ("Agora não" esconde por 30
   dias, chave `logica:avisos`). No Android, tirar o ícone da tela inicial não
   desinstala o app: o Chrome continua dizendo que já está instalado.
+- Progresso na nuvem: `js/nuvem.js` (app, chave `logica:nuvem`) + `apps-script/Code.gs`
+  (o jogador cola numa planilha dele e implanta; o deploy publica o arquivo para o
+  botão "copiar o script"). `mesclar` tem de ser idêntica nos dois arquivos (vence
+  `atualizado` mais novo; empate: mais `tempo`; recordes: o melhor dos dois).
+  `atualizado` só muda com mudança de verdade: `estado.salvarProgresso` ignora
+  `tempo` e `dicaAtual`. `gravado`/`desde` são números (ms), nunca texto com cara
+  de data (a planilha converteria). O app confere cada envio pelo que o script
+  devolve (ele devolve tudo o que recebeu). Mudou o Code.gs? Quem já usa só pega a
+  versão nova ao reimplantar, então o app tem de continuar funcionando com o
+  script antigo.
 - `localStorage` só com prefixo `logica:` (o domínio é compartilhado com o estudo-tema).
 - Textos da interface em português do Brasil.

@@ -112,6 +112,28 @@ export function fechar() {
   document.title = 'Lógica — Desafios de associação';
 }
 
+// O progresso deste desafio mudou em outro aparelho (veio da planilha): reabre
+// com o que está salvo, na mesma aba, sem salvar o que estava na tela.
+export function recarregar(msg) {
+  if (!J) return;
+  const { item, voltarComBack, aba, expandido } = J;
+  J.fechando = true;
+  if (modalAberto()) fecharModal();
+  pausarRelogio();
+  fecharMenu();
+  clearTimeout(errosTimer);
+  clearTimeout(festaTimer);
+  J = null;
+  abrir(item, { voltarComBack });
+  if (J && !modalAberto() && (J.aba !== aba || J.expandido !== expandido)) {
+    J.aba = aba;
+    J.expandido = expandido;
+    renderPainel();
+    pintar();
+  }
+  if (msg) toast(msg, 4000);
+}
+
 function sair() {
   const voltar = J && J.voltarComBack;
   ctx.sair(voltar);

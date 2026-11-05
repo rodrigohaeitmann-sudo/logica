@@ -16,6 +16,7 @@ const ASSETS = [
   './js/motor.js',
   './js/estado.js',
   './js/relacao.js',
+  './js/nuvem.js',
   './js/ui.js',
   './js/versao.js',
   './icons/icon-192.png',

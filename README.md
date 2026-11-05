@@ -3,7 +3,8 @@
 Web app estático (HTML/CSS/JS puro, sem build) com desafios de lógica de
 associação em grade, no estilo dos “Desafios de Lógica” das revistas de
 passatempo. Funciona no celular, pode ser instalado na tela inicial e guarda o
-progresso no próprio aparelho (offline).
+progresso no próprio aparelho (offline) e, se você quiser, numa planilha Google
+sua (veja [Progresso na nuvem](#progresso-na-nuvem-planilha-google)).
 
 **App:** https://rodrigohaeitmann-sudo.github.io/logica/
 
@@ -51,6 +52,38 @@ worker, manifesto, se o navegador ofereceu a instalação, se o app já está
 instalado). Se o Chrome disser que o app já está instalado, ele existe no
 aparelho mesmo sem ícone na tela inicial — tirar o ícone não desinstala; procure
 “Lógica” na lista de apps.
+
+### Progresso na nuvem (planilha Google)
+
+O progresso fica no armazenamento do navegador, que o celular pode apagar (falta
+de espaço, limpeza de dados). Para não perder nada — e para jogar em mais de um
+aparelho —, o app pode sincronizar com uma planilha Google sua, por um Apps
+Script ([`apps-script/Code.gs`](apps-script/Code.gs)), como no TEMa Estudo:
+
+1. No Google Drive, crie uma planilha nova (ex.: “Lógica — progresso”).
+2. **Extensões → Apps Script**: apague o que houver, cole o `Code.gs` (o botão
+   **copiar o script**, em Ajustes, copia) e salve.
+3. **Configurações do projeto → Propriedades do script**: adicione `API_TOKEN`
+   com uma senha que você inventar.
+4. **Implantar → Nova implantação → App da Web**, executar como **você**, quem
+   pode acessar: **Qualquer pessoa**; autorize.
+5. Em **Ajustes → Progresso na nuvem**, cole a URL que termina em `/exec` e a senha.
+
+Guarde a URL e a senha: se o aparelho apagar os dados, é só colar de novo que
+tudo volta. Depois de editar o script, reimplante em **Gerenciar implantações →
+editar → Nova versão** (assim a URL continua a mesma).
+
+Sincroniza ao abrir o app, ao voltar para ele, alguns segundos depois de cada
+jogada e ao sair. Por desafio, vence o progresso mudado por último (o cronômetro
+sozinho não conta; empate: o de mais tempo), e os recordes (melhor tempo,
+estrelas, vezes resolvido) ficam com o melhor dos dois. O app confere que a
+planilha recebeu cada envio: o que não chegou fica na fila, e a tela inicial
+avisa se a sincronização parar de funcionar. Se o desafio aberto na tela mudar em
+outro aparelho, a tela recarrega com o progresso de lá. Na planilha, a aba
+**Progresso** tem uma linha por desafio (resumo legível e o progresso completo,
+em JSON, na coluna `dados`). Há também a **cópia manual**: um arquivo `.json`
+para guardar onde quiser (no celular, pela folha de compartilhar) e restaurar
+depois, mesclando com o que já está no aparelho.
 
 ### Aba Relação
 
@@ -238,7 +271,9 @@ js/jogo.js                 Grade, marcações, painel, verificar, dica, cronôme
 js/relacao.js              Aba Relação: anotações, cadeias e valores possíveis
 js/motor.js                Motor lógico: validação, solução única, dedução e textos das dicas
 js/estado.js               Progresso, ajustes e filtros no localStorage (chaves "logica:")
+js/nuvem.js                Progresso na nuvem (planilha Google via Apps Script) e cópia manual
 js/ui.js                   Utilidades de interface (janelas, tempo, estrelas)
+apps-script/Code.gs        Script da planilha (o jogador cola no Apps Script e implanta)
 desafios/                  Um JSON por desafio + index.json
 scripts/validar.mjs        Validador usado no CI
 scripts/empacotar.mjs      Junta os desafios em desafios/pacote.json (deploy)

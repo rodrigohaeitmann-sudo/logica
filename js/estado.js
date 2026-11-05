@@ -6,6 +6,7 @@ const K = {
   ajustes: 'logica:ajustes',
   filtros: 'logica:filtros',
   avisos: 'logica:avisos',
+  nuvem: 'logica:nuvem',
 };
 
 function ler(chave, padrao) {
@@ -72,10 +73,58 @@ export function getProgresso(id) {
   return todosProgressos()[id] || null;
 }
 
+// Quem quer saber quando um progresso é salvo (a sincronização com a nuvem):
+// fn(id, novo, anterior).
+const ouvintes = new Set();
+export function aoSalvarProgresso(fn) {
+  ouvintes.add(fn);
+}
+
+// `atualizado` marca a última mudança de verdade (marcas, anotações, dicas
+// riscadas, resolver…). Salvamentos que só mexem no cronômetro ou na dica à
+// vista não o mudam: é por ele que a sincronização decide qual versão vence.
+const MENORES = new Set(['tempo', 'dicaAtual', 'atualizado']);
+function essencia(p) {
+  const o = {};
+  for (const k of Object.keys(p || {}).sort()) if (!MENORES.has(k)) o[k] = p[k];
+  return JSON.stringify(o);
+}
+
 export function salvarProgresso(id, p) {
   const todos = todosProgressos();
-  todos[id] = { ...p, atualizado: new Date().toISOString() };
+  const anterior = todos[id] || null;
+  const soMenores = !!(anterior && anterior.atualizado && essencia(anterior) === essencia(p));
+  todos[id] = { ...p, atualizado: soMenores ? anterior.atualizado : new Date().toISOString() };
+  const ok = gravar(K.progresso, todos);
+  ouvintes.forEach((fn) => {
+    try {
+      fn(id, todos[id], anterior);
+    } catch {
+      /* um ouvinte com problema não impede o jogo de salvar */
+    }
+  });
+  return ok;
+}
+
+// Grava todos de uma vez, sem avisar os ouvintes (usado ao trazer da nuvem).
+export function gravarProgressos(todos) {
   return gravar(K.progresso, todos);
+}
+
+// --- Progresso na nuvem: { url, token, desde, pendentes, apagar, ultima, okEm } (ver nuvem.js) ---
+export function getNuvem() {
+  return ler(K.nuvem, null);
+}
+
+export function salvarNuvem(n) {
+  if (n) gravar(K.nuvem, n);
+  else {
+    try {
+      localStorage.removeItem(K.nuvem);
+    } catch {
+      /* sem armazenamento */
+    }
+  }
 }
 
 export function apagarTudo() {

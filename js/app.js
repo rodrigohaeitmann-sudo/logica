@@ -7,6 +7,7 @@ import * as jogo from './jogo.js';
 import { NIVEL, TIPO } from './jogo.js';
 import { $, esc, formatarTempo, estrelasHtml, mostrarTela, iniciarModal } from './ui.js';
 import { VERSAO } from './versao.js';
+import * as nuvem from './nuvem.js';
 
 const ORDEM_NIVEL = ['facil', 'medio', 'dificil'];
 const ORDEM_TIPO = Object.keys(TIPO);
@@ -218,15 +219,21 @@ function ligarFiltros() {
   });
 }
 
-function renderHome() {
+function renderAlertaHome() {
   const alerta = $('home-alert');
   let msg = '';
+  let aviso = '';
   if (atualizacaoPronta) msg = 'Há uma versão nova do app. <button class="link-acao" data-acao="atualizar">Atualizar agora</button>';
   else if (carregando) msg = 'Carregando desafios…';
   else if (erroCarga) msg = 'Não foi possível carregar os desafios. Verifique a conexão e abra o app de novo.';
   else if (!DESAFIOS.length) msg = 'Nenhum desafio encontrado.';
+  else if ((aviso = nuvem.avisoHome())) msg = `${esc(aviso)} <button class="link-acao" data-acao="ver-nuvem">Ver em Ajustes</button>`;
   alerta.innerHTML = msg;
   alerta.classList.toggle('hidden', !msg);
+}
+
+function renderHome() {
+  renderAlertaHome();
 
   const todos = estado.todosProgressos();
   let resolvidos = 0;
@@ -516,6 +523,8 @@ function ligarTelaCheia() {
 
 function renderAjustes() {
   renderInstalar();
+  nuvem.renderNuvem();
+  nuvem.sincronizarPendentes();
   const a = estado.getAjustes();
   document.querySelectorAll('[data-ajuste]').forEach((grupo) => {
     const v = a[grupo.dataset.ajuste] ? '1' : '0';
@@ -524,7 +533,8 @@ function renderAjustes() {
   const versao = VERSAO.startsWith('__') ? 'desenvolvimento' : VERSAO;
   $('sobre').textContent =
     `${DESAFIOS.length} desafios · versão ${versao}. Cada desafio é conferido automaticamente antes de ir ao ar: ` +
-    'as dicas levam a uma única solução, que dá para alcançar só por dedução, sem chute. O progresso fica salvo neste aparelho.';
+    'as dicas levam a uma única solução, que dá para alcançar só por dedução, sem chute. ' +
+    `O progresso fica salvo neste aparelho${nuvem.configurada() ? ' e na sua planilha Google' : ''}.`;
 }
 
 function ligarAjustes() {
@@ -539,10 +549,16 @@ function ligarAjustes() {
       jogo.atualizarAjustes();
     });
   });
-  $('btn-apagar-progresso').addEventListener('click', () => {
-    if (!confirm('Apagar o progresso, os tempos e as estrelas de todos os desafios neste aparelho?')) return;
+  $('btn-apagar-progresso').addEventListener('click', async () => {
+    const naNuvem = nuvem.configurada();
+    const pergunta = naNuvem
+      ? 'Apagar o progresso, os tempos e as estrelas de todos os desafios neste aparelho e na planilha?'
+      : 'Apagar o progresso, os tempos e as estrelas de todos os desafios neste aparelho?';
+    if (!confirm(pergunta)) return;
     estado.apagarTudo();
+    if (naNuvem) await nuvem.apagarNaNuvem();
     $('sobre').textContent = 'Progresso apagado.';
+    renderHome();
   });
 }
 
@@ -574,6 +590,16 @@ async function iniciar() {
   ligarInstalar();
   ligarTelaCheia();
   protegerArmazenamento();
+  // Progresso na nuvem (planilha Google): sincroniza ao abrir e após jogadas.
+  nuvem.iniciarNuvem({
+    aoMudar: (ids) => {
+      if (jogo.aberto()) return;
+      if (ids.length) renderHome();
+      else renderAlertaHome();
+    },
+    jogoAberto: () => jogo.aberto(),
+    recarregarJogo: () => jogo.recarregar('Progresso atualizado com o de outro aparelho.'),
+  });
   observarAtualizacao();
 
   document.querySelectorAll('#bottom-nav button').forEach((btn) => {
@@ -587,6 +613,12 @@ async function iniciar() {
     const acao = e.target.closest('[data-acao="atualizar"]');
     if (acao) {
       location.reload();
+      return;
+    }
+    if (e.target.closest('[data-acao="ver-nuvem"]')) {
+      // depois da troca de tela (que rola para o topo), desce até o cartão
+      window.addEventListener('hashchange', () => $('nuvem')?.closest('.card')?.scrollIntoView({ block: 'start' }), { once: true });
+      irPara('#/ajustes');
       return;
     }
     if (e.target.closest('[data-acao="limpar-filtros"]')) {
